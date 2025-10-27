@@ -7,138 +7,67 @@ export const VIDEO_CONFIG = {
     desktop: '(min-width: 1025px)'
   },
 
-  // Video sizes for each section and device
+  // Base video size for each device (used for all sections)
+  baseSize: {
+    mobile: {
+      width: '200px',
+      height: 'auto',
+      borderRadius: '12px'
+    },
+    tablet: {
+      width: '240px',
+      height: 'auto',
+      borderRadius: '14px'
+    },
+    desktop: {
+      width: '700px',
+      height: 'auto',
+      borderRadius: '16px'
+    }
+  },
+
+  // Scale values for each section (applied to base size)
   sections: {
-    // Section 1: Hero section (initial position)
+    // Section 1: Hero section (full size)
     section1: {
-      mobile: {
-        width: '200px',
-        height: '112px',
-        scale: 1,
-        borderRadius: '12px'
-      },
-      tablet: {
-        width: '240px',
-        height: '135px',
-        scale: 1,
-        borderRadius: '14px'
-      },
-      desktop: {
-        width: '320px',
-        height: '180px',
-        scale: 1,
-        borderRadius: '16px'
-      }
+      mobile: { scale: 1 },
+      tablet: { scale: 1 },
+      desktop: { scale: 1 }
     },
 
-    // Section 2: Between section 1 and 2 (moving to right)
+    // Section 1→2: Transition (slightly smaller)
     section1To2: {
-      mobile: {
-        width: '180px',
-        height: '101px',
-        scale: 0.9,
-        borderRadius: '12px'
-      },
-      tablet: {
-        width: '220px',
-        height: '124px',
-        scale: 0.9,
-        borderRadius: '14px'
-      },
-      desktop: {
-        width: '280px',
-        height: '158px',
-        scale: 0.9,
-        borderRadius: '16px'
-      }
+      mobile: { scale: 0.9 },
+      tablet: { scale: 0.9 },
+      desktop: { scale: 0.9 }
     },
 
-    // Section 2: Smooth scrolling section (right position)
+    // Section 2: Smooth scrolling (smaller)
     section2: {
-      mobile: {
-        width: '160px',
-        height: '90px',
-        scale: 0.8,
-        borderRadius: '12px'
-      },
-      tablet: {
-        width: '200px',
-        height: '113px',
-        scale: 0.8,
-        borderRadius: '14px'
-      },
-      desktop: {
-        width: '256px',
-        height: '144px',
-        scale: 0.8,
-        borderRadius: '16px'
-      }
+      mobile: { scale: 0.8 },
+      tablet: { scale: 0.8 },
+      desktop: { scale: 0.8 }
     },
 
-    // Section 3: Between section 2 and 3 (moving to center)
+    // Section 2→3: Transition (slightly larger)
     section2To3: {
-      mobile: {
-        width: '180px',
-        height: '101px',
-        scale: 0.9,
-        borderRadius: '12px'
-      },
-      tablet: {
-        width: '220px',
-        height: '124px',
-        scale: 0.9,
-        borderRadius: '14px'
-      },
-      desktop: {
-        width: '280px',
-        height: '158px',
-        scale: 0.9,
-        borderRadius: '16px'
-      }
+      mobile: { scale: 0.9 },
+      tablet: { scale: 0.9 },
+      desktop: { scale: 0.9 }
     },
 
-    // Section 3: Interactive section (center position)
+    // Section 3: Interactive (full size)
     section3: {
-      mobile: {
-        width: '200px',
-        height: '112px',
-        scale: 1,
-        borderRadius: '12px'
-      },
-      tablet: {
-        width: '240px',
-        height: '135px',
-        scale: 1,
-        borderRadius: '14px'
-      },
-      desktop: {
-        width: '320px',
-        height: '180px',
-        scale: 1,
-        borderRadius: '16px'
-      }
+      mobile: { scale: 1 },
+      tablet: { scale: 1 },
+      desktop: { scale: 1 }
     },
 
-    // Section 4: Fade out (smaller before disappearing)
+    // Section 3→4: Fade out (much smaller)
     section3To4: {
-      mobile: {
-        width: '120px',
-        height: '68px',
-        scale: 0.6,
-        borderRadius: '8px'
-      },
-      tablet: {
-        width: '140px',
-        height: '79px',
-        scale: 0.6,
-        borderRadius: '10px'
-      },
-      desktop: {
-        width: '160px',
-        height: '90px',
-        scale: 0.6,
-        borderRadius: '12px'
-      }
+      mobile: { scale: 0.6 },
+      tablet: { scale: 0.6 },
+      desktop: { scale: 0.6 }
     }
   },
 
@@ -163,7 +92,13 @@ export const getCurrentDeviceType = () => {
 // Helper function to get video config for a specific section and device
 export const getVideoConfig = (section, deviceType = null) => {
   const device = deviceType || getCurrentDeviceType();
-  return VIDEO_CONFIG.sections[section]?.[device] || VIDEO_CONFIG.sections[section]?.desktop;
+  const baseSize = VIDEO_CONFIG.baseSize[device] || VIDEO_CONFIG.baseSize.desktop;
+  const sectionScale = VIDEO_CONFIG.sections[section]?.[device] || VIDEO_CONFIG.sections[section]?.desktop;
+  
+  return {
+    ...baseSize,
+    ...sectionScale
+  };
 };
 
 // Helper function to apply video styles (for non-GSAP usage)
@@ -186,10 +121,44 @@ export const applyVideoStyles = (element, config) => {
 // Helper function to get GSAP-compatible config
 export const getGSAPConfig = (section, deviceType = null) => {
   const config = getVideoConfig(section, deviceType);
-  return {
+  
+  const gsapConfig = {
     width: config.width,
-    height: config.height,
     borderRadius: config.borderRadius,
-    scale: config.scale
+    scale: config.scale // Use scale directly for GSAP
   };
+  
+  // Only include height if it's not 'auto'
+  if (config.height !== 'auto') {
+    gsapConfig.height = config.height;
+  }
+  
+  return gsapConfig;
+};
+
+// Helper function to get base size for a device
+export const getBaseSize = (deviceType = null) => {
+  const device = deviceType || getCurrentDeviceType();
+  return VIDEO_CONFIG.baseSize[device] || VIDEO_CONFIG.baseSize.desktop;
+};
+
+// Helper function to get scale for a section and device
+export const getSectionScale = (section, deviceType = null) => {
+  const device = deviceType || getCurrentDeviceType();
+  const sectionConfig = VIDEO_CONFIG.sections[section]?.[device] || VIDEO_CONFIG.sections[section]?.desktop;
+  return sectionConfig.scale;
+};
+
+// Helper function to update base size for a device
+export const updateBaseSize = (deviceType, newSize) => {
+  if (VIDEO_CONFIG.baseSize[deviceType]) {
+    VIDEO_CONFIG.baseSize[deviceType] = { ...VIDEO_CONFIG.baseSize[deviceType], ...newSize };
+  }
+};
+
+// Helper function to update scale for a section and device
+export const updateSectionScale = (section, deviceType, newScale) => {
+  if (VIDEO_CONFIG.sections[section]?.[deviceType]) {
+    VIDEO_CONFIG.sections[section][deviceType].scale = newScale;
+  }
 };

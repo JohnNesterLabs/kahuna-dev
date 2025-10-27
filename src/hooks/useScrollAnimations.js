@@ -50,7 +50,24 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                 trigger: '#section1Wrapper',
                 start: 'bottom center',
                 end: 'bottom top',
-                scrub: 1
+                scrub: 1,
+                onUpdate: (self) => {
+                    // Smoothly transition size based on scroll progress
+                    const progress = self.progress;
+                    const section1Config = getGSAPConfig('section1');
+                    const section1To2Config = getGSAPConfig('section1To2');
+                    
+                    if (videoRef.current) {
+                        // Interpolate between section1 and section1To2 based on progress
+                        const currentScale = section1Config.scale + (section1To2Config.scale - section1Config.scale) * progress;
+                        
+                        gsap.set(videoRef.current, {
+                            scale: currentScale,
+                            width: section1To2Config.width,
+                            borderRadius: section1To2Config.borderRadius
+                        });
+                    }
+                }
             }
         })
             .to(videoRef.current, {
@@ -59,11 +76,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                 x: '-50%',
                 y: '50%',
                 duration: 1
-            })
-            .to(videoRef.current, {
-                ...getGSAPConfig('section1To2'),
-                duration: 1
-            }, 0);
+            });
 
         // Section 2: Smooth scrolling animations
         gsap.set(['.section2-line1', '.section2-line2', '.section2-line3'], {
@@ -89,19 +102,32 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             .to('.section2-line2', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" })
             .to('.section2-line3', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" });
 
-        // Separate animation for video size change at the start of section 2
+        // Video size change for section 2 (smooth forward and backward)
         gsap.timeline({
             scrollTrigger: {
                 trigger: '#section2Wrapper',
                 start: 'top top',
-                end: 'top top',
-                scrub: 1
+                end: 'bottom bottom',
+                scrub: 1,
+                onUpdate: (self) => {
+                    // Smoothly transition size based on scroll progress
+                    const progress = self.progress;
+                    const section1To2Config = getGSAPConfig('section1To2');
+                    const section2Config = getGSAPConfig('section2');
+                    
+                    if (videoRef.current) {
+                        // Interpolate between section1To2 and section2 based on progress
+                        const currentScale = section1To2Config.scale + (section2Config.scale - section1To2Config.scale) * progress;
+                        
+                        gsap.set(videoRef.current, {
+                            scale: currentScale,
+                            width: section2Config.width,
+                            borderRadius: section2Config.borderRadius
+                        });
+                    }
+                }
             }
-        })
-            .to(videoRef.current, {
-                ...getGSAPConfig('section2'),
-                duration: 0.5
-            });
+        });
 
         // Video movement from right to center (between Section 2 and 3)
         gsap.timeline({
@@ -109,7 +135,24 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                 trigger: '#section2Wrapper',
                 start: 'bottom center',
                 end: 'bottom top',
-                scrub: 1
+                scrub: 1,
+                onUpdate: (self) => {
+                    // Smoothly transition size based on scroll progress
+                    const progress = self.progress;
+                    const section2Config = getGSAPConfig('section2');
+                    const section2To3Config = getGSAPConfig('section2To3');
+                    
+                    if (videoRef.current) {
+                        // Interpolate between section2 and section2To3 based on progress
+                        const currentScale = section2Config.scale + (section2To3Config.scale - section2Config.scale) * progress;
+                        
+                        gsap.set(videoRef.current, {
+                            scale: currentScale,
+                            width: section2To3Config.width,
+                            borderRadius: section2To3Config.borderRadius
+                        });
+                    }
+                }
             }
         })
             .to(videoRef.current, {
@@ -118,11 +161,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                 x: '-50%',
                 y: '50%',
                 duration: 1
-            })
-            .to(videoRef.current, {
-                ...getGSAPConfig('section2To3'),
-                duration: 1
-            }, 0);
+            });
 
         // Section 3: Interactive section animations
         gsap.set(['.section3-line1', '.section3-line2', '.section3-line3'], {
@@ -148,19 +187,32 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             .to('.section3-line2', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" })
             .to('.section3-line3', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" });
 
-        // Separate animation for video size change at the start of section 3
+        // Video size change for section 3 (smooth forward and backward)
         gsap.timeline({
             scrollTrigger: {
                 trigger: '#section3Wrapper',
                 start: 'top top',
-                end: 'top top',
-                scrub: 1
+                end: 'bottom bottom',
+                scrub: 1,
+                onUpdate: (self) => {
+                    // Smoothly transition size based on scroll progress
+                    const progress = self.progress;
+                    const section2To3Config = getGSAPConfig('section2To3');
+                    const section3Config = getGSAPConfig('section3');
+                    
+                    if (videoRef.current) {
+                        // Interpolate between section2To3 and section3 based on progress
+                        const currentScale = section2To3Config.scale + (section3Config.scale - section2To3Config.scale) * progress;
+                        
+                        gsap.set(videoRef.current, {
+                            scale: currentScale,
+                            width: section3Config.width,
+                            borderRadius: section3Config.borderRadius
+                        });
+                    }
+                }
             }
-        })
-            .to(videoRef.current, {
-                ...getGSAPConfig('section3'),
-                duration: 0.5
-            });
+        });
 
         // Add transition trigger to ensure smooth transition to section 4
         ScrollTrigger.create({
