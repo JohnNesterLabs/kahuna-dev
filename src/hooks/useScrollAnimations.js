@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { getVideoConfig, getGSAPConfig } from '../config/videoConfig';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,6 +14,12 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             ignoreMobileResize: true,
             syncInterval: 1
         });
+
+        // Set initial video size for section 1
+        const initialConfig = getGSAPConfig('section1');
+        if (initialConfig && videoRef.current) {
+            gsap.set(videoRef.current, initialConfig);
+        }
 
         // Section 1: Hero section animations
         gsap.set(['.section1-line1', '.section1-line2', '.section1-line3'], {
@@ -51,9 +58,12 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                 left: '80%',
                 x: '-50%',
                 y: '50%',
-                scale: 1,
                 duration: 1
-            });
+            })
+            .to(videoRef.current, {
+                ...getGSAPConfig('section1To2'),
+                duration: 1
+            }, 0);
 
         // Section 2: Smooth scrolling animations
         gsap.set(['.section2-line1', '.section2-line2', '.section2-line3'], {
@@ -61,6 +71,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             y: 50
         });
 
+        // Section 2: Text animations only (no video size change)
         gsap.timeline({
             scrollTrigger: {
                 trigger: '#section2Wrapper',
@@ -78,6 +89,20 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             .to('.section2-line2', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" })
             .to('.section2-line3', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" });
 
+        // Separate animation for video size change at the start of section 2
+        gsap.timeline({
+            scrollTrigger: {
+                trigger: '#section2Wrapper',
+                start: 'top top',
+                end: 'top top',
+                scrub: 1
+            }
+        })
+            .to(videoRef.current, {
+                ...getGSAPConfig('section2'),
+                duration: 0.5
+            });
+
         // Video movement from right to center (between Section 2 and 3)
         gsap.timeline({
             scrollTrigger: {
@@ -92,9 +117,12 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                 left: '50%',
                 x: '-50%',
                 y: '50%',
-                scale: 1.1,
                 duration: 1
-            });
+            })
+            .to(videoRef.current, {
+                ...getGSAPConfig('section2To3'),
+                duration: 1
+            }, 0);
 
         // Section 3: Interactive section animations
         gsap.set(['.section3-line1', '.section3-line2', '.section3-line3'], {
@@ -102,6 +130,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             y: 50
         });
 
+        // Section 3: Text animations only (no video size change)
         gsap.timeline({
             scrollTrigger: {
                 trigger: '#section3Wrapper',
@@ -118,6 +147,20 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             .to('.section3-line1', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" })
             .to('.section3-line2', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" })
             .to('.section3-line3', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" });
+
+        // Separate animation for video size change at the start of section 3
+        gsap.timeline({
+            scrollTrigger: {
+                trigger: '#section3Wrapper',
+                start: 'top top',
+                end: 'top top',
+                scrub: 1
+            }
+        })
+            .to(videoRef.current, {
+                ...getGSAPConfig('section3'),
+                duration: 0.5
+            });
 
         // Add transition trigger to ensure smooth transition to section 4
         ScrollTrigger.create({
@@ -141,7 +184,11 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                 scrub: 1
             }
         })
-            .to(videoRef.current, { opacity: 0, scale: 0.8, duration: 0.5 });
+            .to(videoRef.current, { 
+                opacity: 0, 
+                ...getGSAPConfig('section3To4'),
+                duration: 0.5 
+            });
 
         // Section 4: Pinned section with frame animation
         const totalFrames = 428;
@@ -211,6 +258,12 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
         // Handle resize events
         const handleResize = () => {
             ScrollTrigger.refresh();
+            
+            // Update video size based on current section and new device type
+            if (videoRef.current) {
+                const currentConfig = getGSAPConfig('section1'); // Default to section1
+                gsap.set(videoRef.current, currentConfig);
+            }
         };
 
         window.addEventListener('resize', handleResize);

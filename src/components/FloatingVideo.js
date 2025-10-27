@@ -5,9 +5,16 @@ const FloatingVideo = forwardRef(({ isVisible = true }, ref) => {
 
     return (
         <div className="floating-video" id="floatingVideo" ref={ref}>
-            <div className="video-placeholder">
-                Video Placeholder
-            </div>
+            <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="floating-video-element"
+            >
+                <source src="/hero4.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>
         </div>
     );
 });
