@@ -157,32 +157,32 @@ body {
 
 .pinned-inner {
     width: 100%;
-    max-width: 1200px;
+    height: 100vh;
     display: flex;
-    gap: 36px;
     align-items: center;
-    padding: 24px;
+    justify-content: center;
+    padding: 0;
     box-sizing: border-box;
 }
 
 .pinned-left {
     width: 100%;
-    height: 70vh;
+    height: 100vh;
     position: relative;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .frame-container {
     position: absolute;
+    top: 0;
     left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 95%;
-    max-width: 520px;
-    height: 70vh;
-    border-radius: 12px;
+    width: 100%;
+    height: 100vh;
+    border-radius: 0;
     overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: none;
     background: #111;
     display: flex;
     align-items: center;
@@ -203,24 +203,24 @@ body {
 
 .section-label {
     position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
     font-weight: 600;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 18px 22px;
-    border-radius: 10px;
-    opacity: 0;
-    max-width: 420px;
-    color: #333;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 25px;
+    opacity: 1;
+    max-width: 300px;
+    text-align: center;
+    z-index: 10;
+    font-size: 16px;
 }
 
 .pinned-right {
-    width: 0.1%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+    display: none;
+    /* Hide the right side image to give full space to frames */
 }
 
 .image-wrap {
@@ -258,39 +258,44 @@ body {
 
 @media (max-width: 900px) {
     .pinned-inner {
-        flex-direction: column-reverse;
-        gap: 20px;
-        padding: 16px;
+        flex-direction: column;
+        gap: 0;
+        padding: 0;
     }
 
     .pinned-left,
     .pinned-right {
         width: 100%;
-        height: auto;
+        height: 100vh;
     }
 
     .pinned-left {
-        height: auto;
-        padding: 60px 0;
+        height: 100vh;
+        padding: 0;
     }
 
     .section-label {
-        position: relative;
-        transform: none;
-        top: auto;
-        left: auto;
-        margin: 12px auto;
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-size: 14px;
     }
 
     .image-wrap {
-        height: 44vh;
-        max-width: 90%;
+        display: none;
+        /* Hide the right side image on mobile to give full space to frames */
     }
 
     .frame-container {
         width: 100%;
-        max-width: 90%;
-        height: 50vh;
+        height: 100vh;
+        border-radius: 0;
     }
 }
 
