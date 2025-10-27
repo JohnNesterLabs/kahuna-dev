@@ -2,9 +2,7 @@ import React from 'react';
 import {
   Navigation,
   FloatingVideo,
-  HeroSection,
-  SmoothScrollingSection,
-  InteractiveSection,
+  ConsolidatedSections,
   PinnedSection,
   Footer
 } from './components';
@@ -25,14 +23,8 @@ function App() {
       {/* Floating Video */}
       <FloatingVideo ref={videoRef} />
 
-      {/* Section 1 - Hero */}
-      <HeroSection />
-
-      {/* Section 2 - Smooth Scrolling */}
-      <SmoothScrollingSection />
-
-      {/* Section 3 - Interactive */}
-      <InteractiveSection />
+      {/* Consolidated Sections 1, 2, 3 */}
+      <ConsolidatedSections />
 
       {/* Section 4 - Pinned Section */}
       <PinnedSection />

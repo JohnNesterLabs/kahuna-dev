@@ -21,10 +21,16 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             gsap.set(videoRef.current, initialConfig);
         }
 
-        // Section 1: Hero section animations
-        gsap.set(['.section1-line1', '.section1-line2', '.section1-line3'], {
+        // Section 1: Hero section animations with 1st paragraph always visible
+        gsap.set(['.section1-paragraph2', '.section1-paragraph3'], {
             opacity: 0,
             y: 50
+        });
+
+        // Set first paragraph to always be visible
+        gsap.set('.section1-paragraph1', {
+            opacity: 1,
+            y: 0
         });
 
         gsap.timeline({
@@ -37,12 +43,71 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                     if (self.progress < 0.9) {
                         setActiveSection(0);
                     }
+
+                    const progress = self.progress;
+
+                    // Fade in sequence (0-0.4): 2nd → 3rd (1st stays visible)
+                    if (progress >= 0 && progress < 0.4) {
+                        const fadeInProgress = progress / 0.4;
+
+                        // 2nd paragraph fades in first (0-0.5 of fade in phase)
+                        if (fadeInProgress >= 0 && fadeInProgress < 0.5) {
+                            const p2Progress = fadeInProgress / 0.5;
+                            gsap.set('.section1-paragraph2', {
+                                opacity: p2Progress,
+                                y: 50 - (50 * p2Progress)
+                            });
+                        } else if (fadeInProgress >= 0.5) {
+                            gsap.set('.section1-paragraph2', { opacity: 1, y: 0 });
+                        }
+
+                        // 3rd paragraph fades in second (0.5-1 of fade in phase)
+                        if (fadeInProgress >= 0.5) {
+                            const p3Progress = (fadeInProgress - 0.5) / 0.5;
+                            gsap.set('.section1-paragraph3', {
+                                opacity: p3Progress,
+                                y: 50 - (50 * p3Progress)
+                            });
+                        }
+                    }
+
+                    // Hold all visible (0.4-0.6)
+                    else if (progress >= 0.4 && progress < 0.6) {
+                        gsap.set(['.section1-paragraph1', '.section1-paragraph2', '.section1-paragraph3'], {
+                            opacity: 1,
+                            y: 0
+                        });
+                    }
+
+                    // Fade out sequence (0.6-1): 2nd → 3rd (1st stays visible)
+                    else if (progress >= 0.6) {
+                        const fadeOutProgress = (progress - 0.6) / 0.4;
+
+                        // 2nd paragraph fades out first (0-0.5 of fade out phase)
+                        if (fadeOutProgress >= 0 && fadeOutProgress < 0.5) {
+                            const p2Progress = Math.max(0, 1 - (fadeOutProgress / 0.5));
+                            gsap.set('.section1-paragraph2', {
+                                opacity: p2Progress,
+                                y: -(50 * (1 - p2Progress))
+                            });
+                        } else {
+                            gsap.set('.section1-paragraph2', { opacity: 0, y: -50 });
+                        }
+
+                        // 3rd paragraph fades out second (0.5-1 of fade out phase)
+                        if (fadeOutProgress >= 0.5) {
+                            const p3Progress = Math.max(0, 1 - ((fadeOutProgress - 0.5) / 0.5));
+                            gsap.set('.section1-paragraph3', {
+                                opacity: p3Progress,
+                                y: -(50 * (1 - p3Progress))
+                            });
+                        } else {
+                            gsap.set('.section1-paragraph3', { opacity: 0, y: -50 });
+                        }
+                    }
                 }
             }
-        })
-            .to('.section1-line1', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" })
-            .to('.section1-line2', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" })
-            .to('.section1-line3', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" });
+        });
 
         // Video movement from bottom to right (between Section 1 and 2)
         gsap.timeline({
@@ -56,11 +121,11 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                     const progress = self.progress;
                     const section1Config = getGSAPConfig('section1');
                     const section1To2Config = getGSAPConfig('section1To2');
-                    
+
                     if (videoRef.current) {
                         // Interpolate between section1 and section1To2 based on progress
                         const currentScale = section1Config.scale + (section1To2Config.scale - section1Config.scale) * progress;
-                        
+
                         gsap.set(videoRef.current, {
                             scale: currentScale,
                             width: section1To2Config.width,
@@ -78,13 +143,12 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                 duration: 1
             });
 
-        // Section 2: Smooth scrolling animations
-        gsap.set(['.section2-line1', '.section2-line2', '.section2-line3'], {
+        // Section 2: Smooth scrolling animations with sequential fade in/out
+        gsap.set(['.section2-paragraph1', '.section2-paragraph2', '.section2-paragraph3'], {
             opacity: 0,
             y: 50
         });
 
-        // Section 2: Text animations only (no video size change)
         gsap.timeline({
             scrollTrigger: {
                 trigger: '#section2Wrapper',
@@ -95,12 +159,82 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                     if (self.progress > 0.1 && self.progress < 0.9) {
                         setActiveSection(1);
                     }
+
+                    const progress = self.progress;
+
+                    // Fade in sequence (0-0.6): 1st → 2nd → 3rd (slower)
+                    if (progress >= 0 && progress < 0.6) {
+                        const fadeInProgress = progress / 0.6;
+
+                        // 1st paragraph fades in first (0-0.33 of fade in phase)
+                        if (fadeInProgress >= 0 && fadeInProgress < 0.33) {
+                            const p1Progress = (fadeInProgress - 0) / 0.33;
+                            gsap.set('.section2-paragraph1', {
+                                opacity: p1Progress,
+                                y: 50 - (50 * p1Progress)
+                            });
+                        } else if (fadeInProgress >= 0.33) {
+                            gsap.set('.section2-paragraph1', { opacity: 1, y: 0 });
+                        }
+
+                        // 2nd paragraph fades in second (0.33-0.66 of fade in phase)
+                        if (fadeInProgress >= 0.33 && fadeInProgress < 0.66) {
+                            const p2Progress = (fadeInProgress - 0.33) / 0.33;
+                            gsap.set('.section2-paragraph2', {
+                                opacity: p2Progress,
+                                y: 50 - (50 * p2Progress)
+                            });
+                        } else if (fadeInProgress >= 0.66) {
+                            gsap.set('.section2-paragraph2', { opacity: 1, y: 0 });
+                        }
+
+                        // 3rd paragraph fades in third (0.66-1 of fade in phase)
+                        if (fadeInProgress >= 0.66) {
+                            const p3Progress = (fadeInProgress - 0.66) / 0.34;
+                            gsap.set('.section2-paragraph3', {
+                                opacity: p3Progress,
+                                y: 50 - (50 * p3Progress)
+                            });
+                        }
+                    }
+
+                    // Hold all visible (0.6-0.7)
+                    else if (progress >= 0.6 && progress < 0.7) {
+                        gsap.set(['.section2-paragraph1', '.section2-paragraph2', '.section2-paragraph3'], {
+                            opacity: 1,
+                            y: 0
+                        });
+                    }
+
+                    // Fade out sequence (0.7-1): 1st → 2nd → 3rd
+                    else if (progress >= 0.7) {
+                        const fadeOutProgress = (progress - 0.7) / 0.3;
+
+                        // 1st paragraph fades out first (0-0.33)
+                        if (fadeOutProgress >= 0 && fadeOutProgress < 0.33) {
+                            const p1Progress = 1 - (fadeOutProgress / 0.33);
+                            gsap.set('.section2-paragraph1', { opacity: p1Progress, y: -(50 * (1 - p1Progress)) });
+                            gsap.set('.section2-paragraph2', { opacity: 1, y: 0 });
+                            gsap.set('.section2-paragraph3', { opacity: 1, y: 0 });
+                        }
+                        // 2nd paragraph fades out second (0.33-0.66)
+                        else if (fadeOutProgress >= 0.33 && fadeOutProgress < 0.66) {
+                            gsap.set('.section2-paragraph1', { opacity: 0, y: -50 });
+                            const p2Progress = 1 - ((fadeOutProgress - 0.33) / 0.33);
+                            gsap.set('.section2-paragraph2', { opacity: p2Progress, y: -(50 * (1 - p2Progress)) });
+                            gsap.set('.section2-paragraph3', { opacity: 1, y: 0 });
+                        }
+                        // 3rd paragraph fades out third (0.66-1)
+                        else if (fadeOutProgress >= 0.66) {
+                            gsap.set('.section2-paragraph1', { opacity: 0, y: -50 });
+                            gsap.set('.section2-paragraph2', { opacity: 0, y: -50 });
+                            const p3Progress = 1 - ((fadeOutProgress - 0.66) / 0.34);
+                            gsap.set('.section2-paragraph3', { opacity: p3Progress, y: -(50 * (1 - p3Progress)) });
+                        }
+                    }
                 }
             }
-        })
-            .to('.section2-line1', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" })
-            .to('.section2-line2', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" })
-            .to('.section2-line3', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" });
+        });
 
         // Video size change for section 2 (smooth forward and backward)
         gsap.timeline({
@@ -114,11 +248,11 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                     const progress = self.progress;
                     const section1To2Config = getGSAPConfig('section1To2');
                     const section2Config = getGSAPConfig('section2');
-                    
+
                     if (videoRef.current) {
                         // Interpolate between section1To2 and section2 based on progress
                         const currentScale = section1To2Config.scale + (section2Config.scale - section1To2Config.scale) * progress;
-                        
+
                         gsap.set(videoRef.current, {
                             scale: currentScale,
                             width: section2Config.width,
@@ -141,11 +275,11 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                     const progress = self.progress;
                     const section2Config = getGSAPConfig('section2');
                     const section2To3Config = getGSAPConfig('section2To3');
-                    
+
                     if (videoRef.current) {
                         // Interpolate between section2 and section2To3 based on progress
                         const currentScale = section2Config.scale + (section2To3Config.scale - section2Config.scale) * progress;
-                        
+
                         gsap.set(videoRef.current, {
                             scale: currentScale,
                             width: section2To3Config.width,
@@ -163,13 +297,19 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                 duration: 1
             });
 
-        // Section 3: Interactive section animations
-        gsap.set(['.section3-line1', '.section3-line2', '.section3-line3'], {
+        // Section 3: Interactive section animations with sequential fade in/out
+        gsap.set(['.section3-title'], {
             opacity: 0,
             y: 50
         });
 
-        // Section 3: Text animations only (no video size change)
+        // Set initial state for word loop items
+        gsap.set(['#word-secure', '#word-private', '#word-enterprise', '#word-comprehensive'], {
+            opacity: 0,
+            y: 100
+        });
+
+        // Section 3: Title animation with sequential fade in/out
         gsap.timeline({
             scrollTrigger: {
                 trigger: '#section3Wrapper',
@@ -180,12 +320,111 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                     if (self.progress > 0.1) {
                         setActiveSection(2);
                     }
+
+                    const progress = self.progress;
+
+                    // Fade in sequence (0-0.6): Title fades in (slower)
+                    if (progress >= 0 && progress < 0.6) {
+                        const fadeInProgress = progress / 0.6;
+                        const titleProgress = fadeInProgress;
+                        gsap.set('.section3-title', {
+                            opacity: titleProgress,
+                            y: 50 - (50 * titleProgress)
+                        });
+                    }
+
+                    // Hold visible (0.6-0.7)
+                    else if (progress >= 0.6 && progress < 0.7) {
+                        gsap.set('.section3-title', {
+                            opacity: 1,
+                            y: 0
+                        });
+                    }
+
+                    // Fade out sequence (0.7-1): Title fades out (slower)
+                    else if (progress >= 0.7) {
+                        const fadeOutProgress = (progress - 0.7) / 0.3;
+                        const titleProgress = 1 - fadeOutProgress;
+                        gsap.set('.section3-title', {
+                            opacity: titleProgress,
+                            y: -(50 * (1 - titleProgress))
+                        });
+                    }
                 }
             }
-        })
-            .to('.section3-line1', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" })
-            .to('.section3-line2', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" })
-            .to('.section3-line3', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" });
+        });
+
+        // Word Loop Animation with fade out
+        const words = ['#word-secure', '#word-private', '#word-enterprise', '#word-comprehensive'];
+
+        gsap.timeline({
+            scrollTrigger: {
+                trigger: '#section3Wrapper',
+                start: 'top top',
+                end: 'bottom bottom',
+                scrub: 1,
+                onUpdate: (self) => {
+                    const progress = self.progress;
+
+                    // Word loop phase (0-0.8): Show words sequentially (slower)
+                    if (progress >= 0 && progress < 0.8) {
+                        const wordProgress = progress / 0.8;
+                        const wordIndex = Math.floor(wordProgress * words.length);
+                        const currentWordIndex = Math.min(wordIndex, words.length - 1);
+
+                        // Hide all words first
+                        words.forEach((word, index) => {
+                            const element = document.querySelector(word);
+                            if (element) {
+                                if (index === currentWordIndex) {
+                                    // Show current word
+                                    gsap.set(element, {
+                                        opacity: 1,
+                                        y: 0,
+                                        className: 'word-loop-item active'
+                                    });
+                                } else if (index < currentWordIndex) {
+                                    // Slide up previous words
+                                    gsap.set(element, {
+                                        opacity: 0,
+                                        y: -100,
+                                        className: 'word-loop-item slide-up'
+                                    });
+                                } else {
+                                    // Hide future words
+                                    gsap.set(element, {
+                                        opacity: 0,
+                                        y: 100,
+                                        className: 'word-loop-item'
+                                    });
+                                }
+                            }
+                        });
+                    }
+
+                    // Fade out phase (0.8-1): All words fade out (slower)
+                    else if (progress >= 0.8) {
+                        const fadeOutProgress = (progress - 0.8) / 0.2;
+
+                        words.forEach((word, index) => {
+                            const element = document.querySelector(word);
+                            if (element) {
+                                // Fade out all words with slight delay for "Comprehensive"
+                                const delay = index === words.length - 1 ? 0.1 : 0; // "Comprehensive" fades out last
+                                const adjustedProgress = Math.max(0, fadeOutProgress - delay);
+                                const opacity = 1 - adjustedProgress;
+
+                                gsap.set(element, {
+                                    opacity: opacity,
+                                    y: -(100 * (1 - opacity)),
+                                    className: 'word-loop-item slide-up'
+                                });
+                            }
+                        });
+                    }
+                }
+            }
+        });
 
         // Video size change for section 3 (smooth forward and backward)
         gsap.timeline({
@@ -199,11 +438,11 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                     const progress = self.progress;
                     const section2To3Config = getGSAPConfig('section2To3');
                     const section3Config = getGSAPConfig('section3');
-                    
+
                     if (videoRef.current) {
                         // Interpolate between section2To3 and section3 based on progress
                         const currentScale = section2To3Config.scale + (section3Config.scale - section2To3Config.scale) * progress;
-                        
+
                         gsap.set(videoRef.current, {
                             scale: currentScale,
                             width: section3Config.width,
@@ -236,10 +475,10 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                 scrub: 1
             }
         })
-            .to(videoRef.current, { 
-                opacity: 0, 
+            .to(videoRef.current, {
+                opacity: 0,
                 ...getGSAPConfig('section3To4'),
-                duration: 0.5 
+                duration: 0.5
             });
 
         // Section 4: Pinned section with frame animation
@@ -310,7 +549,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
         // Handle resize events
         const handleResize = () => {
             ScrollTrigger.refresh();
-            
+
             // Update video size based on current section and new device type
             if (videoRef.current) {
                 const currentConfig = getGSAPConfig('section1'); // Default to section1
