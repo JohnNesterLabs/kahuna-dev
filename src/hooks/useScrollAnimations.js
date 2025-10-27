@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { getVideoConfig, getGSAPConfig } from '../config/videoConfig';
+import { getGSAPPosition } from '../config/videoPositionConfig';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,6 +15,20 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             ignoreMobileResize: true,
             syncInterval: 1
         });
+
+        // Set initial video size and position for section 1
+        const initialConfig = getGSAPConfig('section1');
+        const initialPosition = getGSAPPosition('section1');
+        if (initialConfig && videoRef.current) {
+            // Clear any existing GSAP transforms
+            gsap.set(videoRef.current, { clearProps: "all" });
+            
+            // Set the initial position and size
+            gsap.set(videoRef.current, {
+                ...initialConfig,
+                ...initialPosition
+            });
+        }
 
         // Section 1: Hero section animations
         gsap.set(['.section1-line1', '.section1-line2', '.section1-line3'], {
@@ -29,6 +45,13 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                 onUpdate: (self) => {
                     if (self.progress < 0.9) {
                         setActiveSection(0);
+                        // Ensure video stays in section 1 position
+                        const section1Position = getGSAPPosition('section1');
+                        if (videoRef.current) {
+                            gsap.set(videoRef.current, {
+                                ...section1Position
+                            });
+                        }
                     }
                 }
             }
@@ -43,15 +66,28 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                 trigger: '#section1Wrapper',
                 start: 'bottom center',
                 end: 'bottom top',
-                scrub: 1
+                scrub: 1,
+                onUpdate: (self) => {
+                    // Smoothly transition size based on scroll progress
+                    const progress = self.progress;
+                    const section1Config = getGSAPConfig('section1');
+                    const section1To2Config = getGSAPConfig('section1To2');
+                    
+                    if (videoRef.current) {
+                        // Interpolate between section1 and section1To2 based on progress
+                        const currentScale = section1Config.scale + (section1To2Config.scale - section1Config.scale) * progress;
+                        
+                        gsap.set(videoRef.current, {
+                            scale: currentScale,
+                            width: section1To2Config.width,
+                            borderRadius: section1To2Config.borderRadius
+                        });
+                    }
+                }
             }
         })
             .to(videoRef.current, {
-                bottom: '50%',
-                left: '80%',
-                x: '-50%',
-                y: '50%',
-                scale: 1,
+                ...getGSAPPosition('section1To2'),
                 duration: 1
             });
 
@@ -61,6 +97,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             y: 50
         });
 
+        // Section 2: Text animations only (no video size change)
         gsap.timeline({
             scrollTrigger: {
                 trigger: '#section2Wrapper',
@@ -78,21 +115,66 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             .to('.section2-line2', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" })
             .to('.section2-line3', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" });
 
+        // Video size and position change for section 2 (smooth forward and backward)
+        gsap.timeline({
+            scrollTrigger: {
+                trigger: '#section2Wrapper',
+                start: 'top center',
+                end: 'bottom bottom',
+                scrub: 1,
+                onUpdate: (self) => {
+                    // Only run if we're actually in section 2
+                    if (self.progress > 0.1) {
+                        // Smoothly transition size based on scroll progress
+                        const progress = self.progress;
+                        const section1To2Config = getGSAPConfig('section1To2');
+                        const section2Config = getGSAPConfig('section2');
+                        const section2Position = getGSAPPosition('section2');
+                        
+                        if (videoRef.current) {
+                            // Interpolate between section1To2 and section2 based on progress
+                            const currentScale = section1To2Config.scale + (section2Config.scale - section1To2Config.scale) * progress;
+                            
+                            gsap.set(videoRef.current, {
+                                scale: currentScale,
+                                width: section2Config.width,
+                                borderRadius: section2Config.borderRadius,
+                                ...section2Position // Use section2 position
+                            });
+                        }
+                    }
+                }
+            }
+        });
+
         // Video movement from right to center (between Section 2 and 3)
         gsap.timeline({
             scrollTrigger: {
                 trigger: '#section2Wrapper',
                 start: 'bottom center',
                 end: 'bottom top',
-                scrub: 1
+                scrub: 1,
+                onUpdate: (self) => {
+                    // Smoothly transition size based on scroll progress
+                    const progress = self.progress;
+                    const section2Config = getGSAPConfig('section2');
+                    const section2To3Config = getGSAPConfig('section2To3');
+                    
+                    if (videoRef.current) {
+                        // Interpolate between section2 and section2To3 based on progress
+                        const currentScale = section2Config.scale + (section2To3Config.scale - section2Config.scale) * progress;
+                        
+                        gsap.set(videoRef.current, {
+                            scale: currentScale,
+                            width: section2To3Config.width,
+                            borderRadius: section2To3Config.borderRadius
+                        });
+                    }
+                }
             }
         })
             .to(videoRef.current, {
-                bottom: '50%',
-                left: '50%',
-                x: '-50%',
-                y: '50%',
-                scale: 1.1,
+                ...getGSAPPosition('section2To3'),
                 duration: 1
             });
 
@@ -102,6 +184,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             y: 50
         });
 
+        // Section 3: Text animations only (no video size change)
         gsap.timeline({
             scrollTrigger: {
                 trigger: '#section3Wrapper',
@@ -119,6 +202,48 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             .to('.section3-line2', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" })
             .to('.section3-line3', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" });
 
+        // Video size and position change for section 3 (smooth forward and backward)
+        gsap.timeline({
+            scrollTrigger: {
+                trigger: '#section3Wrapper',
+                start: 'top top',
+                end: 'bottom bottom',
+                scrub: 1,
+                onUpdate: (self) => {
+                    // Smoothly transition size based on scroll progress
+                    const progress = self.progress;
+                    const section2To3Config = getGSAPConfig('section2To3');
+                    const section3Config = getGSAPConfig('section3');
+                    const section3Position = getGSAPPosition('section3');
+                    
+                    if (videoRef.current) {
+                        // Interpolate between section2To3 and section3 based on progress
+                        const currentScale = section2To3Config.scale + (section3Config.scale - section2To3Config.scale) * progress;
+                        
+                        gsap.set(videoRef.current, {
+                            scale: currentScale,
+                            width: section3Config.width,
+                            borderRadius: section3Config.borderRadius,
+                            ...section3Position // Use section3 position
+                        });
+                    }
+                }
+            }
+        });
+
+        // Add transition trigger to ensure smooth transition to section 4
+        ScrollTrigger.create({
+            trigger: '#section3Wrapper',
+            start: 'bottom top',
+            end: 'bottom top',
+            onEnter: () => {
+                setActiveSection(3);
+            },
+            onLeave: () => {
+                setActiveSection(3);
+            }
+        });
+
         // Hide video after section 3
         gsap.timeline({
             scrollTrigger: {
@@ -128,7 +253,12 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                 scrub: 1
             }
         })
-            .to(videoRef.current, { opacity: 0, scale: 0.8, duration: 0.5 });
+            .to(videoRef.current, { 
+                opacity: 0, 
+                ...getGSAPConfig('section3To4'),
+                ...getGSAPPosition('section3To4'),
+                duration: 0.5 
+            });
 
         // Section 4: Pinned section with frame animation
         const totalFrames = 428;
@@ -150,6 +280,9 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             end: '+=2500%',
             scrub: 1,
             pin: true,
+            onEnter: () => {
+                setActiveSection(3);
+            },
             onUpdate: (self) => {
                 if (self.progress < 0.95) {
                     setActiveSection(3);
@@ -195,6 +328,12 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
         // Handle resize events
         const handleResize = () => {
             ScrollTrigger.refresh();
+            
+            // Update video size based on current section and new device type
+            if (videoRef.current) {
+                const currentConfig = getGSAPConfig('section1'); // Default to section1
+                gsap.set(videoRef.current, currentConfig);
+            }
         };
 
         window.addEventListener('resize', handleResize);
