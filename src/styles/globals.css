@@ -5,10 +5,11 @@ body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    background-color: #000000;
 }
 
 .app-container {
-    background-color: white;
+    background-color: #000000;
 }
 
 /* Navigation Container */
@@ -39,6 +40,8 @@ body {
     justify-content: center;
     position: sticky;
     top: 0;
+    z-index: 100;  /* Higher than video (z-index: 40) */
+    background: transparent;  /* Transparent so video shows through */
 }
 
 .nav-dot {
@@ -312,36 +315,44 @@ body {
 @media (max-width: 768px) {
     .floating-video {
         /* Video sizing is now handled dynamically via JavaScript */
+        /* No additional mobile-specific styles needed */
+        z-index: 40;  /* Ensure video z-index is maintained on mobile */
     }
 }
 
 /* Hero Section Styles */
 .hero-bg {
-    background-color: #F5F1E8;
+    background-color: transparent;  /* Transparent so video shows through */
 }
 
 .hero-content {
     padding: 0 1rem;
+    z-index: 100;  /* Higher than video (z-index: 40) */
+    background: transparent;  /* Transparent so video shows through */
+    position: relative;
 }
 
 .hero-title {
     font-size: 3.75rem;
     font-weight: 700;
-    color: #1f2937;
+    color: #ffffff;
     margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);  /* Shadow for better readability over video */
 }
 
 .hero-subtitle {
     font-size: 2.25rem;
     font-weight: 300;
-    color: #4b5563;
+    color: #e5e7eb;
     margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);  /* Shadow for better readability over video */
 }
 
 .hero-description {
     font-size: 1.875rem;
     font-weight: 300;
-    color: #6b7280;
+    color: #9ca3af;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);  /* Shadow for better readability over video */
 }
 
 @media (min-width: 768px) {
@@ -360,31 +371,37 @@ body {
 
 /* Smooth Scrolling Section Styles */
 .smooth-bg {
-    background-color: #E5E5E5;
+    background-color: transparent;  /* Transparent so video shows through */
 }
 
 .section-content-padding {
     padding: 0 1rem;
+    z-index: 100;  /* Higher than video (z-index: 40) */
+    background: transparent;  /* Transparent so video shows through */
+    position: relative;
 }
 
 .smooth-title {
     font-size: 3rem;
     font-weight: 600;
-    color: #1f2937;
+    color: #ffffff;
     margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);  /* Shadow for better readability over video */
 }
 
 .smooth-subtitle {
     font-size: 1.875rem;
     font-weight: 300;
-    color: #4b5563;
+    color: #e5e7eb;
     margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);  /* Shadow for better readability over video */
 }
 
 .smooth-description {
     font-size: 1.875rem;
     font-weight: 300;
-    color: #6b7280;
+    color: #9ca3af;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);  /* Shadow for better readability over video */
 }
 
 @media (min-width: 768px) {
@@ -403,27 +420,30 @@ body {
 
 /* Interactive Section Styles */
 .interactive-bg {
-    background-color: white;
+    background-color: transparent;  /* Transparent so video shows through */
 }
 
 .interactive-title {
     font-size: 3rem;
     font-weight: 600;
-    color: #1f2937;
+    color: #ffffff;
     margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);  /* Shadow for better readability over video */
 }
 
 .interactive-subtitle {
     font-size: 1.875rem;
     font-weight: 300;
-    color: #4b5563;
+    color: #e5e7eb;
     margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);  /* Shadow for better readability over video */
 }
 
 .interactive-description {
     font-size: 1.875rem;
     font-weight: 300;
-    color: #6b7280;
+    color: #9ca3af;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);  /* Shadow for better readability over video */
 }
 
 @media (min-width: 768px) {
@@ -442,25 +462,25 @@ body {
 
 /* Footer Styles */
 .footer-bg {
-    background-color: #f9fafb;
+    background-color: #000000;
 }
 
 .footer-title {
     font-size: 2.25rem;
     font-weight: 700;
-    color: #1f2937;
+    color: #ffffff;
     margin-bottom: 2rem;
 }
 
 .footer-subtitle {
     font-size: 1.25rem;
-    color: #4b5563;
+    color: #e5e7eb;
     margin-bottom: 1rem;
 }
 
 .footer-description {
     font-size: 1.125rem;
-    color: #6b7280;
+    color: #9ca3af;
 }
 
 @media (min-width: 768px) {
