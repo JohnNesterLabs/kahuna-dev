@@ -5,10 +5,13 @@ body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    background-color: #000;
+    color: #fff;
 }
 
 .app-container {
-    background-color: white;
+    background-color: #000;
+    color: #fff;
 }
 
 /* Navigation Container */
@@ -41,6 +44,38 @@ body {
     top: 0;
 }
 
+/* Override for Section 2 to align content to the left */
+#section2Wrapper .section-content {
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+/* Override for Section 3 to align content to the left */
+#section3Wrapper .section-content {
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.text-top {
+    text-align: center;
+    align-self: flex-start;
+    padding-top: 2rem;
+}
+
+.text-left {
+    text-align: left;
+    align-self: flex-start;
+    justify-self: flex-start;
+    padding-left: 1rem;
+    padding-top: 4rem;
+    width: 100%;
+    max-width: 35%;
+    margin-left: 0;
+    position: relative;
+    left: 3rem;
+    margin-right: auto;
+}
+
 .nav-dot {
     width: 12px;
     height: 12px;
@@ -67,11 +102,9 @@ body {
     left: 50%;
     transform: translateX(-50%);
     z-index: 40;
-    width: 256px;
-    height: 144px;
-    border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    /* Width, height, and border-radius will be set dynamically via JavaScript */
 }
 
 .video-placeholder {
@@ -83,6 +116,13 @@ body {
     justify-content: center;
     color: white;
     font-weight: 600;
+}
+
+.floating-video-element {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
 }
 
 .pinned-image {
@@ -172,6 +212,11 @@ body {
     display: block;
 }
 
+.pinned-left.full-width {
+    width: 100%;
+    height: 100vh;
+}
+
 .frame-container {
     position: absolute;
     left: 0;
@@ -187,6 +232,15 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.full-width .frame-container {
+    width: 100%;
+    max-width: none;
+    height: 100vh;
+    border-radius: 0;
+    left: 0;
+    right: 0;
 }
 
 .frame {
@@ -207,12 +261,12 @@ body {
     top: 50%;
     transform: translateY(-50%);
     font-weight: 600;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(0, 0, 0, 0.9);
     padding: 18px 22px;
     border-radius: 10px;
     opacity: 0;
     max-width: 420px;
-    color: #333;
+    color: #fff;
 }
 
 .pinned-right {
@@ -294,159 +348,245 @@ body {
     }
 }
 
-@media (max-width: 768px) {
-    .floating-video {
-        width: 200px;
-        height: 112px;
-    }
-}
+/* Video sizing is now handled dynamically via JavaScript */
 
 /* Hero Section Styles */
 .hero-bg {
-    background-color: #F5F1E8;
+    background-color: #000;
 }
 
 .hero-content {
     padding: 0 1rem;
 }
 
-.hero-title {
-    font-size: 3.75rem;
-    font-weight: 700;
-    color: #1f2937;
-    margin-bottom: 2rem;
+.hero-paragraph1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
 }
 
-.hero-subtitle {
-    font-size: 2.25rem;
-    font-weight: 300;
-    color: #4b5563;
-    margin-bottom: 2rem;
+.hero-paragraph2 {
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
 }
 
-.hero-description {
-    font-size: 1.875rem;
+.hero-paragraph3 {
+    font-size: 1.125rem;
     font-weight: 300;
-    color: #6b7280;
+    color: #fff;
+    line-height: 1.6;
 }
 
 @media (min-width: 768px) {
-    .hero-title {
-        font-size: 5rem;
-    }
-
-    .hero-subtitle {
-        font-size: 3.75rem;
-    }
-
-    .hero-description {
+    .hero-paragraph1 {
         font-size: 3rem;
+    }
+
+    .hero-paragraph2 {
+        font-size: 1.75rem;
+    }
+
+    .hero-paragraph3 {
+        font-size: 1.5rem;
     }
 }
 
 /* Smooth Scrolling Section Styles */
 .smooth-bg {
-    background-color: #E5E5E5;
+    background-color: #000;
 }
 
 .section-content-padding {
     padding: 0 1rem;
 }
 
-.smooth-title {
-    font-size: 3rem;
-    font-weight: 600;
-    color: #1f2937;
-    margin-bottom: 2rem;
+.smooth-paragraph1 {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
 }
 
-.smooth-subtitle {
-    font-size: 1.875rem;
-    font-weight: 300;
-    color: #4b5563;
-    margin-bottom: 2rem;
+.smooth-paragraph2 {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
 }
 
-.smooth-description {
-    font-size: 1.875rem;
-    font-weight: 300;
-    color: #6b7280;
+.smooth-paragraph3 {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
 }
 
 @media (min-width: 768px) {
-    .smooth-title {
-        font-size: 4.5rem;
+    .smooth-paragraph1 {
+        font-size: 1.8rem;
     }
 
-    .smooth-subtitle {
-        font-size: 3rem;
+    .smooth-paragraph2 {
+        font-size: 1.8rem;
     }
 
-    .smooth-description {
-        font-size: 3rem;
+    .smooth-paragraph3 {
+        font-size: 1.8rem;
     }
 }
 
 /* Interactive Section Styles */
 .interactive-bg {
-    background-color: white;
+    background-color: #000;
 }
 
-.interactive-title {
-    font-size: 3rem;
+.section3-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+    padding-left: 0.5rem;
+    width: 100%;
+    margin-right: auto;
+}
+
+/* Word Loop Container */
+.word-loop-container {
+    position: absolute;
+    right: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 400px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.word-loop-item {
+    position: absolute;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(100px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+    padding: 0 20px;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.word-loop-item.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.word-loop-item.slide-up {
+    opacity: 0;
+    transform: translateY(-100px);
+}
+
+.section3-title {
+    font-size: 2rem;
     font-weight: 600;
-    color: #1f2937;
-    margin-bottom: 2rem;
-}
-
-.interactive-subtitle {
-    font-size: 1.875rem;
-    font-weight: 300;
-    color: #4b5563;
-    margin-bottom: 2rem;
-}
-
-.interactive-description {
-    font-size: 1.875rem;
-    font-weight: 300;
-    color: #6b7280;
+    color: #fff;
+    margin: 0;
+    text-align: left;
 }
 
 @media (min-width: 768px) {
-    .interactive-title {
-        font-size: 4.5rem;
+    .section3-content {
+        padding-left: 1rem;
     }
 
-    .interactive-subtitle {
-        font-size: 3rem;
+    .section3-title {
+        font-size: 1.8rem;
     }
 
-    .interactive-description {
-        font-size: 3rem;
+    .text-top {
+        padding-top: 6rem;
+    }
+
+    .text-left {
+        padding-left: 0.5rem;
+        padding-top: 4rem;
+        max-width: 40%;
+    }
+
+    .word-loop-container {
+        right: 2rem;
+        width: 350px;
+        height: 80px;
+    }
+
+    .word-loop-item {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .section3-content {
+        padding-left: 0.25rem;
+    }
+
+    .section3-title {
+        font-size: 1.8rem;
+    }
+
+    .text-left {
+        padding-left: 0;
+        padding-top: 1rem;
+        max-width: 80%;
+    }
+
+    .word-loop-container {
+        right: 1rem;
+        width: 280px;
+        height: 60px;
+    }
+
+    .word-loop-item {
+        font-size: 1.5rem;
+    }
+
+    .text-top {
+        padding-top: 1rem;
     }
 }
 
 /* Footer Styles */
 .footer-bg {
-    background-color: #f9fafb;
+    background-color: #000;
 }
 
 .footer-title {
     font-size: 2.25rem;
     font-weight: 700;
-    color: #1f2937;
+    color: #fff;
     margin-bottom: 2rem;
 }
 
 .footer-subtitle {
     font-size: 1.25rem;
-    color: #4b5563;
+    color: #fff;
     margin-bottom: 1rem;
 }
 
 .footer-description {
     font-size: 1.125rem;
-    color: #6b7280;
+    color: #fff;
 }
 
 @media (min-width: 768px) {
