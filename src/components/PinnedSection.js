@@ -33,21 +33,13 @@ const PinnedSection = () => {
     return (
         <div className="pinned-section neon-border" id="section4Wrapper">
             <div className="pinned-inner">
-                {/* Left: Frame container for animated frames */}
-                <div className="pinned-left">
+                {/* Frame container for animated frames - now full width */}
+                <div className="pinned-left full-width">
                     <div className="frame-container" id="frame-container" ref={frameContainerRef}>
                         {/* Frames will be dynamically loaded here */}
                     </div>
                     <div className="section-label" id="section-label">
                         Pinned Content Area
-                    </div>
-                </div>
-                {/* Right: Single image used for all sections */}
-                <div className="pinned-right">
-                    <div className="image-wrap" id="the-image">
-                        <div className="placeholder-image">
-                            Pinned Visual
-                        </div>
                     </div>
                 </div>
             </div>

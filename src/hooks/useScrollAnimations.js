@@ -119,6 +119,19 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             .to('.section3-line2', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" })
             .to('.section3-line3', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" });
 
+        // Add transition trigger to ensure smooth transition to section 4
+        ScrollTrigger.create({
+            trigger: '#section3Wrapper',
+            start: 'bottom top',
+            end: 'bottom top',
+            onEnter: () => {
+                setActiveSection(3);
+            },
+            onLeave: () => {
+                setActiveSection(3);
+            }
+        });
+
         // Hide video after section 3
         gsap.timeline({
             scrollTrigger: {
@@ -150,6 +163,9 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             end: '+=2500%',
             scrub: 1,
             pin: true,
+            onEnter: () => {
+                setActiveSection(3);
+            },
             onUpdate: (self) => {
                 if (self.progress < 0.95) {
                     setActiveSection(3);
