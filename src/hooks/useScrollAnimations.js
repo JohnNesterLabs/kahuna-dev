@@ -134,6 +134,16 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
         const totalFrames = 428;
         let currentFrameIndex = 0;
 
+        // Initialize frames array for GSAP
+        const frames = [];
+        for (let i = 1; i <= totalFrames; i++) {
+            frames.push(`#frame-${i}`);
+        }
+
+        // Set all frames as hidden initially
+        gsap.set(frames, { autoAlpha: 0 });
+        gsap.set('#frame-1', { autoAlpha: 1 });
+
         ScrollTrigger.create({
             trigger: '#section4Wrapper',
             start: 'top top',
@@ -152,17 +162,22 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
 
                 if (targetFrameIndex !== currentFrameIndex && targetFrameIndex >= 0 && targetFrameIndex < totalFrames) {
                     // Hide current frame
-                    const currentFrame = document.getElementById(`frame-${currentFrameIndex + 1}`);
-                    if (currentFrame) {
-                        gsap.set(currentFrame, { autoAlpha: 0 });
+                    if (frames[currentFrameIndex]) {
+                        gsap.set(frames[currentFrameIndex], { autoAlpha: 0 });
                     }
 
                     // Show new frame
-                    const newFrame = document.getElementById(`frame-${targetFrameIndex + 1}`);
-                    if (newFrame) {
-                        gsap.set(newFrame, { autoAlpha: 1 });
-                        currentFrameIndex = targetFrameIndex;
+                    const newFrameSel = frames[targetFrameIndex];
+                    const frameElement = document.getElementById(`frame-${targetFrameIndex + 1}`);
+
+                    // Load frame image if not already loaded
+                    if (frameElement && !frameElement.src) {
+                        const frameNumber = (targetFrameIndex + 1).toString().padStart(4, '0');
+                        frameElement.src = `/frames-desktop-webp/frame_${frameNumber}.webp`;
                     }
+
+                    gsap.set(newFrameSel, { autoAlpha: 1 });
+                    currentFrameIndex = targetFrameIndex;
                 }
             }
         });

@@ -11,16 +11,21 @@ const PinnedSection = () => {
             // Clear existing frames
             frameContainerRef.current.innerHTML = '';
 
-            // Create all frame elements
+            // Create all frame elements (without src initially)
             for (let i = 1; i <= totalFrames; i++) {
-                const frameNumber = i.toString().padStart(4, '0');
                 const img = document.createElement('img');
                 img.className = 'frame';
                 img.id = `frame-${i}`;
                 img.alt = `Frame ${i}`;
-                img.src = `public/frames-desktop-webp/frame_${frameNumber}.webp`;
+                // Don't set src initially - will be loaded dynamically
                 img.style.opacity = i === 1 ? '1' : '0';
                 frameContainerRef.current.appendChild(img);
+            }
+
+            // Load the first frame
+            const firstFrame = document.getElementById('frame-1');
+            if (firstFrame) {
+                firstFrame.src = '/frames-desktop-webp/frame_0001.webp';
             }
         }
     }, [totalFrames]);
@@ -40,7 +45,9 @@ const PinnedSection = () => {
                 {/* Right: Single image used for all sections */}
                 <div className="pinned-right">
                     <div className="image-wrap" id="the-image">
-                        <img src="public/new-model.png" alt="Pinned visual" />
+                        <div className="placeholder-image">
+                            Pinned Visual
+                        </div>
                     </div>
                 </div>
             </div>
