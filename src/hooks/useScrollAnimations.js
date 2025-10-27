@@ -244,7 +244,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                 end: 'bottom bottom',
                 scrub: 1,
                 onUpdate: (self) => {
-                    // Smoothly transition size based on scroll progress
+                    // Smoothly transition size based on scroll progresss
                     const progress = self.progress;
                     const section1To2Config = getGSAPConfig('section1To2');
                     const section2Config = getGSAPConfig('section2');
