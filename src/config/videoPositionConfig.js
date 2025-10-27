@@ -13,7 +13,7 @@ export const VIDEO_POSITION_CONFIG = {
     // Section 1: BOTTOM position (hero section)
     section1: {
       mobile: {
-        bottom: '5%',           // Very close to bottom on mobile
+        bottom: '-50%',           // Very close to bottom on mobile
         left: '50%',
         transform: 'translateX(-50%)',
         zIndex: 40
@@ -25,7 +25,7 @@ export const VIDEO_POSITION_CONFIG = {
         zIndex: 40
       },
       desktop: {
-        bottom: '10%',          // More space from bottom on desktop
+        bottom: '-60%',          // More space from bottom on desktop
         left: '50%',
         transform: 'translateX(-50%)',
         zIndex: 40
@@ -48,7 +48,7 @@ export const VIDEO_POSITION_CONFIG = {
       },
       desktop: {
         bottom: '50%',          // Move to vertical center
-        left: '80%',            // Move to right side
+        left: '95%',            // Move to right side
         transform: 'translate(-50%, 50%)',
         zIndex: 40
       }
@@ -70,7 +70,7 @@ export const VIDEO_POSITION_CONFIG = {
       },
       desktop: {
         bottom: '50%',          // Vertical center
-        left: '80%',            // Right side of screen
+        left: '95%',            // Right side of screen
         transform: 'translate(-50%, 50%)',
         zIndex: 40
       }
