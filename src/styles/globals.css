@@ -16,11 +16,11 @@ body {
     right: 0;
     z-index: 1000;
     background-color: transparent;
-    padding: 40px 0;
+    padding: 40px 80px;
 }
 
 .header-container {
-    max-width: 1200px;
+    /* max-width: 1200px; */
     margin: 0 auto;
     padding: 0 24px;
     display: flex;
@@ -598,7 +598,7 @@ body {
     font-size: 2.5rem;
     font-weight: 700;
     color: #ffffff;
-    margin-bottom: 2rem;
+    margin-bottom: 21px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     /* Shadow for better readability over video */
 }
@@ -606,8 +606,9 @@ body {
 .hero-paragraph-2 {
     font-size: 1.5rem;
     font-weight: 300;
-    color: #e5e7eb;
-    margin-bottom: 2rem;
+    color: rgba(255, 255, 255, 0.75);
+    padding: 0px;
+    margin: 0px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     /* Shadow for better readability over video */
 }
@@ -761,23 +762,25 @@ body {
     justify-content: center;
     text-align: left;
     max-width: 50%;
-    margin-left: 2rem;
+    margin-left: 189px;
 }
 
 .smooth-paragraph-1 {
-    font-size: 2rem;
-    font-weight: 300;
+    font-size: 28px;
+    font-weight: 400;
     color: #ffffff;
-    margin-bottom: 2rem;
+    padding: 0px;
+    margin-bottom: 36px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     /* Shadow for better readability over video */
 }
 
 .smooth-paragraph-2 {
-    font-size: 1.25rem;
-    font-weight: 300;
-    color: #e5e7eb;
-    margin-bottom: 2rem;
+    font-size: 28px;
+    font-weight: 400;
+    color: #ffffff;
+    padding: 0px;
+    margin: 0px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     /* Shadow for better readability over video */
 }
@@ -793,17 +796,20 @@ body {
 /* Smooth Section Responsive Design */
 @media (min-width: 1024px) {
     .smooth-paragraph-1 {
-        font-size: 2.5rem;
+        font-size: 28px;
+        font-weight: 400;
         line-height: 1.2;
     }
 
     .smooth-paragraph-2 {
-        font-size: 2rem;
+        font-size: 28px;
+        font-weight: 400;
         line-height: 1.3;
     }
 
     .smooth-paragraph-3 {
-        font-size: 2rem;
+        font-size: 28px;
+        font-weight: 400;
         line-height: 1.3;
     }
 }
@@ -900,7 +906,6 @@ body {
     transition: opacity 0.8s ease-in-out;
     pointer-events: none;
     text-align: center;
-    max-width: 800px;
     padding: 0 2rem;
 }
 .section4-text-overlay.visible {
@@ -920,7 +925,8 @@ body {
 /* Desktop styles for section 4 text */
 @media (min-width: 1024px) {
     .section4-main-text {
-        font-size: 2rem;
+        font-size: 36px;
+        font-weight: 500;
         line-height: 1.1;
         white-space: nowrap;
         /* Ensure single line on desktop */
@@ -929,7 +935,8 @@ body {
 /* Tablet styles for section 4 text */
 @media (min-width: 768px) and (max-width: 1023px) {
     .section4-main-text {
-        font-size: 1.6rem;
+        font-size: 36px;
+        font-weight: 500;
         line-height: 1.2;
         white-space: nowrap;
         /* Ensure single line on tablet */
@@ -961,7 +968,7 @@ body {
 .word-loop-container {
     position: absolute;
     right: 1rem;
-    top: 50%;
+    top: 57%;
     transform: translateY(-50%);
     width: 500px;
     height: 120px;
@@ -1003,7 +1010,8 @@ body {
 
 @media (min-width: 768px) {
     .word-item {
-        font-size: 1.8rem;
+        font-size: 36px;
+        font-weight: 500;
     }
 }
 
@@ -1061,12 +1069,14 @@ body {
 /* Interactive Section Responsive Design */
 @media (min-width: 1024px) {
     .interactive-paragraph-1 {
-        font-size: 1.8rem;
+        font-size: 36px;
+        font-weight: 500;
         line-height: 1.3;
     }
 
     .interactive-paragraph-2 {
-        font-size: 1.5rem;
+        font-size: 36px;
+        font-weight: 500;
         line-height: 1.4;
     }
 
