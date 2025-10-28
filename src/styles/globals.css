@@ -343,7 +343,7 @@ body {
     object-fit: cover;
     display: block;
     opacity: 0;
-    will-change: transform, opacity;
+    /* will-change: transform, opacity; */
     position: absolute;
     top: 0;
     left: 0;
@@ -902,7 +902,7 @@ body {
     text-align: center;
     pointer-events: none;
     /* Prevent any interaction issues */
-    will-change: opacity, transform;
+    /* will-change: opacity, transform; */
     /* Optimize for animations */
 }
 
