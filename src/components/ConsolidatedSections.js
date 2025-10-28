@@ -17,7 +17,13 @@ const ConsolidatedSections = () => {
 
                         </p>
                     </div>
+                    <div className="section1-scroll-indicator">
+                        <div className="scroll-text">SCROLL</div>
+                        <img className="scroll-arrow" src="/arrow.png" alt="Scroll arrow" />
+                    </div>
+                    <div className="section1-scroll-overlay"></div>
                 </div>
+
             </div>
 
             {/* Section 2 - Smooth Scrolling */}

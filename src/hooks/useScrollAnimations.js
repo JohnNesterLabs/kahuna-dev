@@ -57,7 +57,25 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                             });
                         }
                     }
+                    // Show/hide SCROLL indicator based on 2nd paragraph visibility
+                    const line2Element = document.querySelector('.section1-line2');
+                    const scrollIndicator = document.querySelector('.section1-scroll-indicator');
+                    const scrollOverlay = document.querySelector('.section1-scroll-overlay');
+                    if (line2Element && scrollIndicator && scrollOverlay) {
+                        const line2Opacity = gsap.getProperty(line2Element, 'opacity');
+                        // Only show when 2nd paragraph is clearly visible (opacity > 0.8)
+                        if (line2Opacity > 0.8) {
+                            // 2nd paragraph is visible, show SCROLL indicator and overlay
+                            scrollIndicator.classList.add('visible');
+                            scrollOverlay.classList.add('visible');
+                        } else {
+                            // 2nd paragraph is not visible enough, hide SCROLL indicator and overlay
+                            scrollIndicator.classList.remove('visible');
+                            scrollOverlay.classList.remove('visible');
+                        }
+                    }
                 }
+                
             }
         })
             .to('.section1-line2', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" })
@@ -66,6 +84,18 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             .to('.section1-line1', { opacity: 0, y: -50, duration: 0.3, ease: "power2.out" }, "+=0.2")
             .to('.section1-line2', { opacity: 0, y: -50, duration: 0.3, ease: "power2.out" }, "-=0.1")
             .to('.section1-line3', { opacity: 0, y: -50, duration: 0.3, ease: "power2.out" }, "-=0.1");
+
+            // Hide SCROLL indicator and overlay when entering section 2
+        ScrollTrigger.create({
+            trigger: '#section2Wrapper',
+            start: 'top bottom',
+            onEnter: () => {
+                const scrollIndicator = document.querySelector('.section1-scroll-indicator');
+                const scrollOverlay = document.querySelector('.section1-scroll-overlay');
+                if (scrollIndicator) scrollIndicator.classList.remove('visible');
+                if (scrollOverlay) scrollOverlay.classList.remove('visible');
+            }
+        });
 
         // Video movement from bottom to right (between Section 1 and 2)
         gsap.timeline({
