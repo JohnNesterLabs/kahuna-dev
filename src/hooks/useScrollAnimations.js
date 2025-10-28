@@ -315,6 +315,38 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             }
         });
 
+        // Show section 4 text when section 3 bottom reaches center of viewport
+        ScrollTrigger.create({
+            trigger: '#section3Wrapper',
+            start: 'bottom center',
+            end: 'bottom center',
+            onEnter: () => {
+                const textOverlay = document.getElementById('section4-text-overlay');
+                if (textOverlay) {
+                    textOverlay.classList.add('visible');
+                }
+            },
+            onLeave: () => {
+                const textOverlay = document.getElementById('section4-text-overlay');
+                if (textOverlay) {
+                    textOverlay.classList.remove('visible');
+                }
+            },
+            onEnterBack: () => {
+                const textOverlay = document.getElementById('section4-text-overlay');
+                if (textOverlay) {
+                    textOverlay.classList.add('visible');
+                }
+            },
+            onLeaveBack: () => {
+                const textOverlay = document.getElementById('section4-text-overlay');
+                if (textOverlay) {
+                    textOverlay.classList.remove('visible');
+                }
+            }
+        });
+
+
         // Hide video after section 3
         gsap.timeline({
             scrollTrigger: {
@@ -344,6 +376,22 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
         // Set all frames as hidden initially
         gsap.set(frames, { autoAlpha: 0 });
         gsap.set('#frame-1', { autoAlpha: 1 });
+
+        // Function to check if device is mobile
+        const isMobile = () => window.innerWidth <= 768;
+        // Function to get frame limit based on device
+        const getFrameLimit = () => isMobile() ? 64 : 60; // Same for both, but can be customized
+        // Function to control section 4 text visibility
+        const controlSection4Text = (frameIndex) => {
+            const textOverlay = document.getElementById('section4-text-overlay');
+            if (!textOverlay) return;
+            const frameLimit = getFrameLimit();
+            if (frameIndex <= frameLimit) {
+                textOverlay.classList.add('visible');
+            } else {
+                textOverlay.classList.remove('visible');
+            }
+        };
 
         ScrollTrigger.create({
             trigger: '#section4Wrapper',
@@ -375,6 +423,9 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                     gsap.set(newFrameSel, { autoAlpha: 1 });
                     currentFrameIndex = targetFrameIndex;
                 }
+
+                // Control section 4 text visibility based on current frame
+                controlSection4Text(currentFrameIndex);
             }
         });
 

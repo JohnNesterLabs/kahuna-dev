@@ -40,6 +40,12 @@ const PinnedSection = () => {
                         Pinned Content Area
                     </div>
                 </div>
+                {/* New text that fades in when section 3 bottom reaches center */}
+                <div className="section4-text-overlay" id="section4-text-overlay">
+                    <p className="section4-main-text">
+                        AI that automatically builds and nurtures your Troubleshooting Map
+                    </p>
+                </div>
             </div>
         </div>
     );
