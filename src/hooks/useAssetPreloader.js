@@ -36,7 +36,7 @@ const getAssetsToPreload = () => {
     } else {
         return [
             ...baseAssets,
-            ...generateWebPDesktopFramePaths(364, '/frames-full-desktop/')
+            ...generateWebPDesktopFramePaths(134, '/frames-desktop-webp/')
         ];
     }
 };
@@ -51,8 +51,8 @@ const generateWebPMobileFramePaths = (totalFrames = 241, folderPath = '/frames-f
     return frames;
 };
 
-// Generate WebP desktop frame paths
-const generateWebPDesktopFramePaths = (totalFrames = 364, folderPath = '/frames-full-desktop/') => {
+// Generate WebP desktop frame paths for section4 animation
+const generateWebPDesktopFramePaths = (totalFrames = 134, folderPath = '/frames-desktop-webp/') => {
     const frames = [];
     for (let i = 1; i <= totalFrames; i++) {
         const frameNumber = i.toString().padStart(4, '0');

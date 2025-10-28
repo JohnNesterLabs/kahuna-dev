@@ -5,27 +5,25 @@ const PinnedSection = () => {
     const [currentFrame, setCurrentFrame] = useState(1);
     const totalFrames = 134;
 
-    // Create frame elements dynamically
+    // Create frame elements and preload all frames
     useEffect(() => {
         if (frameContainerRef.current) {
             // Clear existing frames
             frameContainerRef.current.innerHTML = '';
 
-            // Create all frame elements (without src initially)
+            // Create all frame elements with preloaded src
             for (let i = 1; i <= totalFrames; i++) {
                 const img = document.createElement('img');
                 img.className = 'frame';
                 img.id = `frame-${i}`;
                 img.alt = `Frame ${i}`;
-                // Don't set src initially - will be loaded dynamically
+                
+                // Set src immediately - frames are preloaded by useAssetPreloader
+                const frameNumber = i.toString().padStart(4, '0');
+                img.src = `/frames-desktop-webp/frame_${frameNumber}.webp`;
                 img.style.opacity = i === 1 ? '1' : '0';
+                
                 frameContainerRef.current.appendChild(img);
-            }
-
-            // Load the first frame
-            const firstFrame = document.getElementById('frame-1');
-            if (firstFrame) {
-                firstFrame.src = '/frames-desktop-webp/frame_0001.webp';
             }
         }
     }, [totalFrames]);

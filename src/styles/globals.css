@@ -1085,7 +1085,7 @@ body {
     padding: 80px 0 40px;
     position: relative;
     display: flex;
-    align-items: center;
+    align-items: left;
     box-sizing: border-box;
 }
 
@@ -1165,6 +1165,7 @@ body {
 .carousel-container {
     position: relative;
     height: 1.5em;
+    text-align: start;
     /* Fixed height to prevent layout shift */
     overflow: hidden;
 }
@@ -1195,10 +1196,19 @@ body {
     opacity: 1 !important;
 }
 
+.footer-links-container {
+    display: flex;
+    /* justify-content: space-between; */
+    width: 100%;
+    gap: 80px;
+}
+
 .footer-links {
     display: flex;
-    gap: 80px;
-    flex-shrink: 0;
+    justify-content: space-between;
+    /* gap: 80px; */
+    width: 100%;
+    /* flex-shrink: 0; */
 }
 
 .footer-column {
@@ -1213,6 +1223,7 @@ body {
     color: #9ca3af;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    text-align: start;
     margin: 0;
 }
 
@@ -1222,6 +1233,7 @@ body {
     margin: 0;
     display: flex;
     flex-direction: column;
+    align-items: start;
     gap: 12px;
 }
 
@@ -1266,15 +1278,15 @@ body {
 .footer-bottom {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: end;
     padding-top: 40px;
-    border-top: 1px solid #333333;
     gap: 40px;
 }
 
 .footer-bottom-left {
     flex: 1;
-    max-width: 600px;
+    text-align: start;
+    /* max-width: 600px; */
 }
 
 .footer-legal-text {
@@ -1297,7 +1309,8 @@ body {
 
 .footer-logo {
     display: flex;
-    align-items: center;
+    align-items: end;
+    justify-content: end;
     gap: 12px;
 }
 

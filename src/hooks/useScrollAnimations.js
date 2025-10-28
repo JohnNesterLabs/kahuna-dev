@@ -370,16 +370,8 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                         gsap.set(frames[currentFrameIndex], { autoAlpha: 0 });
                     }
 
-                    // Show new frame
+                    // Show new frame (no dynamic loading - frames are preloaded)
                     const newFrameSel = frames[targetFrameIndex];
-                    const frameElement = document.getElementById(`frame-${targetFrameIndex + 1}`);
-
-                    // Load frame image if not already loaded
-                    if (frameElement && !frameElement.src) {
-                        const frameNumber = (targetFrameIndex + 1).toString().padStart(4, '0');
-                        frameElement.src = `/frames-desktop-webp/frame_${frameNumber}.webp`;
-                    }
-
                     gsap.set(newFrameSel, { autoAlpha: 1 });
                     currentFrameIndex = targetFrameIndex;
                 }
