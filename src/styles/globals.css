@@ -40,8 +40,10 @@ body {
     justify-content: center;
     position: sticky;
     top: 0;
-    z-index: 100;  /* Higher than video (z-index: 40) */
-    background: transparent;  /* Transparent so video shows through */
+    z-index: 100;
+    /* Higher than video (z-index: 40) */
+    background: transparent;
+    /* Transparent so video shows through */
 }
 
 .nav-dot {
@@ -316,147 +318,272 @@ body {
     .floating-video {
         /* Video sizing is now handled dynamically via JavaScript */
         /* No additional mobile-specific styles needed */
-        z-index: 40;  /* Ensure video z-index is maintained on mobile */
+        z-index: 40;
+        /* Ensure video z-index is maintained on mobile */
     }
 }
 
 /* Hero Section Styles */
 .hero-bg {
-    background-color: transparent;  /* Transparent so video shows through */
+    background-color: transparent;
+    /* Transparent so video shows through */
+    align-items: flex-start !important;
+    justify-content: center !important;
+    padding-top: 4rem;
 }
 
 .hero-content {
     padding: 0 1rem;
-    z-index: 100;  /* Higher than video (z-index: 40) */
-    background: transparent;  /* Transparent so video shows through */
+    z-index: 100;
+    /* Higher than video (z-index: 40) */
+    background: transparent;
+    /* Transparent so video shows through */
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 4rem;
 }
 
-.hero-title {
-    font-size: 3.75rem;
+.hero-paragraph-1 {
+    font-size: 2.5rem;
     font-weight: 700;
     color: #ffffff;
     margin-bottom: 2rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);  /* Shadow for better readability over video */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    /* Shadow for better readability over video */
 }
 
-.hero-subtitle {
-    font-size: 2.25rem;
+.hero-paragraph-2 {
+    font-size: 1.5rem;
     font-weight: 300;
     color: #e5e7eb;
     margin-bottom: 2rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);  /* Shadow for better readability over video */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    /* Shadow for better readability over video */
 }
 
-.hero-description {
-    font-size: 1.875rem;
+.hero-paragraph-3 {
+    font-size: 1.25rem;
     font-weight: 300;
     color: #9ca3af;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);  /* Shadow for better readability over video */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    /* Shadow for better readability over video */
 }
 
 @media (min-width: 768px) {
-    .hero-title {
-        font-size: 5rem;
+    .hero-paragraph-1 {
+        font-size: 3.5rem;
     }
 
-    .hero-subtitle {
-        font-size: 3.75rem;
+    .hero-paragraph-2 {
+        font-size: 2.5rem;
     }
 
-    .hero-description {
-        font-size: 3rem;
+    .hero-paragraph-3 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-bg {
+        padding-top: 2rem;
+    }
+
+    .section-content-padding {
+        max-width: 90%;
+        margin-left: 1rem;
+        margin-right: 1rem;
     }
 }
 
 /* Smooth Scrolling Section Styles */
 .smooth-bg {
-    background-color: transparent;  /* Transparent so video shows through */
+    background-color: transparent;
+    /* Transparent so video shows through */
+    align-items: center !important;
+    justify-content: flex-start !important;
 }
 
 .section-content-padding {
     padding: 0 1rem;
-    z-index: 100;  /* Higher than video (z-index: 40) */
-    background: transparent;  /* Transparent so video shows through */
+    z-index: 100;
+    /* Higher than video (z-index: 40) */
+    background: transparent;
+    /* Transparent so video shows through */
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: left;
+    max-width: 50%;
+    margin-left: 2rem;
 }
 
-.smooth-title {
-    font-size: 3rem;
-    font-weight: 600;
+.smooth-paragraph-1 {
+    font-size: 2rem;
+    font-weight: 300;
     color: #ffffff;
     margin-bottom: 2rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);  /* Shadow for better readability over video */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    /* Shadow for better readability over video */
 }
 
-.smooth-subtitle {
-    font-size: 1.875rem;
+.smooth-paragraph-2 {
+    font-size: 1.25rem;
     font-weight: 300;
     color: #e5e7eb;
     margin-bottom: 2rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);  /* Shadow for better readability over video */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    /* Shadow for better readability over video */
 }
 
-.smooth-description {
-    font-size: 1.875rem;
+.smooth-paragraph-3 {
+    font-size: 1.25rem;
     font-weight: 300;
     color: #9ca3af;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);  /* Shadow for better readability over video */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    /* Shadow for better readability over video */
 }
 
 @media (min-width: 768px) {
-    .smooth-title {
-        font-size: 4.5rem;
+    .smooth-paragraph-1 {
+        font-size: 2rem;
     }
 
-    .smooth-subtitle {
-        font-size: 3rem;
+    .smooth-paragraph-2 {
+        font-size: 2rem;
     }
 
-    .smooth-description {
-        font-size: 3rem;
+    .smooth-paragraph-3 {
+        font-size: 2rem;
     }
 }
 
 /* Interactive Section Styles */
 .interactive-bg {
-    background-color: transparent;  /* Transparent so video shows through */
+    background-color: transparent;
+    /* Transparent so video shows through */
+    align-items: center !important;
+    justify-content: flex-start !important;
+    flex-direction: row !important;
+    padding-left: 2rem;
 }
 
-.interactive-title {
-    font-size: 3rem;
+/* Word Loop Container */
+.word-loop-container {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 500px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    overflow: hidden;
+    /* Ensure words don't overflow the container */
+}
+
+.word-loop-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.word-item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
     font-weight: 600;
     color: #ffffff;
-    margin-bottom: 2rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);  /* Shadow for better readability over video */
-}
-
-.interactive-subtitle {
-    font-size: 1.875rem;
-    font-weight: 300;
-    color: #e5e7eb;
-    margin-bottom: 2rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);  /* Shadow for better readability over video */
-}
-
-.interactive-description {
-    font-size: 1.875rem;
-    font-weight: 300;
-    color: #9ca3af;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);  /* Shadow for better readability over video */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    opacity: 0;
+    white-space: nowrap;
+    z-index: 1;
+    transition: none;
+    /* Disable CSS transitions to let GSAP handle animations */
+    text-align: center;
+    pointer-events: none;
+    /* Prevent any interaction issues */
+    will-change: opacity, transform;
+    /* Optimize for animations */
 }
 
 @media (min-width: 768px) {
-    .interactive-title {
-        font-size: 4.5rem;
+    .word-item {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 900px) {
+    .interactive-bg {
+        flex-direction: column !important;
+        justify-content: center !important;
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 
-    .interactive-subtitle {
-        font-size: 3rem;
+    .word-loop-container {
+        position: relative;
+        right: auto;
+        top: auto;
+        transform: none;
+        width: 100%;
+        height: 80px;
+        margin-top: 2rem;
     }
 
-    .interactive-description {
-        font-size: 3rem;
+    .word-item {
+        font-size: 1.2rem;
+    }
+}
+
+.interactive-paragraph-1 {
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: #ffffff;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    /* Shadow for better readability over video */
+    text-align: left;
+    max-width: 400px;
+}
+
+.interactive-paragraph-2 {
+    font-size: 1.25rem;
+    font-weight: 300;
+    color: #e5e7eb;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    /* Shadow for better readability over video */
+}
+
+.interactive-paragraph-3 {
+    font-size: 1.25rem;
+    font-weight: 300;
+    color: #9ca3af;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    /* Shadow for better readability over video */
+}
+
+@media (min-width: 768px) {
+    .interactive-paragraph-1 {
+        font-size: 1.6rem;
+    }
+
+    .interactive-paragraph-2 {
+        font-size: 1.4rem;
+    }
+
+    .interactive-paragraph-3 {
+        font-size: 1.4rem;
     }
 }
 
