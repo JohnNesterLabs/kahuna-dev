@@ -1,6 +1,5 @@
 import React from 'react';
 import Header from './Header';
-import Navigation from './Navigation';
 import FloatingVideo from './FloatingVideo';
 import ConsolidatedSections from './ConsolidatedSections';
 import PinnedSection from './PinnedSection';
@@ -8,19 +7,13 @@ import Footer from './Footer';
 import { useNavigation, useScrollAnimations } from '../hooks';
 
 const Home = () => {
-  const { activeSection, setActiveSection, handleSectionClick } = useNavigation();
+  const { activeSection, setActiveSection } = useNavigation();
   const { videoRef } = useScrollAnimations(activeSection, setActiveSection);
 
   return (
     <div className="app-container">
       {/* Header - Visible in sections 1, 2, 3, 4 but not footer */}
       <Header />
-
-      {/* Navigation Dots */}
-      <Navigation
-        activeSection={activeSection}
-        onSectionClick={handleSectionClick}
-      />
 
       {/* Floating Video */}
       <FloatingVideo ref={videoRef} />

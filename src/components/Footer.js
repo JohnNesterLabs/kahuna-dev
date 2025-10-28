@@ -117,7 +117,7 @@ const Footer = () => {
                         <div className="footer-column">
                             <h3 className="footer-column-title">TECHNOLOGY</h3>
                             <ul className="footer-link-list">
-                                <li><a href="#" className="footer-link">Frontline Productivity</a></li>
+                                {/* <li><a href="#" className="footer-link">Frontline Productivity</a></li> */}
                                 <li><a href="#" className="footer-link">How Complex is Your Support?</a></li>
                             </ul>
                         </div>
