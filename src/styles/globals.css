@@ -8,6 +8,175 @@ body {
     background-color: #000000;
 }
 
+/* Header Styles */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: transparent;
+    padding: 40px 0;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-company-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.header-cta-button {
+    background: #0020B0;
+    color: #ffffff;
+    border: none;
+    border-radius: 4.25px;
+    padding: 11px 19px;
+    font-size: 12.4px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.header-cta-button:hover {
+    background-color: white;
+    color: black;
+    transform: translateY(-1px);
+}
+
+.header-cta-button:active {
+    transform: translateY(0);
+}
+
+/* Header visibility is controlled by JavaScript */
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .main-header {
+        padding: 20px 0;
+    }
+    
+    .header-container {
+        padding: 0 20px;
+        max-width: 100%;
+        width: 100%;
+    }
+    
+    .header-left {
+        gap: 8px;
+    }
+    
+    .header-logo {
+        width: 142px;
+        height: 28px;
+        flex-shrink: 0;
+    }
+    
+    .header-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+    
+    .header-company-name {
+        font-size: 1rem;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+    
+    .header-cta-button {
+        padding: 8px 16px;
+        font-size: 11px;
+        font-weight: 400;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-header {
+        padding: 16px 20px;
+    }
+    
+    .header-container {
+        padding: 0 16px;
+        min-width: 0; /* Allow flex items to shrink */
+    }
+    
+    .header-left {
+        gap: 6px;
+        min-width: 0; /* Allow text to shrink */
+        flex: 1; /* Take available space */
+    }
+    
+    .header-logo {
+        width: 142px;
+        height: 28px;
+        flex-shrink: 0;
+    }
+    
+    .header-company-name {
+        font-size: 0.9rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    .header-right {
+        flex-shrink: 0; /* Prevent button from shrinking */
+    }
+    
+    .header-cta-button {
+        padding: 6px 12px;
+        font-size: 10px;
+    }
+}
+
+/* Extra small screens (320px and below) */
+@media (max-width: 320px) {
+    .header-container {
+        padding: 0 12px;
+    }
+    
+    .header-company-name {
+        font-size: 0.8rem;
+    }
+    
+    .header-cta-button {
+        padding: 5px 10px;
+        font-size: 9px;
+    }
+}
+
 .app-container {
     background-color: #000000;
 }
@@ -44,6 +213,7 @@ body {
     /* Higher than video (z-index: 40) */
     background: transparent;
     /* Transparent so video shows through */
+    padding-top: 80px;  /* Account for fixed header */
 }
 
 .nav-dot {
@@ -344,6 +514,39 @@ body {
     align-items: center;
     justify-content: flex-start;
     padding-top: 4rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+/* Hero Content Responsive Design */
+@media (max-width: 1024px) {
+    .hero-content {
+        padding: 0 2rem;
+        padding-top: 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-content {
+        padding: 0 1.5rem;
+        padding-top: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-content {
+        padding: 0 1rem;
+        padding-top: 2rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .hero-content {
+        padding: 0 0.75rem;
+        padding-top: 1.5rem;
+    }
 }
 
 .hero-paragraph-1 {
@@ -372,20 +575,42 @@ body {
     /* Shadow for better readability over video */
 }
 
-@media (min-width: 768px) {
+/* Desktop Responsive */
+@media (min-width: 1024px) {
     .hero-paragraph-1 {
-        font-size: 3.5rem;
+        font-size: 4rem;
+        line-height: 1.1;
     }
 
     .hero-paragraph-2 {
         font-size: 2.5rem;
+        line-height: 1.2;
     }
 
     .hero-paragraph-3 {
         font-size: 2rem;
+        line-height: 1.3;
     }
 }
 
+@media (min-width: 768px) and (max-width: 1023px) {
+    .hero-paragraph-1 {
+        font-size: 3.5rem;
+        line-height: 1.1;
+    }
+
+    .hero-paragraph-2 {
+        font-size: 2.5rem;
+        line-height: 1.2;
+    }
+
+    .hero-paragraph-3 {
+        font-size: 2rem;
+        line-height: 1.3;
+    }
+}
+
+/* Mobile Responsive Design */
 @media (max-width: 768px) {
     .hero-bg {
         padding-top: 2rem;
@@ -395,6 +620,76 @@ body {
         max-width: 90%;
         margin-left: 1rem;
         margin-right: 1rem;
+    }
+
+    .hero-paragraph-1 {
+        font-size: 2rem;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .hero-paragraph-2 {
+        font-size: 1.25rem;
+        line-height: 1.3;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .hero-paragraph-3 {
+        font-size: 1rem;
+        line-height: 1.4;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-paragraph-1 {
+        font-size: 1.75rem;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+    }
+
+    .hero-paragraph-2 {
+        font-size: 1.125rem;
+        line-height: 1.3;
+        margin-bottom: 1rem;
+    }
+
+    .hero-paragraph-3 {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+
+    .section-content-padding {
+        max-width: 95%;
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .hero-paragraph-1 {
+        font-size: 1.5rem;
+        line-height: 1.2;
+        margin-bottom: 0.75rem;
+    }
+
+    .hero-paragraph-2 {
+        font-size: 1rem;
+        line-height: 1.3;
+        margin-bottom: 0.75rem;
+    }
+
+    .hero-paragraph-3 {
+        font-size: 0.8rem;
+        line-height: 1.4;
+    }
+
+    .section-content-padding {
+        max-width: 98%;
+        margin-left: 0.25rem;
+        margin-right: 0.25rem;
     }
 }
 
@@ -448,17 +743,92 @@ body {
     /* Shadow for better readability over video */
 }
 
-@media (min-width: 768px) {
+/* Smooth Section Responsive Design */
+@media (min-width: 1024px) {
     .smooth-paragraph-1 {
-        font-size: 2rem;
+        font-size: 2.5rem;
+        line-height: 1.2;
     }
 
     .smooth-paragraph-2 {
         font-size: 2rem;
+        line-height: 1.3;
     }
 
     .smooth-paragraph-3 {
         font-size: 2rem;
+        line-height: 1.3;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .smooth-paragraph-1 {
+        font-size: 2rem;
+        line-height: 1.2;
+    }
+
+    .smooth-paragraph-2 {
+        font-size: 1.75rem;
+        line-height: 1.3;
+    }
+
+    .smooth-paragraph-3 {
+        font-size: 1.75rem;
+        line-height: 1.3;
+    }
+}
+
+@media (max-width: 767px) {
+    .smooth-paragraph-1 {
+        font-size: 1.5rem;
+        line-height: 1.3;
+        text-align: center;
+    }
+
+    .smooth-paragraph-2 {
+        font-size: 1.125rem;
+        line-height: 1.4;
+        text-align: center;
+    }
+
+    .smooth-paragraph-3 {
+        font-size: 1rem;
+        line-height: 1.4;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .smooth-paragraph-1 {
+        font-size: 1.25rem;
+        line-height: 1.3;
+    }
+
+    .smooth-paragraph-2 {
+        font-size: 1rem;
+        line-height: 1.4;
+    }
+
+    .smooth-paragraph-3 {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+}
+
+@media (max-width: 320px) {
+    .smooth-paragraph-1 {
+        font-size: 1.125rem;
+        line-height: 1.3;
+    }
+
+    .smooth-paragraph-2 {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+
+    .smooth-paragraph-3 {
+        font-size: 0.8rem;
+        line-height: 1.4;
     }
 }
 
@@ -573,17 +943,92 @@ body {
     /* Shadow for better readability over video */
 }
 
-@media (min-width: 768px) {
+/* Interactive Section Responsive Design */
+@media (min-width: 1024px) {
+    .interactive-paragraph-1 {
+        font-size: 1.8rem;
+        line-height: 1.3;
+    }
+
+    .interactive-paragraph-2 {
+        font-size: 1.5rem;
+        line-height: 1.4;
+    }
+
+    .interactive-paragraph-3 {
+        font-size: 1.5rem;
+        line-height: 1.4;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
     .interactive-paragraph-1 {
         font-size: 1.6rem;
+        line-height: 1.3;
     }
 
     .interactive-paragraph-2 {
         font-size: 1.4rem;
+        line-height: 1.4;
     }
 
     .interactive-paragraph-3 {
         font-size: 1.4rem;
+        line-height: 1.4;
+    }
+}
+
+@media (max-width: 767px) {
+    .interactive-paragraph-1 {
+        font-size: 1.2rem;
+        line-height: 1.4;
+        text-align: center;
+    }
+
+    .interactive-paragraph-2 {
+        font-size: 1.1rem;
+        line-height: 1.4;
+        text-align: center;
+    }
+
+    .interactive-paragraph-3 {
+        font-size: 1rem;
+        line-height: 1.4;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .interactive-paragraph-1 {
+        font-size: 1.1rem;
+        line-height: 1.4;
+    }
+
+    .interactive-paragraph-2 {
+        font-size: 1rem;
+        line-height: 1.4;
+    }
+
+    .interactive-paragraph-3 {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+}
+
+@media (max-width: 320px) {
+    .interactive-paragraph-1 {
+        font-size: 1rem;
+        line-height: 1.4;
+    }
+
+    .interactive-paragraph-2 {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+
+    .interactive-paragraph-3 {
+        font-size: 0.8rem;
+        line-height: 1.4;
     }
 }
 
@@ -622,8 +1067,8 @@ body {
 }
 
 .footer-hero {
-    /* flex: 1; */
-    /* max-width: 500px; */
+    flex: 1;
+    max-width: 500px;
 }
 
 .footer-hero-title {

@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Header,
   Navigation,
   FloatingVideo,
   ConsolidatedSections,
@@ -14,6 +15,9 @@ function App() {
 
   return (
     <div className="app-container">
+      {/* Header - Visible in sections 1, 2, 3, 4 but not footer */}
+      <Header />
+
       {/* Navigation Dots */}
       <Navigation
         activeSection={activeSection}
@@ -29,7 +33,7 @@ function App() {
       {/* Section 4 - Pinned Section */}
       <PinnedSection />
 
-      {/* Footer Section */}
+      {/* Footer Section - Header hidden here */}
       <Footer />
     </div>
   );
