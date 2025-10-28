@@ -31,7 +31,7 @@ const getAssetsToPreload = () => {
     if (isMobile) {
         return [
             ...baseAssets,
-            ...generateWebPMobileFramePaths(241, '/frames-full-mobile/')
+            ...generateWebPMobileFramePaths(97, '/frames-full-mobile/')
         ];
     } else {
         return [
@@ -42,7 +42,7 @@ const getAssetsToPreload = () => {
 };
 
 // Generate WebP mobile frame paths
-const generateWebPMobileFramePaths = (totalFrames = 241, folderPath = '/frames-full-mobile/') => {
+const generateWebPMobileFramePaths = (totalFrames = 97, folderPath = '/frames-full-mobile/') => {
     const frames = [];
     for (let i = 1; i <= totalFrames; i++) {
         const frameNumber = i.toString().padStart(4, '0');
