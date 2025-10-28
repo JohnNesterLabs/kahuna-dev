@@ -1025,8 +1025,7 @@ body {
 }
 
 .footer-hero {
-    flex: 1;
-    max-width: 500px;
+    width: 100%;
 }
 
 .footer-hero-title {
@@ -1065,7 +1064,6 @@ body {
     border: 1px solid #333333;
     border-radius: 12px;
     padding: 24px;
-    max-width: 400px;
 }
 
 .footer-cta-text {
@@ -1074,6 +1072,36 @@ body {
     color: #ffffff;
     margin: 0;
     line-height: 1.4;
+}
+
+/* Carousel Container */
+.carousel-container {
+    position: relative;
+    height: 1.5em;
+    /* Fixed height to prevent layout shift */
+    overflow: hidden;
+}
+.carousel-container .footer-cta-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(0);
+    opacity: 1;
+}
+/* Animation classes for continuous loop */
+.slide-out-up {
+    transform: translateY(-100%) !important;
+    opacity: 0 !important;
+}
+.slide-in-from-bottom {
+    transform: translateY(100%) !important;
+    opacity: 0 !important;
+}
+.normal {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
 }
 
 .footer-links {
