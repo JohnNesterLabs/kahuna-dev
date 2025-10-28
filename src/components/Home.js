@@ -1,12 +1,10 @@
 import React from 'react';
-import {
-  Header,
-  Navigation,
-  FloatingVideo,
-  ConsolidatedSections,
-  PinnedSection,
-  Footer
-} from './index';
+import Header from './Header';
+import Navigation from './Navigation';
+import FloatingVideo from './FloatingVideo';
+import ConsolidatedSections from './ConsolidatedSections';
+import PinnedSection from './PinnedSection';
+import Footer from './Footer';
 import { useNavigation, useScrollAnimations } from '../hooks';
 
 const Home = () => {
