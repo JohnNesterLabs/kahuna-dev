@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 const PinnedSection = () => {
     const frameContainerRef = useRef(null);
     const [currentFrame, setCurrentFrame] = useState(1);
-    const totalFrames = 428;
+    const totalFrames = 134;
 
     // Create frame elements dynamically
     useEffect(() => {

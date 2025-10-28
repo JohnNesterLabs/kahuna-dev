@@ -84,35 +84,35 @@ body {
     .main-header {
         padding: 20px 0;
     }
-    
+
     .header-container {
         padding: 0 20px;
         max-width: 100%;
         width: 100%;
     }
-    
+
     .header-left {
         gap: 8px;
     }
-    
+
     .header-logo {
         width: 142px;
         height: 28px;
         flex-shrink: 0;
     }
-    
+
     .header-logo img {
         width: 100%;
         height: 100%;
         object-fit: contain;
     }
-    
+
     .header-company-name {
         font-size: 1rem;
         font-weight: 600;
         white-space: nowrap;
     }
-    
+
     .header-cta-button {
         padding: 8px 16px;
         font-size: 11px;
@@ -126,35 +126,39 @@ body {
     .main-header {
         padding: 16px 20px;
     }
-    
+
     .header-container {
         padding: 0 16px;
-        min-width: 0; /* Allow flex items to shrink */
+        min-width: 0;
+        /* Allow flex items to shrink */
     }
-    
+
     .header-left {
         gap: 6px;
-        min-width: 0; /* Allow text to shrink */
-        flex: 1; /* Take available space */
+        min-width: 0;
+        /* Allow text to shrink */
+        flex: 1;
+        /* Take available space */
     }
-    
+
     .header-logo {
         width: 142px;
         height: 28px;
         flex-shrink: 0;
     }
-    
+
     .header-company-name {
         font-size: 0.9rem;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
-    
+
     .header-right {
-        flex-shrink: 0; /* Prevent button from shrinking */
+        flex-shrink: 0;
+        /* Prevent button from shrinking */
     }
-    
+
     .header-cta-button {
         padding: 6px 12px;
         font-size: 10px;
@@ -166,11 +170,11 @@ body {
     .header-container {
         padding: 0 12px;
     }
-    
+
     .header-company-name {
         font-size: 0.8rem;
     }
-    
+
     .header-cta-button {
         padding: 5px 10px;
         font-size: 9px;
@@ -213,7 +217,8 @@ body {
     /* Higher than video (z-index: 40) */
     background: transparent;
     /* Transparent so video shows through */
-    padding-top: 80px;  /* Account for fixed header */
+    padding-top: 80px;
+    /* Account for fixed header */
 }
 
 .nav-dot {
@@ -291,11 +296,11 @@ body {
 
 .pinned-inner {
     width: 100%;
-    max-width: 1200px;
+    height: 100vh;
     display: flex;
-    gap: 36px;
+    gap: 0;
     align-items: center;
-    padding: 24px;
+    padding: 0;
     box-sizing: border-box;
 }
 
@@ -309,6 +314,8 @@ body {
 .pinned-left.full-width {
     width: 100%;
     height: 100vh;
+    margin: 0;
+    padding: 0;
 }
 
 .frame-container {
@@ -335,6 +342,10 @@ body {
     border-radius: 0;
     left: 0;
     right: 0;
+    top: 0;
+    transform: none;
+    margin: 0;
+    padding: 0;
 }
 
 .frame {
@@ -407,8 +418,8 @@ body {
 @media (max-width: 900px) {
     .pinned-inner {
         flex-direction: column-reverse;
-        gap: 20px;
-        padding: 16px;
+        gap: 0;
+        padding: 0;
     }
 
     .pinned-left,
@@ -418,8 +429,9 @@ body {
     }
 
     .pinned-left {
-        height: auto;
-        padding: 60px 0;
+        height: 100vh;
+        padding: 0;
+        margin: 0;
     }
 
     .section-label {
@@ -437,8 +449,13 @@ body {
 
     .frame-container {
         width: 100%;
-        max-width: 90%;
-        height: 50vh;
+        max-width: 100%;
+        height: 100vh;
+        border-radius: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+        transform: none;
     }
 }
 
@@ -495,15 +512,18 @@ body {
     /* above text */
     transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
 }
+
 .section1-scroll-indicator.visible {
     opacity: 1;
     visibility: visible;
 }
+
 .section1-scroll-indicator .scroll-text {
     font-size: 0.9rem;
     letter-spacing: 0.3rem;
     color: #FFFFFF;
 }
+
 .section1-scroll-indicator .scroll-arrow {
     width: 18px;
     height: 18px;
@@ -511,15 +531,19 @@ body {
     filter: brightness(0) invert(1);
     animation: arrowBounce 2s ease-in-out infinite;
 }
+
 @keyframes arrowBounce {
+
     0%,
     100% {
         transform: translateY(0);
     }
+
     50% {
         transform: translateY(4px);
     }
 }
+
 /* Section 1 Scroll Overlay */
 .section1-scroll-overlay {
     position: absolute;
@@ -535,6 +559,7 @@ body {
     /* below scroll indicator but above content */
     transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
 }
+
 .section1-scroll-overlay.visible {
     opacity: 1;
     visibility: visible;
@@ -1108,7 +1133,7 @@ body {
     .footer-hero-line {
         display: inline;
     }
-    
+
     .footer-hero-line:not(:last-child)::after {
         content: " ";
     }
@@ -1143,6 +1168,7 @@ body {
     /* Fixed height to prevent layout shift */
     overflow: hidden;
 }
+
 .carousel-container .footer-cta-text {
     position: absolute;
     top: 0;
@@ -1152,15 +1178,18 @@ body {
     transform: translateY(0);
     opacity: 1;
 }
+
 /* Animation classes for continuous loop */
 .slide-out-up {
     transform: translateY(-100%) !important;
     opacity: 0 !important;
 }
+
 .slide-in-from-bottom {
     transform: translateY(100%) !important;
     opacity: 0 !important;
 }
+
 .normal {
     transform: translateY(0) !important;
     opacity: 1 !important;
@@ -1296,15 +1325,15 @@ body {
         flex-direction: column;
         gap: 40px;
     }
-    
+
     .footer-links {
         gap: 60px;
     }
-    
+
     .footer-hero-title {
         font-size: 2.5rem;
     }
-    
+
     .footer-hero-line {
         display: block;
     }
@@ -1316,44 +1345,44 @@ body {
         min-height: 100vh;
         padding: 40px 0 32px;
     }
-    
+
     .footer-container {
         padding: 0 16px;
     }
-    
+
     .footer-main {
         gap: 32px;
         padding-top: 40px;
     }
-    
+
     .footer-hero-title {
         font-size: 2rem;
         margin-bottom: 24px;
     }
-    
+
     .footer-cta-box {
         padding: 20px;
     }
-    
+
     .footer-cta-text {
         font-size: 1rem;
     }
-    
+
     .footer-links {
         flex-direction: column;
         gap: 32px;
     }
-    
+
     .footer-bottom {
         flex-direction: column;
         gap: 24px;
         align-items: flex-start;
     }
-    
+
     .footer-bottom-right {
         align-items: flex-start;
     }
-    
+
     .footer-legal-text {
         font-size: 0.8rem;
     }
@@ -1363,19 +1392,19 @@ body {
     .footer-hero-title {
         font-size: 1.75rem;
     }
-    
+
     .footer-cta-box {
         padding: 16px;
     }
-    
+
     .footer-cta-text {
         font-size: 0.9rem;
     }
-    
+
     .footer-column-title {
         font-size: 0.8rem;
     }
-    
+
     .footer-link,
     .footer-social-link {
         font-size: 0.9rem;

@@ -75,7 +75,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                         }
                     }
                 }
-                
+
             }
         })
             .to('.section1-line2', { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" })
@@ -85,7 +85,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             .to('.section1-line2', { opacity: 0, y: -50, duration: 0.3, ease: "power2.out" }, "-=0.1")
             .to('.section1-line3', { opacity: 0, y: -50, duration: 0.3, ease: "power2.out" }, "-=0.1");
 
-            // Hide SCROLL indicator and overlay when entering section 2
+        // Hide SCROLL indicator and overlay when entering section 2
         ScrollTrigger.create({
             trigger: '#section2Wrapper',
             start: 'top bottom',
@@ -319,7 +319,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
         gsap.timeline({
             scrollTrigger: {
                 trigger: '#section3Wrapper',
-                start: 'bottom center',
+                start: 'bottom top',
                 end: 'bottom top',
                 scrub: 1
             }
@@ -332,7 +332,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             });
 
         // Section 4: Pinned section with frame animation
-        const totalFrames = 428;
+        const totalFrames = 134;
         let currentFrameIndex = 0;
 
         // Initialize frames array for GSAP
