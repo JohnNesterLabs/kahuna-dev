@@ -10,23 +10,32 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
     const videoRef = useRef(null);
 
     useEffect(() => {
-        // Configure ScrollTrigger
+        // Configure ScrollTrigger with iOS Safari optimizations
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                     (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        
         ScrollTrigger.config({
-            ignoreMobileResize: true,
-            syncInterval: 1
+            ignoreMobileResize: false, // Allow resize on iOS for better performance
+            syncInterval: isIOS ? 16 : 1, // 60fps throttling for iOS
+            autoRefreshEvents: "visibilitychange,DOMContentLoaded,load"
         });
 
-        // Set initial video size and position for section 1
+        // Set initial video size and position for section 1 with iOS optimizations
         const initialConfig = getGSAPConfig('section1');
         const initialPosition = getGSAPPosition('section1');
         if (initialConfig && videoRef.current) {
             // Clear any existing GSAP transforms
             gsap.set(videoRef.current, { clearProps: "all" });
 
-            // Set the initial position and size
+            // Set the initial position and size with iOS-specific optimizations
             gsap.set(videoRef.current, {
                 ...initialConfig,
-                ...initialPosition
+                ...initialPosition,
+                // iOS Safari optimizations
+                force3D: true,
+                willChange: isIOS ? 'transform, opacity' : 'auto',
+                // Enable hardware acceleration
+                transformOrigin: 'center center'
             });
         }
 
@@ -117,7 +126,10 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                         gsap.set(videoRef.current, {
                             scale: currentScale,
                             width: section1To2Config.width,
-                            borderRadius: section1To2Config.borderRadius
+                            borderRadius: section1To2Config.borderRadius,
+                            // iOS Safari optimizations
+                            force3D: true,
+                            willChange: isIOS ? 'transform, opacity' : 'auto'
                         });
                     }
                 }
@@ -179,7 +191,10 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                                 scale: currentScale,
                                 width: section2Config.width,
                                 borderRadius: section2Config.borderRadius,
-                                ...section2Position // Use section2 position
+                                ...section2Position, // Use section2 position
+                                // iOS Safari optimizations
+                                force3D: true,
+                                willChange: isIOS ? 'transform, opacity' : 'auto'
                             });
                         }
                     }
@@ -207,7 +222,10 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                         gsap.set(videoRef.current, {
                             scale: currentScale,
                             width: section2To3Config.width,
-                            borderRadius: section2To3Config.borderRadius
+                            borderRadius: section2To3Config.borderRadius,
+                            // iOS Safari optimizations
+                            force3D: true,
+                            willChange: isIOS ? 'transform, opacity' : 'auto'
                         });
                     }
                 }
@@ -295,7 +313,10 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                             scale: currentScale,
                             width: section3Config.width,
                             borderRadius: section3Config.borderRadius,
-                            ...section3Position // Use section3 position
+                            ...section3Position, // Use section3 position
+                            // iOS Safari optimizations
+                            force3D: true,
+                            willChange: isIOS ? 'transform, opacity' : 'auto'
                         });
                     }
                 }
@@ -364,20 +385,50 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             });
 
         // Section 4: Pinned section with frame animation
-        // Device detection for frame count
+        // Device detection for frame count with iOS optimization
         const isMobileDevice = window.innerWidth <= 768 || /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent);
         const totalFrames = isMobileDevice ? 97 : 134;
         let currentFrameIndex = 0;
+        let lastFrameUpdate = 0;
+        const frameUpdateThrottle = isIOS ? 32 : 16; // Throttle frame updates on iOS
 
-        // Initialize frames array for GSAP
-        const frames = [];
-        for (let i = 1; i <= totalFrames; i++) {
-            frames.push(`#frame-${i}`);
-        }
+        // Frame pooling system - only work with frames that exist in DOM
+        const getAvailableFrames = () => {
+            const frames = [];
+            for (let i = 1; i <= totalFrames; i++) {
+                const element = document.querySelector(`#frame-${i}`);
+                if (element) {
+                    frames.push(`#frame-${i}`);
+                }
+            }
+            return frames;
+        };
 
-        // Set all frames as hidden initially
-        gsap.set(frames, { autoAlpha: 0 });
-        gsap.set('#frame-1', { autoAlpha: 1 });
+        // Initialize with frame pooling - only set up frames that exist
+        const initializeFrames = () => {
+            const availableFrames = getAvailableFrames();
+            if (availableFrames.length > 0) {
+                // Set all available frames as hidden initially with hardware acceleration
+                gsap.set(availableFrames, { 
+                    autoAlpha: 0,
+                    force3D: true, // Enable hardware acceleration
+                    willChange: 'opacity, transform'
+                });
+                
+                // Show first frame if it exists
+                const firstFrame = document.querySelector('#frame-1');
+                if (firstFrame) {
+                    gsap.set('#frame-1', { 
+                        autoAlpha: 1,
+                        force3D: true,
+                        willChange: 'opacity, transform'
+                    });
+                }
+            }
+        };
+
+        // Initialize frames
+        initializeFrames();
 
         // Function to check if device is mobile
         const isMobile = () => window.innerWidth <= 768;
@@ -395,11 +446,14 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             }
         };
 
+        // Device-specific scroll distance for better iOS performance
+        const scrollDistance = isIOS ? '+=1500%' : '+=2500%';
+        
         ScrollTrigger.create({
             trigger: '#section4Wrapper',
             start: 'top top',
-            end: '+=2500%',
-            scrub: 1,
+            end: scrollDistance,
+            scrub: isIOS ? 0.5 : 1, // Smoother scrubbing on iOS
             pin: true,
             onEnter: () => {
                 setActiveSection(3);
@@ -411,19 +465,63 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                     setActiveSection(4);
                 }
 
+                // Throttle frame updates for better iOS performance
+                const now = performance.now();
+                if (now - lastFrameUpdate < frameUpdateThrottle) {
+                    return;
+                }
+                lastFrameUpdate = now;
+
+                // Check memory usage on mobile before processing frames
+                if (isIOS && window.checkMemoryUsage) {
+                    window.checkMemoryUsage();
+                }
+
                 // Calculate which frame should be shown
                 const targetFrameIndex = Math.floor(self.progress * (totalFrames - 1));
 
                 if (targetFrameIndex !== currentFrameIndex && targetFrameIndex >= 0 && targetFrameIndex < totalFrames) {
-                    // Hide current frame
-                    if (frames[currentFrameIndex]) {
-                        gsap.set(frames[currentFrameIndex], { autoAlpha: 0 });
+                    // Manage frame pool - load/unload frames as needed
+                    if (window.manageFramePool) {
+                        window.manageFramePool(targetFrameIndex);
                     }
 
-                    // Show new frame (no dynamic loading - frames are preloaded)
-                    const newFrameSel = frames[targetFrameIndex];
-                    gsap.set(newFrameSel, { autoAlpha: 1 });
-                    currentFrameIndex = targetFrameIndex;
+                    // Use requestAnimationFrame for smoother updates on iOS
+                    if (isIOS) {
+                        requestAnimationFrame(() => {
+                            // Hide current frame with hardware acceleration
+                            const currentFrameElement = document.querySelector(`#frame-${currentFrameIndex}`);
+                            if (currentFrameElement) {
+                                gsap.set(currentFrameElement, { 
+                                    autoAlpha: 0,
+                                    force3D: true
+                                });
+                            }
+
+                            // Show new frame with hardware acceleration
+                            const newFrameElement = document.querySelector(`#frame-${targetFrameIndex}`);
+                            if (newFrameElement) {
+                                gsap.set(newFrameElement, { 
+                                    autoAlpha: 1,
+                                    force3D: true
+                                });
+                            }
+                            currentFrameIndex = targetFrameIndex;
+                        });
+                    } else {
+                        // Hide current frame
+                        const currentFrameElement = document.querySelector(`#frame-${currentFrameIndex}`);
+                        if (currentFrameElement) {
+                            gsap.set(currentFrameElement, { autoAlpha: 0 });
+                        }
+
+                        // Show new frame
+                        const newFrameElement = document.querySelector(`#frame-${targetFrameIndex}`);
+                        if (newFrameElement) {
+                            gsap.set(newFrameElement, { autoAlpha: 1 });
+                        }
+                        currentFrameIndex = targetFrameIndex;
+                    }
                 }
 
                 // Control section 4 text visibility based on current frame
@@ -434,16 +532,26 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
         // Refresh ScrollTrigger after all animations are set up
         ScrollTrigger.refresh();
 
+        // Throttled refresh function for better iOS performance
+        let refreshTimeout;
+        const throttledRefresh = () => {
+            if (refreshTimeout) return;
+            refreshTimeout = setTimeout(() => {
+                ScrollTrigger.refresh();
+                refreshTimeout = null;
+            }, isIOS ? 100 : 50);
+        };
+
         // Additional refresh on window load for Safari/Firefox compatibility
         const handleLoad = () => {
-            ScrollTrigger.refresh();
+            throttledRefresh();
         };
 
         window.addEventListener('load', handleLoad);
 
-        // Handle resize events
+        // Handle resize events with throttling
         const handleResize = () => {
-            ScrollTrigger.refresh();
+            throttledRefresh();
 
             // Update video size based on current section and new device type
             if (videoRef.current) {
@@ -452,13 +560,78 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             }
         };
 
-        window.addEventListener('resize', handleResize);
+        // Throttle resize events for better performance
+        let resizeTimeout;
+        const throttledResize = () => {
+            if (resizeTimeout) return;
+            resizeTimeout = setTimeout(() => {
+                handleResize();
+                resizeTimeout = null;
+            }, isIOS ? 250 : 100);
+        };
+
+        window.addEventListener('resize', throttledResize);
+
+        // iOS Safari touch event handling
+        const preventIOSScroll = (e) => {
+            // Allow scrolling but prevent default behaviors that can cause issues
+            if (e.touches && e.touches.length > 1) {
+                e.preventDefault(); // Prevent zoom on multi-touch
+            }
+        };
+
+        const preventIOSBounce = (e) => {
+            const target = e.target;
+            const scrollableParent = target.closest('.pinned-section');
+            if (scrollableParent) {
+                e.preventDefault();
+            }
+        };
+
+        if (isIOS) {
+            // Add touch event listeners for iOS
+            document.addEventListener('touchstart', preventIOSScroll, { passive: false });
+            document.addEventListener('touchmove', preventIOSScroll, { passive: false });
+            document.addEventListener('touchmove', preventIOSBounce, { passive: false });
+        }
 
         // Cleanup
         return () => {
+            // Clear all timeouts
+            if (refreshTimeout) {
+                clearTimeout(refreshTimeout);
+            }
+            if (resizeTimeout) {
+                clearTimeout(resizeTimeout);
+            }
+            
+            // Remove event listeners
             window.removeEventListener('load', handleLoad);
-            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('resize', throttledResize);
+            
+            // Remove iOS touch event listeners
+            if (isIOS) {
+                document.removeEventListener('touchstart', preventIOSScroll);
+                document.removeEventListener('touchmove', preventIOSScroll);
+                document.removeEventListener('touchmove', preventIOSBounce);
+            }
+            
+            // Kill all ScrollTrigger instances
             ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+            
+            // Clear GSAP transforms to free memory
+            if (videoRef.current) {
+                gsap.set(videoRef.current, { clearProps: "all" });
+            }
+            
+            // Clear frame elements to free memory using frame pooling
+            const availableFrames = getAvailableFrames();
+            availableFrames.forEach(frame => {
+                const element = document.querySelector(frame);
+                if (element) {
+                    gsap.set(element, { clearProps: "all" });
+                }
+            });
         };
     }, [setActiveSection]);
 
