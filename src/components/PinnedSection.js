@@ -31,7 +31,7 @@ const PinnedSection = () => {
     }, [totalFrames]);
 
     return (
-        <div className="pinned-section neon-border" id="section4Wrapper">
+        <div className="pinned-section" id="section4Wrapper">
             <div className="pinned-inner">
                 {/* Frame container for animated frames - now full width */}
                 <div className="pinned-left full-width">

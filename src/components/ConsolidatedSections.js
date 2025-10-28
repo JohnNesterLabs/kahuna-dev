@@ -4,7 +4,7 @@ const ConsolidatedSections = () => {
     return (
         <>
             {/* Section 1 - Hero */}
-            <div className="section-wrapper neon-border" id="section1Wrapper">
+            <div className="section-wrapper" id="section1Wrapper">
                 <div className="section-content hero-bg">
                     <div className="text-center hero-content">
                         <p className="section1-line1 hero-paragraph-1 opacity-0">
@@ -21,7 +21,7 @@ const ConsolidatedSections = () => {
             </div>
 
             {/* Section 2 - Smooth Scrolling */}
-            <div className="section-wrapper neon-border" id="section2Wrapper">
+            <div className="section-wrapper" id="section2Wrapper">
                 <div className="section-content smooth-bg">
                     <div className="section-content-padding">
                         <p className="section2-line1 smooth-paragraph-1 opacity-0">
@@ -44,7 +44,7 @@ const ConsolidatedSections = () => {
             </div>
 
             {/* Section 3 - Interactive */}
-            <div className="section-wrapper neon-border" id="section3Wrapper">
+            <div className="section-wrapper" id="section3Wrapper">
                 <div className="section-content interactive-bg">
                     <div className="section-content-padding">
                         <p className="section3-line1 interactive-paragraph-1 opacity-0">
