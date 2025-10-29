@@ -82,14 +82,14 @@ body {
 /* Word Carousel for Section 3 */
 .word-carousel-container {
     position: absolute;
-    right: 40px;
+    right: 100px;
     top: 50%;
     transform: translateY(-50%);
     z-index: 10;
 }
 .word-carousel-text {
-    font-size: 2.5rem;
-    font-weight: 700;
+    font-size: 36px;
+    font-weight: 500;
     color: #FFFFFF;
     margin: 0;
     padding: 0;
@@ -898,7 +898,7 @@ body {
     justify-content: center;
     text-align: left;
     max-width: 50%;
-    margin-left: 189px;
+    margin-left: 100px;
 }
 
 .smooth-paragraph-1 {
@@ -1028,7 +1028,7 @@ body {
     align-items: center !important;
     justify-content: flex-start !important;
     flex-direction: row !important;
-    padding-left: 2rem;
+    padding-top: 0px
 }
 
 /* Section 4 Text Overlay */
