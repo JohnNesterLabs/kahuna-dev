@@ -647,7 +647,7 @@ body {
 
 /* Section 1 Scroll Indicator */
 .section1-scroll-indicator {
-    position: absolute;
+    position: fixed;
     bottom: 24px;
     left: 50%;
     transform: translateX(-50%);
@@ -698,7 +698,7 @@ body {
 
 /* Section 1 Scroll Overlay */
 .section1-scroll-overlay {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     right: 0;

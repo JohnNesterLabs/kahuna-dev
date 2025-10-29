@@ -72,8 +72,8 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                     const scrollOverlay = document.querySelector('.section1-scroll-overlay');
                     if (line2Element && scrollIndicator && scrollOverlay) {
                         const line2Opacity = gsap.getProperty(line2Element, 'opacity');
-                        // Only show when 2nd paragraph is clearly visible (opacity > 0.8)
-                        if (line2Opacity > 0.8) {
+                        // Only show when 2nd paragraph is clearly visible (opacity > 0.8) and we're in section 1
+                        if (line2Opacity > 0.8 && self.progress < 0.9) {
                             // 2nd paragraph is visible, show SCROLL indicator and overlay
                             scrollIndicator.classList.add('visible');
                             scrollOverlay.classList.add('visible');
@@ -97,6 +97,18 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
         // Hide SCROLL indicator and overlay when entering section 2
         ScrollTrigger.create({
             trigger: '#section2Wrapper',
+            start: 'top bottom',
+            onEnter: () => {
+                const scrollIndicator = document.querySelector('.section1-scroll-indicator');
+                const scrollOverlay = document.querySelector('.section1-scroll-overlay');
+                if (scrollIndicator) scrollIndicator.classList.remove('visible');
+                if (scrollOverlay) scrollOverlay.classList.remove('visible');
+            }
+        });
+
+        // Hide SCROLL indicator and overlay when entering section 3
+        ScrollTrigger.create({
+            trigger: '#section3Wrapper',
             start: 'top bottom',
             onEnter: () => {
                 const scrollIndicator = document.querySelector('.section1-scroll-indicator');
