@@ -14,13 +14,13 @@ export const VIDEO_POSITION_CONFIG = {
     // Section 1: BOTTOM position (hero section)
     section1: {
       extraSmall: {
-        bottom: '-60%',           // Even closer to bottom on extra small screens
+        top: '40%',           // Even closer to bottom on extra small screens
         left: '25%',
         transform: 'translateX(-50%)',
         zIndex: 40
       },
       mobile: {
-        bottom: '-55%',           // Very close to bottom on mobile
+        top: '40%',          // Very close to bottom on mobile
         left: '25%',
         transform: 'translateX(-50%)',
         zIndex: 40
@@ -42,14 +42,14 @@ export const VIDEO_POSITION_CONFIG = {
     // Section 1→2: Transition (moving from bottom to right)
     section1To2: {
       extraSmall: {
-        bottom: '25%',          // Move to vertical center
+        top: '-50%',        // Move to vertical center
         left: '75%',            // Move to right side
         transform: 'translate(-50%, 50%)',
         zIndex: 40
       },
       mobile: {
-        bottom: '30%',          // Move to vertical center
-        left: '85%',            // Move to right side
+        top: '-40%',          // Move to vertical center
+        left: '90%',            // Move to right side
         transform: 'translate(-50%, 50%)',
         zIndex: 40
       },
@@ -70,14 +70,14 @@ export const VIDEO_POSITION_CONFIG = {
     // Section 2: RIGHT position (smooth scrolling section)
     section2: {
       extraSmall: {
-        bottom: '25%',          // Vertical center
+        top: '-50%',          // Vertical center
         left: '75%',            // Right side of screen
         transform: 'translate(-50%, 50%)',
         zIndex: 40
       },
       mobile: {
-        bottom: '30%',          // Vertical center
-        left: '85%',            // Right side of screen
+        top: '-40%',          // Vertical center
+        left: '90%',            // Right side of screen
         transform: 'translate(-50%, 50%)',
         zIndex: 40
       },
@@ -98,13 +98,13 @@ export const VIDEO_POSITION_CONFIG = {
     // Section 2→3: Transition (moving from right to center)
     section2To3: {
       extraSmall: {
-        bottom: '45%',          // Stay at vertical center
+        top: '-70%',          // Stay at vertical center
         left: '35%',            // Move to horizontal center
         transform: 'translate(-50%, 50%)',
         zIndex: 40
       },
       mobile: {
-        bottom: '50%',          // Stay at vertical center
+        top: '-50%',          // Stay at vertical center
         left: '40%',            // Move to horizontal center
         transform: 'translate(-50%, 50%)',
         zIndex: 40
@@ -126,13 +126,13 @@ export const VIDEO_POSITION_CONFIG = {
     // Section 3: CENTER position (interactive section)
     section3: {
       extraSmall: {
-        bottom: '45%',          // Vertical center
+        top: '-70%',         // Vertical center
         left: '35%',            // Horizontal center
         transform: 'translate(-50%, 50%)',
         zIndex: 40
       },
       mobile: {
-        bottom: '50%',          // Vertical center
+        top: '-50%',          // Vertical center
         left: '40%',            // Horizontal center
         transform: 'translate(-50%, 50%)',
         zIndex: 40
@@ -154,14 +154,14 @@ export const VIDEO_POSITION_CONFIG = {
     // Section 3→4: Fade out (center position, shrinking)
     section3To4: {
       extraSmall: {
-        bottom: '45%',          // Stay at vertical center
-        left: '45%',            // Stay at horizontal center
+        top: '-70%',         // Stay at vertical center
+        left: '35%',            // Stay at horizontal center
         transform: 'translate(-50%, 50%)',
         zIndex: 40
       },
       mobile: {
-        bottom: '50%',          // Stay at vertical center
-        left: '50%',            // Stay at horizontal center
+        top: '-50%',          // Stay at vertical center
+        left: '40%',            // Stay at horizontal center
         transform: 'translate(-50%, 50%)',
         zIndex: 40
       },
@@ -289,7 +289,7 @@ export const createCustomPosition = (bottom, left, transform, zIndex = 40) => {
 
 // Helper function to validate position config
 export const validatePosition = (config) => {
-  const requiredKeys = ['bottom', 'left', 'transform', 'zIndex'];
+  const requiredKeys = ['top', 'bottom', 'left', 'transform', 'zIndex'];
   return requiredKeys.every(key => config.hasOwnProperty(key));
 };
 
