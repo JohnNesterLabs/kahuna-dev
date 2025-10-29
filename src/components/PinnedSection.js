@@ -20,8 +20,8 @@ const PinnedSection = () => {
     const frameFolder = isMobile ? '/frames-full-mobile/' : '/frames-desktop-webp/';
     
     // Frame pooling configuration for mobile optimization
-    const POOL_SIZE = isMobile ? 3 : 8; // Keep only 3 frames in memory on mobile (reduced from 5)
-    const PRELOAD_RANGE = isMobile ? 1 : 2; // Preload only 1 frame ahead/behind on mobile (reduced from 2)
+    const POOL_SIZE = isMobile ? 5 : 8; // Keep only 3 frames in memory on mobile (reduced from 5)
+    const PRELOAD_RANGE = isMobile ? 2 : 2; // Preload only 1 frame ahead/behind on mobile (reduced from 2)
 
     // Create frame element with optimizations
     const createFrameElement = useCallback((frameIndex) => {
@@ -126,9 +126,14 @@ const PinnedSection = () => {
             // Load current frame immediately
             loadFrame(currentFrameIndex);
             
-            // Preload adjacent frames immediately
-            if (startFrame < currentFrameIndex) loadFrame(startFrame);
-            if (endFrame > currentFrameIndex) loadFrame(endFrame);
+            // Preload adjacent frames immediately with priority loading
+            const framesToLoad = [];
+            if (startFrame < currentFrameIndex) framesToLoad.push(startFrame);
+            if (endFrame > currentFrameIndex) framesToLoad.push(endFrame);
+            // Load frames in sequence to prevent memory spikes
+            framesToLoad.forEach((frameIndex, index) => {
+                setTimeout(() => loadFrame(frameIndex), index * 10); // Small delay between loads
+            });
         } else {
             // Load all frames at once on desktop
             for (let i = startFrame; i <= endFrame; i++) {
@@ -185,11 +190,29 @@ const PinnedSection = () => {
         }
     }, [isMobile]);
 
+    // Enhanced frame preloading for section 3 to 4 transition
+    const preloadTransitionFrames = useCallback(() => {
+        if (isMobile) {
+            // Preload first 10 frames for smooth section 4 entry
+            for (let i = 1; i <= Math.min(10, totalFrames); i++) {
+                if (!framePoolRef.current.has(i)) {
+                    const frameElement = createFrameElement(i);
+                    if (frameContainerRef.current) {
+                        frameContainerRef.current.appendChild(frameElement);
+                        framePoolRef.current.set(i, frameElement);
+                        loadedFramesRef.current.add(i);
+                    }
+                }
+            }
+        }
+    }, [createFrameElement, totalFrames, isMobile]);
+
     // Expose frame pool management to parent components
     useEffect(() => {
         // Store the manageFramePool function globally so useScrollAnimations can access it
         window.manageFramePool = manageFramePool;
         window.checkMemoryUsage = checkMemoryUsage;
+        window.preloadTransitionFrames = preloadTransitionFrames;
         
         // Monitor memory usage on mobile
         let memoryInterval;
@@ -226,6 +249,7 @@ const PinnedSection = () => {
             // Cleanup
             delete window.manageFramePool;
             delete window.checkMemoryUsage;
+            delete window.preloadTransitionFrames;
             if (memoryInterval) {
                 clearInterval(memoryInterval);
             }

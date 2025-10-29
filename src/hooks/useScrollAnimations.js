@@ -400,6 +400,18 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
         // Device detection for frame count with iOS optimization
         const isMobileDevice = window.innerWidth <= 768 || /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent);
         const totalFrames = isMobileDevice ? 97 : 134;
+
+        // Preload transition frames when approaching section 4
+        ScrollTrigger.create({
+            trigger: '#section3Wrapper',
+            start: 'bottom 80%', // Start preloading when section 3 is 80% scrolled
+            onEnter: () => {
+                if (window.preloadTransitionFrames) {
+                    window.preloadTransitionFrames();
+                }
+            }
+        });
+        
         let currentFrameIndex = 0;
         let lastFrameUpdate = 0;
         const frameUpdateThrottle = isIOS ? 16 : 16; // Reduced throttle for more responsive frame changes on iOS
