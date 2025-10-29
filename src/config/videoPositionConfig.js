@@ -99,12 +99,12 @@ export const VIDEO_POSITION_CONFIG = {
     section2To3: {
       extraSmall: {
         top: '-70%',          // Stay at vertical center
-        left: '35%',            // Move to horizontal center
+        left: '40%',            // Move to horizontal center
         transform: 'translate(-50%, 50%)',
         zIndex: 40
       },
       mobile: {
-        top: '-50%',          // Stay at vertical center
+        top: '-45%',          // Stay at vertical center
         left: '40%',            // Move to horizontal center
         transform: 'translate(-50%, 50%)',
         zIndex: 40
@@ -127,12 +127,12 @@ export const VIDEO_POSITION_CONFIG = {
     section3: {
       extraSmall: {
         top: '-70%',         // Vertical center
-        left: '35%',            // Horizontal center
+        left: '40%',            // Horizontal center
         transform: 'translate(-50%, 50%)',
         zIndex: 40
       },
       mobile: {
-        top: '-50%',          // Vertical center
+        top: '-45%',          // Vertical center
         left: '40%',            // Horizontal center
         transform: 'translate(-50%, 50%)',
         zIndex: 40
