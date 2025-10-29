@@ -13,7 +13,7 @@ export const VIDEO_POSITION_CONFIG = {
     // Section 1: BOTTOM position (hero section)
     section1: {
       mobile: {
-        bottom: '-45%',           // Very close to bottom on mobile
+        bottom: '-55%',           // Very close to bottom on mobile
         left: '25%',
         transform: 'translateX(-50%)',
         zIndex: 40
