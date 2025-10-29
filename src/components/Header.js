@@ -42,12 +42,14 @@ const Header = () => {
                 {/* Call to Action Button */}
                 <div className="header-right">
                     <button className="header-cta-button">
+                        <a href="mailto:info@kahunalabs.ai">
                         Let's Talk
+                            </a>
                     </button>
                 </div>
             </div>
         </header>
     );
-};
+}
 
 export default Header;
