@@ -442,7 +442,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
         // Function to check if device is mobile
         const isMobile = () => window.innerWidth <= 768;
         // Function to get frame limit based on device
-        const getFrameLimit = () => isMobile() ? 34 : 64; // Same for both, but can be customized
+        const getFrameLimit = () => isMobile() ? 30 : 60; // Same for both, but can be customized
         // Function to control section 4 text visibility
         const controlSection4Text = (frameIndex) => {
             const textOverlay = document.getElementById('section4-text-overlay');
