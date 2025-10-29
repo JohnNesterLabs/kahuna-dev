@@ -1532,13 +1532,13 @@ body {
     }
 
     .footer-main {
-        gap: 32px;
+        gap: 47px;
         padding-top: 40px;
     }
 
     .footer-hero-title {
         font-size: 2rem;
-        margin-bottom: 24px;
+        margin-bottom: 47px;
     }
 
     .footer-cta-box {
@@ -1547,31 +1547,91 @@ body {
 
     .footer-cta-text {
         font-size: 1rem;
+        font-size: 20px;
+    }
+
+    .footer-links-container {
+        flex-direction: column;
+        gap: 24px;
+        width: 100%;
     }
 
     .footer-links {
         flex-direction: column;
-        gap: 32px;
+        gap: 24px;
+    }
+    .footer-link-list {
+        gap: 4px;
+    }
+
+    .footer-logo {
+        display: flex;
+        align-items: start;
+        justify-content: start;
+        gap: 12px;
+    }
+
+    .footer-column {
+        gap: 8px;
+    }
+
+    .footer-column-title {
+        font-size: 12px;
+    }
+
+    .footer-link {
+        font-size: 14px;
+    }
+
+    .footer-social-link {
+        gap: 8px;
+    }
+
+    .footer-linkedin-icon {
+        width: 24px;
+        height: 24px;
     }
 
     .footer-bottom {
         flex-direction: column;
-        gap: 24px;
+        gap: 12px;
+        padding-top: 24px;
         align-items: flex-start;
     }
 
     .footer-bottom-right {
         align-items: flex-start;
+        font-size: 11px;
+        font-weight: 500;
     }
 
     .footer-legal-text {
-        font-size: 0.8rem;
+        font-size: 11px;
+        font-weight: 500;
+        margin-bottom: 12px;
+    }
+    .footer-rights-text {
+        font-size: 11px;
+        font-weight: 500;
+    }
+
+    /* Mobile: vertically center carousel text */
+    .carousel-container {
+        height: 48px;
+        display: flex;
+        align-items: center;
+    }
+
+    .carousel-container .footer-cta-text {
+        font-size: 20px;
+        position: static;
+        width: 100%;
     }
 }
 
 @media (max-width: 480px) {
     .footer-hero-title {
-        font-size: 1.75rem;
+        font-size: 28px;
     }
 
     .footer-cta-box {
@@ -1588,7 +1648,8 @@ body {
 
     .footer-link,
     .footer-social-link {
-        font-size: 0.9rem;
+        font-size: 16px;
+        color: #FAFAFABF;
     }
 }
 

@@ -143,7 +143,7 @@ const Footer = () => {
                         </div>
                       
                         <div className="footer-logo">
-                            <img src="/kahuna-logo-3.svg" alt="Kahuna Labs" />
+                            <img src="/light-logo.svg" alt="Kahuna Labs" />
                         </div>
                     </div>
                 </div>
