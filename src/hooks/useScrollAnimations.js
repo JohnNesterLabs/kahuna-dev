@@ -241,10 +241,10 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             opacity: 0,
             y: 50
         });
-        gsap.set(['.word-secure', '.word-private', '.word-enterprise', '.word-comprehensive'], {
-            opacity: 0,
-            y: 0
-        });
+        // gsap.set(['.word-secure', '.word-private', '.word-enterprise', '.word-comprehensive'], {
+        //     opacity: 0,
+        //     y: 0
+        // });
 
         // Section 3: Simple text and word animations
         gsap.timeline({
@@ -259,10 +259,10 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                     }
 
                     const progress = self.progress;
-                    const words = ['.word-secure', '.word-private', '.word-enterprise', '.word-comprehensive'];
+                    // const words = ['.word-secure', '.word-private', '.word-enterprise', '.word-comprehensive'];
 
-                    // Reset all words
-                    words.forEach(word => gsap.set(word, { opacity: 0 }));
+                    // // Reset all words
+                    // words.forEach(word => gsap.set(word, { opacity: 0 }));
 
                     // Show "Meet Kahuna AI" when reaching center of section
                     if (progress > 0.1 && progress < 0.9) {
@@ -276,17 +276,17 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                     }
 
                     // Word cycling - start after "Meet Kahuna AI" appears
-                    if (progress > 0.1 && progress < 0.8) {
-                        const wordProgress = (progress - 0.1) * 4 / 0.7; // 4 words over 70% of progress
-                        const currentWordIndex = Math.floor(wordProgress);
-                        if (currentWordIndex < 4) {
-                            gsap.set(words[currentWordIndex], { opacity: 1 });
-                        }
-                    } else if (progress >= 0.8 && progress < 0.9) {
-                        // "Comprehensive" fades out first
-                        const fadeOut = (progress - 0.8) / 0.1;
-                        gsap.set('.word-comprehensive', { opacity: 1 - fadeOut });
-                    }
+                    // if (progress > 0.1 && progress < 0.8) {
+                    //     const wordProgress = (progress - 0.1) * 4 / 0.7; // 4 words over 70% of progress
+                    //     const currentWordIndex = Math.floor(wordProgress);
+                    //     if (currentWordIndex < 4) {
+                    //         gsap.set(words[currentWordIndex], { opacity: 1 });
+                    //     }
+                    // } else if (progress >= 0.8 && progress < 0.9) {
+                    //     // "Comprehensive" fades out first
+                    //     const fadeOut = (progress - 0.8) / 0.1;
+                    //     gsap.set('.word-comprehensive', { opacity: 1 - fadeOut });
+                    // }
                 }
             }
         });

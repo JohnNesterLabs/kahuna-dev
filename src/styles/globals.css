@@ -79,6 +79,42 @@ body {
     transform: translateY(0);
 }
 
+/* Word Carousel for Section 3 */
+.word-carousel-container {
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+.word-carousel-text {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+/* Carousel Animation Classes */
+.slide-out-up {
+    transform: translateY(-100px) !important;
+    opacity: 0 !important;
+    transition: all 0.3s ease !important;
+}
+.slide-in-from-bottom {
+    transform: translateY(100px) !important;
+    opacity: 0 !important;
+    transition: all 0.3s ease !important;
+}
+.normal {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+    transition: all 0.3s ease !important;
+}
+
+
 /* Header visibility is controlled by JavaScript */
 
 /* Mobile Responsive */
@@ -121,6 +157,13 @@ body {
         font-weight: 400;
         white-space: nowrap;
         flex-shrink: 0;
+    }
+    /* Word Carousel Mobile */
+    .word-carousel-container {
+        right: 20px;
+    }
+    .word-carousel-text {
+        font-size: 1.8rem;
     }
 }
 
