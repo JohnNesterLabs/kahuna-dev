@@ -419,7 +419,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                 const firstFrame = document.querySelector('#frame-1');
                 if (firstFrame) {
                     gsap.set('#frame-1', { 
-                        autoAlpha: 1,
+                        autoAlpha: 0, // Frame-1 should be invisible
                         force3D: true,
                         willChange: 'opacity, transform'
                     });
@@ -475,15 +475,15 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                 }
 
                 // Calculate which frame should be shown - simplified for smooth transitions
-                const targetFrameIndex = Math.floor(self.progress * (totalFrames - 1));
+                let targetFrameIndex = Math.floor(self.progress * (totalFrames - 1)) + 1; // +1 to make it 1-based
 
                 // Emit frame change event for external tracking
                 const event = new CustomEvent('frameChanged', {
-                    detail: { frame: targetFrameIndex + 1 } // +1 because frames start from 1, not 0
+                    detail: { frame: targetFrameIndex } // Now 1-based
                 });
                 window.dispatchEvent(event);
 
-                if (targetFrameIndex !== currentFrameIndex && targetFrameIndex >= 0 && targetFrameIndex < totalFrames) {
+                if (targetFrameIndex !== currentFrameIndex && targetFrameIndex >= 1 && targetFrameIndex <= totalFrames) {
                     // Manage frame pool - load/unload frames as needed
                     if (window.manageFramePool) {
                         window.manageFramePool(targetFrameIndex);
@@ -505,7 +505,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                             const newFrameElement = document.querySelector(`#frame-${targetFrameIndex}`);
                             if (newFrameElement) {
                                 gsap.set(newFrameElement, { 
-                                    autoAlpha: 1,
+                                    autoAlpha: targetFrameIndex === 1 ? 0 : 1, // Frame-1 invisible, others visible
                                     force3D: true
                                 });
                             }
@@ -521,7 +521,9 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                         // Show new frame
                         const newFrameElement = document.querySelector(`#frame-${targetFrameIndex}`);
                         if (newFrameElement) {
-                            gsap.set(newFrameElement, { autoAlpha: 1 });
+                            gsap.set(newFrameElement, { 
+                                autoAlpha: targetFrameIndex === 1 ? 0 : 1 // Frame-1 invisible, others visible
+                            });
                         }
                         currentFrameIndex = targetFrameIndex;
                     }

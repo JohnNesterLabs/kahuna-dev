@@ -40,12 +40,18 @@ const PinnedSection = () => {
         // Set src with device-specific path and loading optimization
         const frameNumber = frameIndex.toString().padStart(4, '0');
         img.src = `${frameFolder}frame_${frameNumber}.webp`;
-        img.style.opacity = frameIndex === 1 ? '1' : '0';
         
-        // Ensure first frame is immediately visible
-        if (frameIndex === 1 && window.gsap) {
+        // Frame-1 is invisible but still occupies space
+        if (frameIndex === 1) {
+            img.style.opacity = '0';
+        } else {
+            img.style.opacity = '1';
+        }
+        
+        // Set initial visibility based on frame index
+        if (window.gsap) {
             window.gsap.set(img, { 
-                autoAlpha: 1,
+                autoAlpha: frameIndex === 1 ? 0 : 1, // Frame 0001 is invisible, others are visible
                 force3D: true,
                 willChange: 'opacity, transform'
             });
@@ -191,20 +197,30 @@ const PinnedSection = () => {
             memoryInterval = setInterval(checkMemoryUsage, 2000); // Check every 2 seconds
         }
         
-        // Simple fallback: Ensure first frame is visible once
-        const ensureFirstFrameVisible = () => {
+        // Ensure frame-1 stays invisible but visible in DOM
+        const ensureFrameVisibility = () => {
             const firstFrame = document.querySelector('#frame-1');
-            if (firstFrame && window.gsap) {
-                window.gsap.set(firstFrame, { 
-                    autoAlpha: 1,
-                    force3D: true,
-                    willChange: 'opacity, transform'
-                });
+            if (firstFrame) {
+                // Only set opacity to 0, keep other properties normal
+                firstFrame.style.opacity = '0';
+                
+                // Force GSAP properties
+                if (window.gsap) {
+                    window.gsap.set(firstFrame, { 
+                        autoAlpha: 0,
+                        opacity: 0,
+                        force3D: true,
+                        willChange: 'opacity, transform'
+                    });
+                }
             }
         };
         
-        // Ensure first frame is visible after a short delay
-        setTimeout(ensureFirstFrameVisible, 300);
+        // Ensure frames have correct visibility after a short delay
+        setTimeout(ensureFrameVisibility, 300);
+        
+        // Continuous monitoring to ensure frame-1 stays invisible
+        const frame1Monitor = setInterval(ensureFrameVisibility, 100); // Check every 100ms
         
         return () => {
             // Cleanup
@@ -212,6 +228,9 @@ const PinnedSection = () => {
             delete window.checkMemoryUsage;
             if (memoryInterval) {
                 clearInterval(memoryInterval);
+            }
+            if (frame1Monitor) {
+                clearInterval(frame1Monitor);
             }
         };
     }, [manageFramePool, checkMemoryUsage, isMobile]);
