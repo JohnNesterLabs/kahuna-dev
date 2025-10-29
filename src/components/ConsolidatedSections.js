@@ -73,7 +73,7 @@ const ConsolidatedSections = () => {
                 <div className="section-content hero-bg">
                     <div className="text-center hero-content">
                         <p className="section1-line1 hero-paragraph-1 opacity-0">
-                            Future of Technical Product Support
+                        Future of Technical <br className="mobile-only" /> Product Support
                         </p>
                         <p className="section1-line2 hero-paragraph-2 opacity-0">
                             A Productivity Leap for Your Frontline

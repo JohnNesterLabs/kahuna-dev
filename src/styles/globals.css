@@ -117,8 +117,17 @@ body {
 
 /* Header visibility is controlled by JavaScript */
 
+/* Mobile-only line break */
+.mobile-only {
+    display: none;
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
+    .mobile-only {
+        display: block;
+    }
+    
     .main-header {
         padding: 20px 0;
     }
