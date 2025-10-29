@@ -67,6 +67,8 @@ body {
     cursor: pointer;
     transition: all 0.2s ease;
     font-family: 'Prodigy Sans', sans-serif;
+    text-decoration: none;
+    display: inline-block;
 }
 
 .header-cta-button:hover {
@@ -505,10 +507,7 @@ body {
     transform: translate3d(0, 0, 0);
 }
 
-/* Ensure frame-1 is always invisible */
-#frame-1 {
-    opacity: 0 !important;
-}
+/* Frame-1 visibility is now controlled by JavaScript */
 
 .section-label {
     position: absolute;
@@ -1353,6 +1352,7 @@ body {
     min-height: 100vh;
     padding: 80px 0 40px;
     position: relative;
+    z-index: 1000;
     display: flex;
     align-items: left;
     box-sizing: border-box;
@@ -1384,6 +1384,8 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: end;
+    position: relative;
+    z-index: 1;
 }
 
 .footer-main {
@@ -1484,6 +1486,8 @@ body {
     /* justify-content: space-between; */
     width: 100%;
     gap: 80px;
+    position: relative;
+    z-index: 2;
 }
 
 .footer-links {
@@ -1527,6 +1531,10 @@ body {
     color: #FAFAFABF;
     text-decoration: none;
     transition: color 0.2s ease;
+    pointer-events: auto;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
 }
 
 .footer-social-link {
@@ -1538,10 +1546,21 @@ body {
     font-size: 1rem;
     font-weight: 400;
     transition: color 0.2s ease;
+    pointer-events: auto;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+}
+
+.footer-link:hover {
+    color: #ffffff;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .footer-social-link:hover {
     color: #e5e7eb;
+    cursor: pointer;
 }
 
 .footer-linkedin-icon {
@@ -1554,6 +1573,7 @@ body {
     align-items: center;
     justify-content: center;
 }
+
 
 .footer-bottom {
     display: flex;
@@ -1797,7 +1817,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    pointer-events: auto; /* Changed from none to auto */
+    pointer-events: none; /* Changed back to none to not block clicks */
     z-index: 100000; /* Much higher z-index */
 }
 

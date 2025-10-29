@@ -443,7 +443,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                 const firstFrame = document.querySelector('#frame-1');
                 if (firstFrame) {
                     gsap.set('#frame-1', { 
-                        autoAlpha: 0, // Frame-1 should be invisible
+                        autoAlpha: 1, // Frame-1 should be visible
                         force3D: true,
                         willChange: 'opacity, transform'
                     });
@@ -454,7 +454,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
         // Function to check if device is mobile
         const isMobile = () => window.innerWidth <= 768;
         // Function to get frame limit based on device
-        const getFrameLimit = () => isMobile() ? 30 : 60; // Same for both, but can be customized
+        const getFrameLimit = () => isMobile() ? 34 : 64; // Same for both, but can be customized
         // Function to control section 4 text visibility
         const controlSection4Text = (frameIndex) => {
             const textOverlay = document.getElementById('section4-text-overlay');
