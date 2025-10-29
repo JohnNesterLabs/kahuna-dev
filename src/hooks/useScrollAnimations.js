@@ -477,6 +477,12 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                 // Calculate which frame should be shown - simplified for smooth transitions
                 const targetFrameIndex = Math.floor(self.progress * (totalFrames - 1));
 
+                // Emit frame change event for external tracking
+                const event = new CustomEvent('frameChanged', {
+                    detail: { frame: targetFrameIndex + 1 } // +1 because frames start from 1, not 0
+                });
+                window.dispatchEvent(event);
+
                 if (targetFrameIndex !== currentFrameIndex && targetFrameIndex >= 0 && targetFrameIndex < totalFrames) {
                     // Manage frame pool - load/unload frames as needed
                     if (window.manageFramePool) {
