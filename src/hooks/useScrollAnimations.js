@@ -390,7 +390,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
         const totalFrames = isMobileDevice ? 97 : 134;
         let currentFrameIndex = 0;
         let lastFrameUpdate = 0;
-        const frameUpdateThrottle = isIOS ? 32 : 16; // Throttle frame updates on iOS
+        const frameUpdateThrottle = isIOS ? 16 : 16; // Reduced throttle for more responsive frame changes on iOS
 
         // Frame pooling system - only work with frames that exist in DOM
         const getAvailableFrames = () => {
@@ -404,7 +404,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             return frames;
         };
 
-        // Initialize with frame pooling - only set up frames that exist
+        // Initialize frames function - will be called after frames are created
         const initializeFrames = () => {
             const availableFrames = getAvailableFrames();
             if (availableFrames.length > 0) {
@@ -427,9 +427,6 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             }
         };
 
-        // Initialize frames
-        initializeFrames();
-
         // Function to check if device is mobile
         const isMobile = () => window.innerWidth <= 768;
         // Function to get frame limit based on device
@@ -446,14 +443,14 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             }
         };
 
-        // Device-specific scroll distance for better iOS performance
-        const scrollDistance = isIOS ? '+=1500%' : '+=2500%';
+        // Device-specific scroll distance for better iOS performance and easier navigation
+        const scrollDistance = isIOS ? '+=800%' : '+=1500%'; // Reduced scroll distance for easier navigation
         
         ScrollTrigger.create({
             trigger: '#section4Wrapper',
             start: 'top top',
             end: scrollDistance,
-            scrub: isIOS ? 0.5 : 1, // Smoother scrubbing on iOS
+            scrub: isIOS ? 0.3 : 1, // More responsive scrubbing on iOS for easier frame changes
             pin: true,
             onEnter: () => {
                 setActiveSection(3);
@@ -477,7 +474,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                     window.checkMemoryUsage();
                 }
 
-                // Calculate which frame should be shown
+                // Calculate which frame should be shown - simplified for smooth transitions
                 const targetFrameIndex = Math.floor(self.progress * (totalFrames - 1));
 
                 if (targetFrameIndex !== currentFrameIndex && targetFrameIndex >= 0 && targetFrameIndex < totalFrames) {
@@ -486,10 +483,10 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                         window.manageFramePool(targetFrameIndex);
                     }
 
-                    // Use requestAnimationFrame for smoother updates on iOS
+                    // Simple instant frame switching to prevent blinking
                     if (isIOS) {
                         requestAnimationFrame(() => {
-                            // Hide current frame with hardware acceleration
+                            // Hide current frame instantly
                             const currentFrameElement = document.querySelector(`#frame-${currentFrameIndex}`);
                             if (currentFrameElement) {
                                 gsap.set(currentFrameElement, { 
@@ -498,7 +495,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                                 });
                             }
 
-                            // Show new frame with hardware acceleration
+                            // Show new frame instantly
                             const newFrameElement = document.querySelector(`#frame-${targetFrameIndex}`);
                             if (newFrameElement) {
                                 gsap.set(newFrameElement, { 

@@ -42,6 +42,15 @@ const PinnedSection = () => {
         img.src = `${frameFolder}frame_${frameNumber}.webp`;
         img.style.opacity = frameIndex === 1 ? '1' : '0';
         
+        // Ensure first frame is immediately visible
+        if (frameIndex === 1 && window.gsap) {
+            window.gsap.set(img, { 
+                autoAlpha: 1,
+                force3D: true,
+                willChange: 'opacity, transform'
+            });
+        }
+        
         // Mobile Safari memory optimizations
         if (isMobile) {
             img.loading = 'lazy'; // Lazy load images
@@ -106,16 +115,14 @@ const PinnedSection = () => {
             }
         };
         
-        // Load frames with staggered timing on mobile to prevent memory spikes
+        // Load frames immediately without delays to prevent blinking
         if (isMobile) {
             // Load current frame immediately
             loadFrame(currentFrameIndex);
             
-            // Load adjacent frames with small delays
-            setTimeout(() => {
-                if (startFrame < currentFrameIndex) loadFrame(startFrame);
-                if (endFrame > currentFrameIndex) loadFrame(endFrame);
-            }, 10);
+            // Preload adjacent frames immediately
+            if (startFrame < currentFrameIndex) loadFrame(startFrame);
+            if (endFrame > currentFrameIndex) loadFrame(endFrame);
         } else {
             // Load all frames at once on desktop
             for (let i = startFrame; i <= endFrame; i++) {
@@ -183,6 +190,21 @@ const PinnedSection = () => {
         if (isMobile) {
             memoryInterval = setInterval(checkMemoryUsage, 2000); // Check every 2 seconds
         }
+        
+        // Simple fallback: Ensure first frame is visible once
+        const ensureFirstFrameVisible = () => {
+            const firstFrame = document.querySelector('#frame-1');
+            if (firstFrame && window.gsap) {
+                window.gsap.set(firstFrame, { 
+                    autoAlpha: 1,
+                    force3D: true,
+                    willChange: 'opacity, transform'
+                });
+            }
+        };
+        
+        // Ensure first frame is visible after a short delay
+        setTimeout(ensureFirstFrameVisible, 300);
         
         return () => {
             // Cleanup
