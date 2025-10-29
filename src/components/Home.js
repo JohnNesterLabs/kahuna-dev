@@ -96,10 +96,10 @@ const Home = () => {
                       onClick={(e) => e.stopPropagation()}
                       style={{
                         position: 'relative',
-                        width: '80%',
-                        maxWidth: '800px',
-                        height: '80%',
-                        maxHeight: '600px',
+                        width: '90vw',
+                        maxWidth: '90vw',
+                        height: '90vh',
+                        maxHeight: '90vh',
                         backgroundColor: '#000',
                         borderRadius: '10px',
                         overflow: 'hidden',
@@ -138,7 +138,7 @@ const Home = () => {
                                 muted
                                 playsInline
                                 onClick={handleVideoClick}
-                                style={{ cursor: 'pointer' }}
+                                style={{ cursor: 'pointer', width: '100%', height: '100%', objectFit: 'contain' }}
                             >
                                 Your browser does not support the video tag.
                             </video>
@@ -205,32 +205,32 @@ const Home = () => {
               }}
               onMouseDown={(e) => {
                 if (!shouldShow) return;
-                e.target.style.transform = 'scale(0.95)';
+                // No visual changes for invisible button
               }}
               onMouseUp={(e) => {
                 if (!shouldShow) return;
-                e.target.style.transform = '';
+                // No visual changes for invisible button
               }}
               onMouseEnter={(e) => {
                 if (!shouldShow) return;
-                e.target.style.transform = 'scale(1.05)';
-                e.target.style.background = 'linear-gradient(135deg, #ff8c00, #ff7f00)';
+                // No visual changes for invisible button
               }}
               onMouseLeave={(e) => {
                 if (!shouldShow) return;
-                e.target.style.transform = 'scale(1)';
-                e.target.style.background = 'linear-gradient(135deg, #ff8c00, #ff7f00)';
+                // No visual changes for invisible button
               }}
               style={{
-                background: 'linear-gradient(135deg, #ff8c00, #ff7f00)',
-                color: 'white',
-                border: '2px solid white',
+                background: 'transparent',
+                color: 'transparent',
+                border: 'none',
                 borderRadius: '25px',
                 padding: '15px 30px',
                 fontSize: '16px',
+                width: '700px',
+                height: '500px',
                 fontWeight: 'bold',
                 cursor: shouldShow ? 'pointer' : 'default',
-                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3)',
+                boxShadow: 'none',
                 transition: 'all 0.3s ease',
                 pointerEvents: 'auto',
                 zIndex: 999999,
