@@ -13,8 +13,8 @@ export const VIDEO_POSITION_CONFIG = {
     // Section 1: BOTTOM position (hero section)
     section1: {
       mobile: {
-        bottom: '-50%',           // Very close to bottom on mobile
-        left: '50%',
+        bottom: '-45%',           // Very close to bottom on mobile
+        left: '25%',
         transform: 'translateX(-50%)',
         zIndex: 40
       },
@@ -35,8 +35,8 @@ export const VIDEO_POSITION_CONFIG = {
     // Section 1→2: Transition (moving from bottom to right)
     section1To2: {
       mobile: {
-        bottom: '50%',          // Move to vertical center
-        left: '85%',            // Move to right side
+        bottom: '30%',          // Move to vertical center
+        left: '80%',            // Move to right side
         transform: 'translate(-50%, 50%)',
         zIndex: 40
       },
@@ -57,8 +57,8 @@ export const VIDEO_POSITION_CONFIG = {
     // Section 2: RIGHT position (smooth scrolling section)
     section2: {
       mobile: {
-        bottom: '50%',          // Vertical center
-        left: '85%',            // Right side of screen
+        bottom: '30%',          // Vertical center
+        left: '80%',            // Right side of screen
         transform: 'translate(-50%, 50%)',
         zIndex: 40
       },
@@ -80,7 +80,7 @@ export const VIDEO_POSITION_CONFIG = {
     section2To3: {
       mobile: {
         bottom: '50%',          // Stay at vertical center
-        left: '50%',            // Move to horizontal center
+        left: '40%',            // Move to horizontal center
         transform: 'translate(-50%, 50%)',
         zIndex: 40
       },
@@ -102,7 +102,7 @@ export const VIDEO_POSITION_CONFIG = {
     section3: {
       mobile: {
         bottom: '50%',          // Vertical center
-        left: '50%',            // Horizontal center
+        left: '40%',            // Horizontal center
         transform: 'translate(-50%, 50%)',
         zIndex: 40
       },
