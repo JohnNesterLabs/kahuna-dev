@@ -110,7 +110,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
         gsap.timeline({
             scrollTrigger: {
                 trigger: '#section1Wrapper',
-                start: 'bottom center',
+                start: 'bottom 100%',
                 end: 'bottom top',
                 scrub: 1,
                 onUpdate: (self) => {
@@ -206,7 +206,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
         gsap.timeline({
             scrollTrigger: {
                 trigger: '#section2Wrapper',
-                start: 'bottom center',
+                start: 'bottom 100%',
                 end: 'bottom top',
                 scrub: 1,
                 onUpdate: (self) => {

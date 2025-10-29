@@ -88,6 +88,11 @@ const Footer = () => {
     }, [isVisible, carouselTexts.length]);
     return (
         <div className="footer-section" id="footerWrapper" ref={footerRef}>
+            {/* Large Abstract Logo - Top Half Cut */}
+            <div className="footer-abstract-logo">
+                <img src="/final-logo-128.svg" alt="Abstract Logo" />
+            </div>
+            
             <div className="footer-container">
                 {/* Main Content Area */}
                 <div className="footer-main">
