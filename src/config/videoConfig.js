@@ -58,7 +58,7 @@ export const VIDEO_CONFIG = {
 
     // Section 3: Interactive (full size)
     section3: {
-      mobile: { scale: 0.6 },
+      mobile: { scale: 0.3 },
       tablet: { scale: 1 },
       desktop: { scale: 1.2 }
     },

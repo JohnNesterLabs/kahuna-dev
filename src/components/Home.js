@@ -180,7 +180,7 @@ const Home = () => {
       {/* Test Button - Only visible in Section 3 with frame range conditions, hidden when modal is open */}
       {(() => {
         const isInSection3 = activeSection === 3;
-        const frameRange = isMobile ? { min: 45, max: 55 } : { min: 66, max: 76 };
+        const frameRange = isMobile ? { min: 36, max: 41 } : { min: 65, max: 75 };
         const isInFrameRange = currentFrame >= frameRange.min && currentFrame <= frameRange.max;
         const shouldShow = isInSection3 && isInFrameRange && !showVideoModal; // Hide when modal is open
         
