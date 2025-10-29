@@ -3,6 +3,7 @@
 export const VIDEO_POSITION_CONFIG = {
   // Device breakpoints
   breakpoints: {
+    extraSmall: '(max-width: 400px)',
     mobile: '(max-width: 768px)',
     tablet: '(min-width: 769px) and (max-width: 1024px)',
     desktop: '(min-width: 1025px)'
@@ -12,6 +13,12 @@ export const VIDEO_POSITION_CONFIG = {
   positions: {
     // Section 1: BOTTOM position (hero section)
     section1: {
+      extraSmall: {
+        bottom: '-60%',           // Even closer to bottom on extra small screens
+        left: '25%',
+        transform: 'translateX(-50%)',
+        zIndex: 40
+      },
       mobile: {
         bottom: '-55%',           // Very close to bottom on mobile
         left: '25%',
@@ -34,9 +41,15 @@ export const VIDEO_POSITION_CONFIG = {
 
     // Section 1→2: Transition (moving from bottom to right)
     section1To2: {
+      extraSmall: {
+        bottom: '25%',          // Move to vertical center
+        left: '75%',            // Move to right side
+        transform: 'translate(-50%, 50%)',
+        zIndex: 40
+      },
       mobile: {
         bottom: '30%',          // Move to vertical center
-        left: '80%',            // Move to right side
+        left: '85%',            // Move to right side
         transform: 'translate(-50%, 50%)',
         zIndex: 40
       },
@@ -56,9 +69,15 @@ export const VIDEO_POSITION_CONFIG = {
 
     // Section 2: RIGHT position (smooth scrolling section)
     section2: {
+      extraSmall: {
+        bottom: '25%',          // Vertical center
+        left: '75%',            // Right side of screen
+        transform: 'translate(-50%, 50%)',
+        zIndex: 40
+      },
       mobile: {
         bottom: '30%',          // Vertical center
-        left: '80%',            // Right side of screen
+        left: '85%',            // Right side of screen
         transform: 'translate(-50%, 50%)',
         zIndex: 40
       },
@@ -78,6 +97,12 @@ export const VIDEO_POSITION_CONFIG = {
 
     // Section 2→3: Transition (moving from right to center)
     section2To3: {
+      extraSmall: {
+        bottom: '45%',          // Stay at vertical center
+        left: '35%',            // Move to horizontal center
+        transform: 'translate(-50%, 50%)',
+        zIndex: 40
+      },
       mobile: {
         bottom: '50%',          // Stay at vertical center
         left: '40%',            // Move to horizontal center
@@ -100,6 +125,12 @@ export const VIDEO_POSITION_CONFIG = {
 
     // Section 3: CENTER position (interactive section)
     section3: {
+      extraSmall: {
+        bottom: '45%',          // Vertical center
+        left: '35%',            // Horizontal center
+        transform: 'translate(-50%, 50%)',
+        zIndex: 40
+      },
       mobile: {
         bottom: '50%',          // Vertical center
         left: '40%',            // Horizontal center
@@ -122,6 +153,12 @@ export const VIDEO_POSITION_CONFIG = {
 
     // Section 3→4: Fade out (center position, shrinking)
     section3To4: {
+      extraSmall: {
+        bottom: '45%',          // Stay at vertical center
+        left: '45%',            // Stay at horizontal center
+        transform: 'translate(-50%, 50%)',
+        zIndex: 40
+      },
       mobile: {
         bottom: '50%',          // Stay at vertical center
         left: '50%',            // Stay at horizontal center
@@ -157,7 +194,9 @@ export const getCurrentDeviceType = () => {
     return 'desktop'; // Default to desktop for server-side rendering
   }
   
-  if (window.matchMedia(VIDEO_POSITION_CONFIG.breakpoints.mobile).matches) {
+  if (window.matchMedia(VIDEO_POSITION_CONFIG.breakpoints.extraSmall).matches) {
+    return 'extraSmall';
+  } else if (window.matchMedia(VIDEO_POSITION_CONFIG.breakpoints.mobile).matches) {
     return 'mobile';
   } else if (window.matchMedia(VIDEO_POSITION_CONFIG.breakpoints.tablet).matches) {
     return 'tablet';
