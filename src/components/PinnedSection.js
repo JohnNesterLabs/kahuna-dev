@@ -249,8 +249,10 @@ const PinnedSection = () => {
                 </div>
                 {/* New text that fades in when section 3 bottom reaches center */}
                 <div className="section4-text-overlay" id="section4-text-overlay">
-                    <p className="section4-main-text">
-                        AI that automatically builds and nurtures your Troubleshooting Map
+                <p className="section4-main-text">
+                        AI that automatically <br className="mobile-only" />
+                        builds and nurtures your <br className="mobile-only" />
+                        Troubleshooting Map
                     </p>
                 </div>
             </div>
