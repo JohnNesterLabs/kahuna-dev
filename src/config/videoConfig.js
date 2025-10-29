@@ -10,7 +10,7 @@ export const VIDEO_CONFIG = {
   // Base video size for each device (used for all sections)
   baseSize: {
     mobile: {
-      width: '1400px',
+      width: '1700px',
       height: 'auto',
       borderRadius: '12px'
     },
@@ -37,37 +37,37 @@ export const VIDEO_CONFIG = {
 
     // Section 1→2: Transition (slightly smaller)
     section1To2: {
-      mobile: { scale: 0.9 },
+      mobile: { scale: 1.2 },
       tablet: { scale: 0.9 },
       desktop: { scale: 1.6 }
     },
 
     // Section 2: Smooth scrolling (smaller)
     section2: {
-      mobile: { scale: 0.8 },
+      mobile: { scale: 1.3 },
       tablet: { scale: 0.8 },
       desktop: { scale: 1.6 }
     },
 
     // Section 2→3: Transition (slightly larger)
     section2To3: {
-      mobile: { scale: 0.5 },
+      mobile: { scale: 0.8 },
       tablet: { scale: 0.9 },
       desktop: { scale: 1.3 }
     },
 
     // Section 3: Interactive (full size)
     section3: {
-      mobile: { scale: 0.5 },
+      mobile: { scale: 0.6 },
       tablet: { scale: 1 },
-      desktop: { scale: 1 }
+      desktop: { scale: 1.2 }
     },
 
     // Section 3→4: Fade out (much smaller)
     section3To4: {
       mobile: { scale: 0.6 },
       tablet: { scale: 0.6 },
-      desktop: { scale: 1.1 }
+      desktop: { scale: 1.3 }
     }
   },
 
