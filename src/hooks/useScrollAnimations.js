@@ -431,7 +431,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                 const firstFrame = document.querySelector('#frame-1');
                 if (firstFrame) {
                     gsap.set('#frame-1', { 
-                        autoAlpha: 0, // Frame-1 should be invisible
+                        autoAlpha: 1, // Frame-1 should be visible
                         force3D: true,
                         willChange: 'opacity, transform'
                     });

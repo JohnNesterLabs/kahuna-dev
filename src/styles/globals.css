@@ -505,10 +505,7 @@ body {
     transform: translate3d(0, 0, 0);
 }
 
-/* Ensure frame-1 is always invisible */
-#frame-1 {
-    opacity: 0 !important;
-}
+/* Frame-1 visibility is now controlled by JavaScript */
 
 .section-label {
     position: absolute;

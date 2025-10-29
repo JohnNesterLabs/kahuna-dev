@@ -41,17 +41,13 @@ const PinnedSection = () => {
         const frameNumber = frameIndex.toString().padStart(4, '0');
         img.src = `${frameFolder}frame_${frameNumber}.webp`;
         
-        // Frame-1 is invisible but still occupies space
-        if (frameIndex === 1) {
-            img.style.opacity = '0';
-        } else {
-            img.style.opacity = '1';
-        }
+        // All frames start visible
+        img.style.opacity = '1';
         
-        // Set initial visibility based on frame index
+        // Set initial visibility - all frames visible
         if (window.gsap) {
             window.gsap.set(img, { 
-                autoAlpha: frameIndex === 1 ? 0 : 1, // Frame 0001 is invisible, others are visible
+                autoAlpha: 1, // All frames are visible
                 force3D: true,
                 willChange: 'opacity, transform'
             });
@@ -197,18 +193,18 @@ const PinnedSection = () => {
             memoryInterval = setInterval(checkMemoryUsage, 2000); // Check every 2 seconds
         }
         
-        // Ensure frame-1 stays invisible but visible in DOM
+        // Ensure all frames are visible
         const ensureFrameVisibility = () => {
             const firstFrame = document.querySelector('#frame-1');
             if (firstFrame) {
-                // Only set opacity to 0, keep other properties normal
-                firstFrame.style.opacity = '0';
+                // Set opacity to 1 to make frame-1 visible
+                firstFrame.style.opacity = '1';
                 
                 // Force GSAP properties
                 if (window.gsap) {
                     window.gsap.set(firstFrame, { 
-                        autoAlpha: 0,
-                        opacity: 0,
+                        autoAlpha: 1,
+                        opacity: 1,
                         force3D: true,
                         willChange: 'opacity, transform'
                     });
@@ -219,7 +215,7 @@ const PinnedSection = () => {
         // Ensure frames have correct visibility after a short delay
         setTimeout(ensureFrameVisibility, 300);
         
-        // Continuous monitoring to ensure frame-1 stays invisible
+        // Continuous monitoring to ensure frame-1 stays visible
         const frame1Monitor = setInterval(ensureFrameVisibility, 100); // Check every 100ms
         
         return () => {
