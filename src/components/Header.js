@@ -41,11 +41,9 @@ const Header = () => {
 
                 {/* Call to Action Button */}
                 <div className="header-right">
-                    <button className="header-cta-button">
-                        <a href="mailto:info@kahunalabs.ai">
+                    <a href="mailto:info@kahunalabs.ai" className="header-cta-button">
                         Let's Talk
-                            </a>
-                    </button>
+                    </a>
                 </div>
             </div>
         </header>
