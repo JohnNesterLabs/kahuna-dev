@@ -60,14 +60,14 @@ export const VIDEO_CONFIG = {
     section3: {
       mobile: { scale: 0.6 },
       tablet: { scale: 1 },
-      desktop: { scale: 1 }
+      desktop: { scale: 1.2 }
     },
 
     // Section 3→4: Fade out (much smaller)
     section3To4: {
       mobile: { scale: 0.6 },
       tablet: { scale: 0.6 },
-      desktop: { scale: 1.1 }
+      desktop: { scale: 1.3 }
     }
   },
 
