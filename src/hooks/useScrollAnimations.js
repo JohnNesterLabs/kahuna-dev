@@ -11,9 +11,9 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
 
     useEffect(() => {
         // Configure ScrollTrigger with iOS Safari optimizations
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
-                     (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-        
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+            (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
         ScrollTrigger.config({
             ignoreMobileResize: false, // Allow resize on iOS for better performance
             syncInterval: isIOS ? 16 : 1, // 60fps throttling for iOS
@@ -126,7 +126,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                 end: 'bottom top',
                 scrub: 1,
                 onUpdate: (self) => {
-                    // Smoothly transition size based on scroll progress
+                    // Handle both forward and backward scrolling
                     const progress = self.progress;
                     const section1Config = getGSAPConfig('section1');
                     const section1To2Config = getGSAPConfig('section1To2');
@@ -187,28 +187,25 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                 end: 'bottom bottom',
                 scrub: 1,
                 onUpdate: (self) => {
-                    // Only run if we're actually in section 2
-                    if (self.progress > 0.1) {
-                        // Smoothly transition size based on scroll progress
-                        const progress = self.progress;
-                        const section1To2Config = getGSAPConfig('section1To2');
-                        const section2Config = getGSAPConfig('section2');
-                        const section2Position = getGSAPPosition('section2');
+                    // Handle both forward and backward scrolling
+                    const progress = self.progress;
+                    const section1To2Config = getGSAPConfig('section1To2');
+                    const section2Config = getGSAPConfig('section2');
+                    const section2Position = getGSAPPosition('section2');
 
-                        if (videoRef.current) {
-                            // Interpolate between section1To2 and section2 based on progress
-                            const currentScale = section1To2Config.scale + (section2Config.scale - section1To2Config.scale) * progress;
+                    if (videoRef.current) {
+                        // Interpolate between section1To2 and section2 based on progress
+                        const currentScale = section1To2Config.scale + (section2Config.scale - section1To2Config.scale) * progress;
 
-                            gsap.set(videoRef.current, {
-                                scale: currentScale,
-                                width: section2Config.width,
-                                borderRadius: section2Config.borderRadius,
-                                ...section2Position, // Use section2 position
-                                // iOS Safari optimizations
-                                force3D: true,
-                                willChange: isIOS ? 'transform, opacity' : 'auto'
-                            });
-                        }
+                        gsap.set(videoRef.current, {
+                            scale: currentScale,
+                            width: section2Config.width,
+                            borderRadius: section2Config.borderRadius,
+                            ...section2Position, // Use section2 position
+                            // iOS Safari optimizations
+                            force3D: true,
+                            willChange: isIOS ? 'transform, opacity' : 'auto'
+                        });
                     }
                 }
             }
@@ -222,7 +219,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                 end: 'bottom top',
                 scrub: 1,
                 onUpdate: (self) => {
-                    // Smoothly transition size based on scroll progress
+                    // Handle both forward and backward scrolling
                     const progress = self.progress;
                     const section2Config = getGSAPConfig('section2');
                     const section2To3Config = getGSAPConfig('section2To3');
@@ -311,7 +308,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                 end: 'bottom bottom',
                 scrub: 1,
                 onUpdate: (self) => {
-                    // Smoothly transition size based on scroll progress
+                    // Handle both forward and backward scrolling
                     const progress = self.progress;
                     const section2To3Config = getGSAPConfig('section2To3');
                     const section3Config = getGSAPConfig('section3');
@@ -345,6 +342,66 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             },
             onLeave: () => {
                 setActiveSection(3);
+            }
+        });
+
+        // Handle backward scrolling from section 3 to section 2
+        ScrollTrigger.create({
+            trigger: '#section3Wrapper',
+            start: 'top top',
+            end: 'top bottom',
+            scrub: 1,
+            onUpdate: (self) => {
+                // When scrolling back from section 3 to section 2
+                const progress = self.progress;
+                const section2To3Config = getGSAPConfig('section2To3');
+                const section2Config = getGSAPConfig('section2');
+                const section2Position = getGSAPPosition('section2');
+
+                if (videoRef.current) {
+                    // Interpolate between section2To3 and section2 based on progress (reversed)
+                    const currentScale = section2To3Config.scale + (section2Config.scale - section2To3Config.scale) * (1 - progress);
+
+                    gsap.set(videoRef.current, {
+                        scale: currentScale,
+                        width: section2Config.width,
+                        borderRadius: section2Config.borderRadius,
+                        ...section2Position,
+                        // iOS Safari optimizations
+                        force3D: true,
+                        willChange: isIOS ? 'transform, opacity' : 'auto'
+                    });
+                }
+            }
+        });
+
+        // Handle backward scrolling from section 2 to section 1
+        ScrollTrigger.create({
+            trigger: '#section2Wrapper',
+            start: 'top top',
+            end: 'top bottom',
+            scrub: 1,
+            onUpdate: (self) => {
+                // When scrolling back from section 2 to section 1
+                const progress = self.progress;
+                const section1To2Config = getGSAPConfig('section1To2');
+                const section1Config = getGSAPConfig('section1');
+                const section1Position = getGSAPPosition('section1');
+
+                if (videoRef.current) {
+                    // Interpolate between section1To2 and section1 based on progress (reversed)
+                    const currentScale = section1To2Config.scale + (section1Config.scale - section1To2Config.scale) * (1 - progress);
+
+                    gsap.set(videoRef.current, {
+                        scale: currentScale,
+                        width: section1Config.width,
+                        borderRadius: section1Config.borderRadius,
+                        ...section1Position,
+                        // iOS Safari optimizations
+                        force3D: true,
+                        willChange: isIOS ? 'transform, opacity' : 'auto'
+                    });
+                }
             }
         });
 
@@ -411,7 +468,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                 }
             }
         });
-        
+
         let currentFrameIndex = 0;
         let lastFrameUpdate = 0;
         const frameUpdateThrottle = isIOS ? 16 : 16; // Reduced throttle for more responsive frame changes on iOS
@@ -433,16 +490,16 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             const availableFrames = getAvailableFrames();
             if (availableFrames.length > 0) {
                 // Set all available frames as hidden initially with hardware acceleration
-                gsap.set(availableFrames, { 
+                gsap.set(availableFrames, {
                     autoAlpha: 0,
                     force3D: true, // Enable hardware acceleration
                     willChange: 'opacity, transform'
                 });
-                
+
                 // Show first frame if it exists
                 const firstFrame = document.querySelector('#frame-1');
                 if (firstFrame) {
-                    gsap.set('#frame-1', { 
+                    gsap.set('#frame-1', {
                         autoAlpha: 1, // Frame-1 should be visible
                         force3D: true,
                         willChange: 'opacity, transform'
@@ -469,7 +526,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
 
         // Device-specific scroll distance for better iOS performance and easier navigation
         const scrollDistance = isIOS ? '+=800%' : '+=1500%'; // Reduced scroll distance for easier navigation
-        
+
         ScrollTrigger.create({
             trigger: '#section4Wrapper',
             start: 'top top',
@@ -519,7 +576,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                             // Hide current frame instantly
                             const currentFrameElement = document.querySelector(`#frame-${currentFrameIndex}`);
                             if (currentFrameElement) {
-                                gsap.set(currentFrameElement, { 
+                                gsap.set(currentFrameElement, {
                                     autoAlpha: 0,
                                     force3D: true
                                 });
@@ -528,7 +585,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                             // Show new frame instantly
                             const newFrameElement = document.querySelector(`#frame-${targetFrameIndex}`);
                             if (newFrameElement) {
-                                gsap.set(newFrameElement, { 
+                                gsap.set(newFrameElement, {
                                     autoAlpha: targetFrameIndex === 1 ? 0 : 1, // Frame-1 invisible, others visible
                                     force3D: true
                                 });
@@ -545,7 +602,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
                         // Show new frame
                         const newFrameElement = document.querySelector(`#frame-${targetFrameIndex}`);
                         if (newFrameElement) {
-                            gsap.set(newFrameElement, { 
+                            gsap.set(newFrameElement, {
                                 autoAlpha: targetFrameIndex === 1 ? 0 : 1 // Frame-1 invisible, others visible
                             });
                         }
@@ -633,26 +690,26 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             if (resizeTimeout) {
                 clearTimeout(resizeTimeout);
             }
-            
+
             // Remove event listeners
             window.removeEventListener('load', handleLoad);
             window.removeEventListener('resize', throttledResize);
-            
+
             // Remove iOS touch event listeners
             if (isIOS) {
                 document.removeEventListener('touchstart', preventIOSScroll);
                 document.removeEventListener('touchmove', preventIOSScroll);
                 document.removeEventListener('touchmove', preventIOSBounce);
             }
-            
+
             // Kill all ScrollTrigger instances
             ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-            
+
             // Clear GSAP transforms to free memory
             if (videoRef.current) {
                 gsap.set(videoRef.current, { clearProps: "all" });
             }
-            
+
             // Clear frame elements to free memory using frame pooling
             const availableFrames = getAvailableFrames();
             availableFrames.forEach(frame => {
