@@ -4,13 +4,19 @@ export const VIDEO_CONFIG = {
   breakpoints: {
     mobile: '(max-width: 768px)',
     tablet: '(min-width: 769px) and (max-width: 1024px)',
-    desktop: '(min-width: 1025px)'
+    desktop: '(min-width: 1025px)',
+    extraSmall: '(max-width: 400px)'
   },
 
   // Base video size for each device (used for all sections)
   baseSize: {
+    extraSmall: {
+      width: '1500px',
+      height: 'auto',
+      borderRadius: '8px'
+    },
     mobile: {
-      width: '1700px',
+      width: '1600px',
       height: 'auto',
       borderRadius: '12px'
     },
@@ -30,6 +36,7 @@ export const VIDEO_CONFIG = {
   sections: {
     // Section 1: Hero section (full size)
     section1: {
+      extraSmall: { scale: 0.9 },
       mobile: { scale: 1 },
       tablet: { scale: 1 },
       desktop: { scale: 1.5 }
@@ -37,6 +44,7 @@ export const VIDEO_CONFIG = {
 
     // Section 1→2: Transition (slightly smaller)
     section1To2: {
+      extraSmall: { scale: 0.8 },
       mobile: { scale: 1.2 },
       tablet: { scale: 0.9 },
       desktop: { scale: 1.6 }
@@ -44,6 +52,7 @@ export const VIDEO_CONFIG = {
 
     // Section 2: Smooth scrolling (smaller)
     section2: {
+      extraSmall: { scale: 1.0 },
       mobile: { scale: 1.3 },
       tablet: { scale: 0.8 },
       desktop: { scale: 1.6 }
@@ -51,6 +60,7 @@ export const VIDEO_CONFIG = {
 
     // Section 2→3: Transition (slightly larger)
     section2To3: {
+      extraSmall: { scale: 0.6 },
       mobile: { scale: 0.8 },
       tablet: { scale: 0.9 },
       desktop: { scale: 1.1 }
@@ -58,6 +68,7 @@ export const VIDEO_CONFIG = {
 
     // Section 3: Interactive (full size)
     section3: {
+      extraSmall: { scale: 0.4 },
       mobile: { scale: 0.5 },
       tablet: { scale: 1 },
       desktop: { scale: 1.2 }
@@ -65,6 +76,7 @@ export const VIDEO_CONFIG = {
 
     // Section 3→4: Fade out (much smaller)
     section3To4: {
+      extraSmall: { scale: 0.8 },
       mobile: { scale: 1 },
       tablet: { scale: 0.6 },
       desktop: { scale: 1.3 }
@@ -80,7 +92,9 @@ export const VIDEO_CONFIG = {
 
 // Helper function to get current device type
 export const getCurrentDeviceType = () => {
-  if (window.matchMedia(VIDEO_CONFIG.breakpoints.mobile).matches) {
+  if (window.matchMedia(VIDEO_CONFIG.breakpoints.extraSmall).matches) {
+    return 'extraSmall';
+  } else if (window.matchMedia(VIDEO_CONFIG.breakpoints.mobile).matches) {
     return 'mobile';
   } else if (window.matchMedia(VIDEO_CONFIG.breakpoints.tablet).matches) {
     return 'tablet';

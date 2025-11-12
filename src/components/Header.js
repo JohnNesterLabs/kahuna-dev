@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
     const [isVisible, setIsVisible] = useState(true);
@@ -33,16 +34,17 @@ const Header = () => {
         <header className="main-header">
             <div className="header-container">
                 {/* Logo and Company Name */}
-                <div className="header-left">
+                <Link to="/" className="header-left" style={{ textDecoration: 'none' }}>
                     <div className="header-logo">
                         <img src="/kahuna-logo-3.svg" alt="Kahuna Labs" />
                     </div>
-                </div>
+                </Link>
 
                 {/* Call to Action Button */}
                 <div className="header-right">
                     <a href="mailto:info@kahunalabs.ai" className="header-cta-button">
-                        Let's Talk
+                        <span>Let's Talk</span>  
+                        <img src="/arrow right icon.png" alt="Arrow Right" className="arrow-right-icon" />
                     </a>
                 </div>
             </div>

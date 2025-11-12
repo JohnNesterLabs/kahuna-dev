@@ -348,36 +348,7 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             }
         });
 
-        // Show section 4 text when section 3 bottom reaches center of viewport
-        ScrollTrigger.create({
-            trigger: '#section3Wrapper',
-            start: 'bottom center',
-            end: 'bottom center',
-            onEnter: () => {
-                const textOverlay = document.getElementById('section4-text-overlay');
-                if (textOverlay) {
-                    textOverlay.classList.add('visible');
-                }
-            },
-            onLeave: () => {
-                const textOverlay = document.getElementById('section4-text-overlay');
-                if (textOverlay) {
-                    textOverlay.classList.remove('visible');
-                }
-            },
-            onEnterBack: () => {
-                const textOverlay = document.getElementById('section4-text-overlay');
-                if (textOverlay) {
-                    textOverlay.classList.add('visible');
-                }
-            },
-            onLeaveBack: () => {
-                const textOverlay = document.getElementById('section4-text-overlay');
-                if (textOverlay) {
-                    textOverlay.classList.remove('visible');
-                }
-            }
-        });
+        // Removed section 3-based toggling of section 4 text; visibility is now frame-controlled
 
 
         // Hide video after section 3
@@ -400,18 +371,6 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
         // Device detection for frame count with iOS optimization
         const isMobileDevice = window.innerWidth <= 768 || /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent);
         const totalFrames = isMobileDevice ? 97 : 134;
-
-        // Preload transition frames when approaching section 4
-        ScrollTrigger.create({
-            trigger: '#section3Wrapper',
-            start: 'bottom 80%', // Start preloading when section 3 is 80% scrolled
-            onEnter: () => {
-                if (window.preloadTransitionFrames) {
-                    window.preloadTransitionFrames();
-                }
-            }
-        });
-        
         let currentFrameIndex = 0;
         let lastFrameUpdate = 0;
         const frameUpdateThrottle = isIOS ? 16 : 16; // Reduced throttle for more responsive frame changes on iOS
@@ -453,14 +412,15 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
 
         // Function to check if device is mobile
         const isMobile = () => window.innerWidth <= 768;
-        // Function to get frame limit based on device
-        const getFrameLimit = () => isMobile() ? 34 : 64; // Same for both, but can be customized
-        // Function to control section 4 text visibility
+        // Frame range config for section 4 text
+        const TEXT_START_FRAME = 2; // show text starting from frame 2
+        const getFrameLimit = () => (isMobile() ? 30 : 60); // end frame (inclusive)
+        // Function to control section 4 text visibility based on frame range
         const controlSection4Text = (frameIndex) => {
             const textOverlay = document.getElementById('section4-text-overlay');
             if (!textOverlay) return;
-            const frameLimit = getFrameLimit();
-            if (frameIndex <= frameLimit) {
+            const frameEnd = getFrameLimit();
+            if (frameIndex >= TEXT_START_FRAME && frameIndex <= frameEnd) {
                 textOverlay.classList.add('visible');
             } else {
                 textOverlay.classList.remove('visible');

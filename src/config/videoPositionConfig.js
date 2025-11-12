@@ -3,17 +3,32 @@
 export const VIDEO_POSITION_CONFIG = {
   // Device breakpoints
   breakpoints: {
-    mobile: '(max-width: 768px)',
+    extraSmall: '(max-width: 400px)',
+    mobile: '(min-width: 401px) and (max-width: 768px)',
     tablet: '(min-width: 769px) and (max-width: 1024px)',
     desktop: '(min-width: 1025px)'
+  },
+
+  // Height-based breakpoints for section 3 vertical centering
+  heightBreakpoints: {
+    short: '(max-height: 600px)',      // Very short screens (iPhone SE, etc.)
+    medium: '(min-height: 601px) and (max-height: 800px)',  // Medium height screens
+    tall: '(min-height: 801px) and (max-height: 1000px)',   // Tall screens
+    extraTall: '(min-height: 1001px)'  // Very tall screens (large tablets, desktops)
   },
 
   // Video positions for each section and device
   positions: {
     // Section 1: BOTTOM position (hero section)
     section1: {
+      extraSmall: {
+        top: '40%',           // Even closer to bottom on extra small screens
+        left: '25%',
+        transform: 'translateX(-50%)',
+        zIndex: 40
+      },
       mobile: {
-        bottom: '-55%',           // Very close to bottom on mobile
+        top: '40%',          // Very close to bottom on mobile
         left: '25%',
         transform: 'translateX(-50%)',
         zIndex: 40
@@ -34,9 +49,15 @@ export const VIDEO_POSITION_CONFIG = {
 
     // Section 1→2: Transition (moving from bottom to right)
     section1To2: {
+      extraSmall: {
+        top: '-50%',        // Move to vertical center
+        left: '75%',            // Move to right side
+        transform: 'translate(-50%, 50%)',
+        zIndex: 40
+      },
       mobile: {
-        bottom: '30%',          // Move to vertical center
-        left: '80%',            // Move to right side
+        top: '-40%',          // Move to vertical center
+        left: '90%',            // Move to right side
         transform: 'translate(-50%, 50%)',
         zIndex: 40
       },
@@ -56,9 +77,15 @@ export const VIDEO_POSITION_CONFIG = {
 
     // Section 2: RIGHT position (smooth scrolling section)
     section2: {
+      extraSmall: {
+        top: '-50%',          // Vertical center
+        left: '75%',            // Right side of screen
+        transform: 'translate(-50%, 50%)',
+        zIndex: 40
+      },
       mobile: {
-        bottom: '30%',          // Vertical center
-        left: '80%',            // Right side of screen
+        top: '-40%',          // Vertical center
+        left: '90%',            // Right side of screen
         transform: 'translate(-50%, 50%)',
         zIndex: 40
       },
@@ -78,8 +105,14 @@ export const VIDEO_POSITION_CONFIG = {
 
     // Section 2→3: Transition (moving from right to center)
     section2To3: {
+      extraSmall: {
+        top: '-70%',          // Stay at vertical center
+        left: '40%',            // Move to horizontal center
+        transform: 'translate(-50%, 50%)',
+        zIndex: 40
+      },
       mobile: {
-        bottom: '50%',          // Stay at vertical center
+        top: '-55%',          // Stay at vertical center
         left: '40%',            // Move to horizontal center
         transform: 'translate(-50%, 50%)',
         zIndex: 40
@@ -100,8 +133,14 @@ export const VIDEO_POSITION_CONFIG = {
 
     // Section 3: CENTER position (interactive section)
     section3: {
+      extraSmall: {
+        top: '-70%',         // Vertical center
+        left: '40%',            // Horizontal center
+        transform: 'translate(-50%, 50%)',
+        zIndex: 40
+      },
       mobile: {
-        bottom: '50%',          // Vertical center
+        top: '-55%',          // Vertical center
         left: '40%',            // Horizontal center
         transform: 'translate(-50%, 50%)',
         zIndex: 40
@@ -122,9 +161,15 @@ export const VIDEO_POSITION_CONFIG = {
 
     // Section 3→4: Fade out (center position, shrinking)
     section3To4: {
+      extraSmall: {
+        top: '-70%',         // Stay at vertical center
+        left: '35%',            // Stay at horizontal center
+        transform: 'translate(-50%, 50%)',
+        zIndex: 40
+      },
       mobile: {
-        bottom: '50%',          // Stay at vertical center
-        left: '50%',            // Stay at horizontal center
+        top: '-50%',          // Stay at vertical center
+        left: '40%',            // Stay at horizontal center
         transform: 'translate(-50%, 50%)',
         zIndex: 40
       },
@@ -157,12 +202,32 @@ export const getCurrentDeviceType = () => {
     return 'desktop'; // Default to desktop for server-side rendering
   }
   
-  if (window.matchMedia(VIDEO_POSITION_CONFIG.breakpoints.mobile).matches) {
+  if (window.matchMedia(VIDEO_POSITION_CONFIG.breakpoints.extraSmall).matches) {
+    return 'extraSmall';
+  } else if (window.matchMedia(VIDEO_POSITION_CONFIG.breakpoints.mobile).matches) {
     return 'mobile';
   } else if (window.matchMedia(VIDEO_POSITION_CONFIG.breakpoints.tablet).matches) {
     return 'tablet';
   } else {
     return 'desktop';
+  }
+};
+
+// Helper function to get current height category for section 3 vertical centering
+export const getCurrentHeightCategory = () => {
+  // Check if we're in a browser environment
+  if (typeof window === 'undefined') {
+    return 'medium'; // Default to medium for server-side rendering
+  }
+  
+  if (window.matchMedia(VIDEO_POSITION_CONFIG.heightBreakpoints.short).matches) {
+    return 'short';
+  } else if (window.matchMedia(VIDEO_POSITION_CONFIG.heightBreakpoints.medium).matches) {
+    return 'medium';
+  } else if (window.matchMedia(VIDEO_POSITION_CONFIG.heightBreakpoints.tall).matches) {
+    return 'tall';
+  } else {
+    return 'extraTall';
   }
 };
 
@@ -176,6 +241,37 @@ export const getVideoPosition = (section, deviceType = null) => {
 export const getGSAPPosition = (section, deviceType = null) => {
   const config = getVideoPosition(section, deviceType);
   const gsapConfig = {};
+  
+  // Special handling for section 3 related sections - use height-based vertical centering
+  if (section === 'section3' || section === 'section2To3' || section === 'section3To4') {
+    const currentDevice = deviceType || getCurrentDeviceType();
+    
+    // Check if device is mobile or extraSmall (including devices up to 800px width for better coverage)
+    const isMobileDevice = currentDevice === 'mobile' || 
+                          currentDevice === 'extraSmall' || 
+                          (typeof window !== 'undefined' && window.innerWidth <= 800);
+    
+    // Additional check for very small devices (iPhone SE, iPhone XR, etc.)
+    const isVerySmallDevice = typeof window !== 'undefined' && window.innerWidth <= 400;
+    
+    // Debug logging (remove in production)
+    if (typeof window !== 'undefined' && (section === 'section3' || section === 'section2To3' || section === 'section3To4')) {
+      console.log(`Section: ${section}, Device: ${currentDevice}, Width: ${window.innerWidth}, Height: ${window.innerHeight}, IsMobile: ${isMobileDevice}, IsVerySmall: ${isVerySmallDevice}`);
+    }
+    
+    if (isMobileDevice || isVerySmallDevice) {
+      // Use percentage-based vertical centering for reliability across heights
+      gsapConfig.top = '50%';
+      gsapConfig.left = config.left;
+      gsapConfig.zIndex = config.zIndex;
+
+      // Force translate to true center using percentages
+      gsapConfig.x = '-50%';
+      gsapConfig.y = '-50%';
+
+      return gsapConfig;
+    }
+  }
   
   Object.keys(config).forEach(key => {
     if (key === 'transform') {
@@ -250,7 +346,7 @@ export const createCustomPosition = (bottom, left, transform, zIndex = 40) => {
 
 // Helper function to validate position config
 export const validatePosition = (config) => {
-  const requiredKeys = ['bottom', 'left', 'transform', 'zIndex'];
+  const requiredKeys = ['top', 'bottom', 'left', 'transform', 'zIndex'];
   return requiredKeys.every(key => config.hasOwnProperty(key));
 };
 

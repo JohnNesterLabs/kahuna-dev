@@ -1,8 +1,11 @@
 import './App.css';
 import Home from './components/Home';
+import BlogListing from './components/BlogListing';
+import BlogDetail from './components/BlogDetail';
 import Loader from './components/Loader/Loader';
 import { useAssetPreloader } from './hooks/useAssetPreloader';
 import { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
 
@@ -38,22 +41,28 @@ function App() {
     }
   }, [error]);
   return (
-    <div className="App">
-      {showLoader && (
-        <Loader
-          progress={progress}
-          onComplete={handleLoaderComplete}
-          fadeOut={loaderFadeOut}
-          loadedCount={loadedCount}
-          totalAssets={totalAssets}
-          error={error}
-        />
-      )}
+    <BrowserRouter>
+      <div className="App">
+        {showLoader && (
+          <Loader
+            progress={progress}
+            onComplete={handleLoaderComplete}
+            fadeOut={loaderFadeOut}
+            loadedCount={loadedCount}
+            totalAssets={totalAssets}
+            error={error}
+          />
+        )}
 
-      {!showLoader && (
-        <Home />
-      )}
-    </div>
+        {!showLoader && (
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/blog" element={<BlogListing />} />
+            <Route path="/blog-detail" element={<BlogDetail />} />
+          </Routes>
+        )}
+      </div>
+    </BrowserRouter>
   );
 }
 

@@ -9,7 +9,6 @@ import {
   updateSectionScale
 } from '../config/videoConfig';
 
-// Example 1: Basic scale-only usage
 export const basicScaleExample = () => {
   console.log('=== Basic Scale-Only Examples ===');
   

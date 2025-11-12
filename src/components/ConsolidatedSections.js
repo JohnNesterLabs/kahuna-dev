@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 const ConsolidatedSections = () => {
     // Word carousel for Section 3
     const carouselWords = [
@@ -7,65 +7,128 @@ const ConsolidatedSections = () => {
         "Enterprise Grade",
         "Comprehensive"
     ];
-    const [currentWordIndex, setCurrentWordIndex] = useState(0);
-    const [isVisible, setIsVisible] = useState(false);
-    const [animationPhase, setAnimationPhase] = useState('normal');
     const section3Ref = useRef(null);
+    const wordLoopRef = useRef(null);
+    const idxRef = useRef(0);
+    const timeoutRef = useRef(null);
+    const isVisibleRef = useRef(false);
+
+    const visibleMs = 1800;     // time each word stays visible
+    const transitionMs = 450;   // must match --duration in CSS
+
+    // Helper function to create word span
+    const makeSpan = (text, cls = '') => {
+        const span = document.createElement('span');
+        span.className = 'word ' + cls;
+        span.textContent = text;
+        return span;
+    };
+
+    // Next step in the animation
+    const nextStep = () => {
+        if (!wordLoopRef.current || !isVisibleRef.current) return;
+
+        const container = wordLoopRef.current;
+        const current = container.querySelector('.word.in-place');
+        const nextIndex = (idxRef.current + 1) % carouselWords.length;
+        const next = makeSpan(carouselWords[nextIndex], 'below');
+
+        container.appendChild(next);
+
+        // Force reflow so transitions run reliably
+        void next.offsetWidth;
+
+        // Animate: current slides up, next slides into place
+        if (current) {
+            current.classList.remove('in-place');
+            current.classList.add('slide-up');
+        }
+
+        next.classList.remove('below');
+        next.classList.add('in-place');
+
+        // Cleanup after animation: remove old slide-up element
+        timeoutRef.current = setTimeout(() => {
+            const old = container.querySelectorAll('.word.slide-up');
+            old.forEach(o => o.remove());
+            idxRef.current = nextIndex;
+
+            if (isVisibleRef.current) {
+                timeoutRef.current = setTimeout(nextStep, visibleMs);
+            }
+        }, transitionMs + 20);
+    };
+
+    // Initialize word loop
+    const initWordLoop = () => {
+        if (!wordLoopRef.current) return;
+
+        // Clear any existing words
+        wordLoopRef.current.innerHTML = '';
+
+        // Place first word only
+        const first = makeSpan(carouselWords[0], 'in-place');
+        wordLoopRef.current.appendChild(first);
+        idxRef.current = 0;
+
+        // Start the loop
+        timeoutRef.current = setTimeout(nextStep, visibleMs);
+    };
+
+    // Resume loop if it's not running
+    const resumeLoop = () => {
+        if (!wordLoopRef.current || !isVisibleRef.current) return;
+
+        // If loop is already running, don't restart
+        if (timeoutRef.current) return;
+
+        // If there's a word in place, continue from current index
+        const currentWord = wordLoopRef.current.querySelector('.word.in-place');
+        if (currentWord) {
+            // Loop is already set up, just resume it
+            timeoutRef.current = setTimeout(nextStep, visibleMs);
+        } else {
+            // No words, initialize fresh
+            initWordLoop();
+        }
+    };
+
     // Intersection Observer to detect when section 3 comes into view
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    console.log('Section 3 is visible, starting carousel');
-                    setIsVisible(true);
+                    isVisibleRef.current = true;
+                    // Resume the loop when section becomes visible
+                    resumeLoop();
                 } else {
-                    console.log('Section 3 is not visible, stopping carousel');
-                    setIsVisible(false);
+                    isVisibleRef.current = false;
+                    // Stop the loop when section is not visible
+                    if (timeoutRef.current) {
+                        clearTimeout(timeoutRef.current);
+                        timeoutRef.current = null;
+                    }
                 }
             },
             {
-                threshold: 0.1, // Lower threshold to start earlier
-                rootMargin: '0px 0px 0px 0px' // No margin
+                threshold: 0.1,
+                rootMargin: '0px 0px 0px 0px'
             }
         );
+
         if (section3Ref.current) {
             observer.observe(section3Ref.current);
         }
+
         return () => {
             if (section3Ref.current) {
                 observer.unobserve(section3Ref.current);
             }
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
         };
     }, []);
-    // Start carousel immediately for testing
-    useEffect(() => {
-        console.log('Component mounted, starting carousel immediately');
-        setIsVisible(true);
-    }, []);
-    // Continuous carousel effect - only runs when section 3 is visible
-    useEffect(() => {
-        if (!isVisible) return;
-        console.log('Carousel starting, isVisible:', isVisible);
-        const interval = setInterval(() => {
-            console.log('Carousel tick, current word:', carouselWords[currentWordIndex]);
-            // Phase 1: Slide current word up and out
-            setAnimationPhase('slide-out');
-            // Phase 2: After slide-out completes, change word and start from bottom
-            setTimeout(() => {
-                setCurrentWordIndex((prevIndex) => {
-                    const newIndex = (prevIndex + 1) % carouselWords.length;
-                    console.log('Changing word from', carouselWords[prevIndex], 'to', carouselWords[newIndex]);
-                    return newIndex;
-                });
-                setAnimationPhase('slide-in');
-                // Phase 3: After slide-in completes, return to normal
-                setTimeout(() => {
-                    setAnimationPhase('normal');
-                }, 400);
-            }, 300);
-        }, 2000); // Change word every 2 seconds (faster for testing)
-        return () => clearInterval(interval);
-    }, [isVisible, carouselWords.length, currentWordIndex]);
     return (
         <>
             {/* Section 1 - Hero */}
@@ -73,7 +136,7 @@ const ConsolidatedSections = () => {
                 <div className="section-content hero-bg">
                     <div className="text-center hero-content">
                         <p className="section1-line1 hero-paragraph-1 opacity-0">
-                        Future of Technical <br className="mobile-only" /> Product Support
+                            Future of Technical <br className="mobile-only" /> Product Support
                         </p>
                         <p className="section1-line2 hero-paragraph-2 opacity-0">
                             A Productivity Leap for Your Frontline
@@ -93,12 +156,12 @@ const ConsolidatedSections = () => {
                 <div className="section-content smooth-bg">
                     <div className="section-content-padding">
                         <p className="section2-line1 smooth-paragraph-1 opacity-0">
-                            Support landscape is vast &<br />
-                            intricate. Your customer have an <br />
-                            endless spectrum of realities.
+                            Support Landscape is vast &<br />
+                            intricate. Your customers have an <br />
+                            endless spectrum of realities
                         </p>
                         <p className="section2-line2 smooth-paragraph-2 opacity-0">
-                            Loborious, outdated and<br />
+                            Laborious, outdated and<br />
                             fragmented knowledge cripples<br />
                             frontline actions.
                         </p>
@@ -114,17 +177,12 @@ const ConsolidatedSections = () => {
                 <div className="section-content interactive-bg">
                     <div className="section-content-padding">
                         <p className="section3-line1 interactive-paragraph-1 opacity-0">
-                            Meet kahuna AI
+                            Meet Kahuna AI
                         </p>
                     </div>
                     {/* Word Carousel */}
                     <div className="word-carousel-container">
-                        <p className={`word-carousel-text ${animationPhase === 'slide-out' ? 'slide-out-up' :
-                            animationPhase === 'slide-in' ? 'slide-in-from-bottom' :
-                                'normal'
-                            }`}>
-                            {carouselWords[currentWordIndex]}
-                        </p>
+                        <div className="word-loop" ref={wordLoopRef}></div>
                     </div>
                 </div>
             </div>
