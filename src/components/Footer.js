@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 const Footer = () => {
     // Array of all the text items from the screenshot
@@ -110,7 +110,7 @@ const Footer = () => {
     };
 
     // Resume loop if it's not running
-    const resumeLoop = () => {
+    const resumeLoop = useCallback(() => {
         if (!wordLoopRef.current || !isVisibleRef.current) return;
 
         // If loop is already running, don't restart
@@ -125,7 +125,7 @@ const Footer = () => {
             // No words, initialize fresh
             initWordLoop();
         }
-    };
+    }, []);
 
     // Intersection Observer to detect when footer comes into view
     useEffect(() => {
@@ -149,11 +149,11 @@ const Footer = () => {
                 rootMargin: '0px 0px -100px 0px' // Start a bit before footer is fully visible
             }
         );
-        if (footerRef.current) {
-            observer.observe(footerRef.current);
+        const currentFooterRef = footerRef.current;
+        if (currentFooterRef) {
+            observer.observe(currentFooterRef);
         }
         return () => {
-            const currentFooterRef = footerRef.current;
             if (currentFooterRef) {
                 observer.unobserve(currentFooterRef);
             }
@@ -161,7 +161,7 @@ const Footer = () => {
                 clearTimeout(timeoutRef.current);
             }
         };
-    }, []);
+    }, [resumeLoop]);
     return (
         <div className="footer-section" id="footerWrapper" ref={footerRef}>
             {/* Large Abstract Logo - Top Half Cut */}

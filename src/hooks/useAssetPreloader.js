@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 // Global image cache for preloaded images
 if (typeof window !== 'undefined') {
@@ -68,19 +68,22 @@ export const useAssetPreloader = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [loadedAssets, setLoadedAssets] = useState(new Set());
     const [error, setError] = useState(null);
+    
+    // Use refs to track assets without causing re-renders
+    const loadedAssetsRef = useRef(new Set());
     // Track requested assets to prevent duplicate fetches across re-renders
-    const requestedAssetsRef = (typeof window !== 'undefined' && window.__requestedAssetsRef) || new Set();
+    const requestedAssetsRef = useRef((typeof window !== 'undefined' && window.__requestedAssetsRef) || new Set());
     if (typeof window !== 'undefined') {
-        window.__requestedAssetsRef = requestedAssetsRef;
+        window.__requestedAssetsRef = requestedAssetsRef.current;
     }
 
     const preloadAsset = useCallback((src) => {
         return new Promise((resolve, reject) => {
             // Dedupe: if request already in-flight or completed, resolve immediately
-            if (requestedAssetsRef.has(src) || loadedAssets.has(src)) {
+            if (requestedAssetsRef.current.has(src) || loadedAssetsRef.current.has(src)) {
                 return resolve(src);
             }
-            requestedAssetsRef.add(src);
+            requestedAssetsRef.current.add(src);
             // Determine asset type
             const isVideo = src.includes('.mp4');
             const isImage = src.includes('.jpg') || src.includes('.png') || src.includes('.gif') || src.includes('.svg') || src.includes('.webp');
@@ -129,12 +132,13 @@ export const useAssetPreloader = () => {
                     });
             }
         });
-    }, []);
+    }, []); // Empty deps - uses refs which don't change
 
     const preloadAssets = useCallback(async () => {
         setIsLoading(true);
         setProgress(0);
         setError(null);
+        loadedAssetsRef.current = new Set();
         setLoadedAssets(new Set());
 
         const assetsToPreload = getAssetsToPreload();
@@ -152,6 +156,7 @@ export const useAssetPreloader = () => {
                 try {
                     await preloadAsset(asset);
                     loadedCount++;
+                    loadedAssetsRef.current.add(asset);
                     setLoadedAssets(prev => new Set([...prev, asset]));
                     setProgress(Math.round((loadedCount / totalAssets) * 100));
                 } catch (error) {
@@ -193,6 +198,7 @@ export const useAssetPreloader = () => {
                     batchLoadedCount++;
                     if (result.status === 'fulfilled' && result.value.success) {
                         batchLoadedAssets.push(result.value.asset);
+                        loadedAssetsRef.current.add(result.value.asset);
                     }
                 });
 

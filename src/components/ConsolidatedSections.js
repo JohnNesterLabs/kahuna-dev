@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 const ConsolidatedSections = () => {
     // Word carousel for Section 3
     const carouselWords = [
@@ -76,7 +76,7 @@ const ConsolidatedSections = () => {
     };
 
     // Resume loop if it's not running
-    const resumeLoop = () => {
+    const resumeLoop = useCallback(() => {
         if (!wordLoopRef.current || !isVisibleRef.current) return;
 
         // If loop is already running, don't restart
@@ -91,7 +91,7 @@ const ConsolidatedSections = () => {
             // No words, initialize fresh
             initWordLoop();
         }
-    };
+    }, []);
 
     // Intersection Observer to detect when section 3 comes into view
     useEffect(() => {
@@ -116,19 +116,20 @@ const ConsolidatedSections = () => {
             }
         );
 
-        if (section3Ref.current) {
-            observer.observe(section3Ref.current);
+        const currentSection3Ref = section3Ref.current;
+        if (currentSection3Ref) {
+            observer.observe(currentSection3Ref);
         }
 
         return () => {
-            if (section3Ref.current) {
-                observer.unobserve(section3Ref.current);
+            if (currentSection3Ref) {
+                observer.unobserve(currentSection3Ref);
             }
             if (timeoutRef.current) {
                 clearTimeout(timeoutRef.current);
             }
         };
-    }, []);
+    }, [resumeLoop]);
     return (
         <>
             {/* Section 1 - Hero */}

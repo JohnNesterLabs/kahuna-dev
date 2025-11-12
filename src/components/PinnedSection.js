@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 
 // Device detection utility
 const isMobileDevice = () => {
@@ -10,7 +10,6 @@ const isMobileDevice = () => {
 
 const PinnedSection = () => {
     const frameContainerRef = useRef(null);
-    const [currentFrame, setCurrentFrame] = useState(1);
     const framePoolRef = useRef(new Map()); // Frame pool for memory management
     const loadedFramesRef = useRef(new Set()); // Track loaded frames
     
@@ -20,7 +19,6 @@ const PinnedSection = () => {
     const frameFolder = isMobile ? '/frames-full-mobile/' : '/frames-desktop-webp/';
     
     // Frame pooling configuration for mobile optimization
-    const POOL_SIZE = isMobile ? 3 : 8; // Keep only 3 frames in memory on mobile (reduced from 5)
     const PRELOAD_RANGE = isMobile ? 1 : 2; // Preload only 1 frame ahead/behind on mobile (reduced from 2)
 
     // Create frame element with optimizations
@@ -62,7 +60,7 @@ const PinnedSection = () => {
         }
         
         return img;
-    }, [frameFolder]);
+    }, [frameFolder, isMobile]);
 
     // Frame pooling management with advanced lazy loading
     const manageFramePool = useCallback((currentFrameIndex) => {

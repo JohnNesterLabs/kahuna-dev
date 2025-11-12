@@ -1410,6 +1410,29 @@
     font-family: 'Prodigy Sans', sans-serif;
     max-width: 600px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.promotional-title-line1,
+.promotional-title-line2 {
+    display: block;
+}
+
+/* On mobile, display as single line */
+@media (max-width: 768px) {
+    .promotional-title {
+        display: block;
+    }
+    
+    .promotional-title-line1,
+    .promotional-title-line2 {
+        display: inline;
+    }
+    
+    .promotional-title-line1::after {
+        content: ' ';
+    }
 }
 
 .promotional-cta-button {

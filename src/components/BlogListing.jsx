@@ -6,38 +6,22 @@ import Header from './Header';
 import Footer from './Footer';
 import './BlogListing.css';
 
+// Feed API configuration (moved outside component to avoid dependency issues)
+const FEED_APIS = [
+    {
+        // Base URL without cache-busting (cache-busting added in fetch)
+        url: "https://api.rss2json.com/v1/api.json?rss_url=" +
+            encodeURIComponent("https://mytestblog2025.wordpress.com/feed/?posts_per_page=20"),
+        author: "team"
+    }
+];
+
 const BlogListing = () => {
     const navigate = useNavigate();
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-    const [isMobile, setIsMobile] = useState(false);
     const [navigating, setNavigating] = useState(false);
-
-    // Detect mobile device
-    useEffect(() => {
-        const checkMobile = () => {
-            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-            const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent) ||
-                                   window.innerWidth <= 768;
-            setIsMobile(isMobileDevice);
-        };
-        
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
-        return () => window.removeEventListener('resize', checkMobile);
-    }, []);
-
-    const FEED_APIS = [
-        {
-            // Add cache-busting parameter and ensure we get all posts
-            // Note: rss2json free tier may have limits, cache busting helps get fresh data
-            url: "https://api.rss2json.com/v1/api.json?rss_url=" +
-                encodeURIComponent("https://mytestblog2025.wordpress.com/feed/?posts_per_page=20") +
-                "&_=" + Date.now(), // Cache busting to get fresh data
-            author: "team"
-        }
-    ];
 
     // Scroll to top when component mounts
     useEffect(() => {
@@ -52,8 +36,10 @@ const BlogListing = () => {
                 // Fetch all feeds and combine results
                 const allPosts = await Promise.all(
                     FEED_APIS.map(async (feedConfig) => {
+                        // Add cache-busting parameter here to get fresh data
+                        const urlWithCacheBust = feedConfig.url + "&_=" + Date.now();
                         try {
-                            const response = await fetch(feedConfig.url);
+                            const response = await fetch(urlWithCacheBust);
                             const data = await response.json();
 
                             // Debug: Log the response to see what we're getting
@@ -104,7 +90,8 @@ const BlogListing = () => {
         };
 
         fetchBlogs();
-    }, []);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []); // FEED_APIS is constant, no need to include in deps
 
     const stripHtml = (html) => {
         const div = document.createElement("div");
@@ -365,7 +352,10 @@ const BlogListing = () => {
                     <div className="promotional-content">
                         <div className="promotional-text-container">
                             <p className="promotional-subtitle">Evaluate Our Core Offering</p>
-                            <h2 className="promotional-title">Explore Prescriptive AI Troubleshooting Map</h2>
+                            <h2 className="promotional-title">
+                                <span className="promotional-title-line1">Explore Prescriptive</span>
+                                <span className="promotional-title-line2">AI Troubleshooting Map</span>
+                            </h2>
                             <button 
                             onClick={() => {
                                 // Show loader immediately

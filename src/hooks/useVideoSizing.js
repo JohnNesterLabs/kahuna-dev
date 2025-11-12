@@ -1,5 +1,5 @@
 import { useEffect, useRef, useCallback } from 'react';
-import { VIDEO_CONFIG, getCurrentDeviceType, getVideoConfig, applyVideoStyles } from '../config/videoConfig';
+import { getCurrentDeviceType, getVideoConfig, applyVideoStyles } from '../config/videoConfig';
 
 export const useVideoSizing = (videoRef, activeSection) => {
   const currentDeviceType = useRef(getCurrentDeviceType());

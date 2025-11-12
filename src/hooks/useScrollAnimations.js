@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { getVideoConfig, getGSAPConfig } from '../config/videoConfig';
+import { getGSAPConfig } from '../config/videoConfig';
 import { getGSAPPosition } from '../config/videoPositionConfig';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -387,29 +387,6 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             return frames;
         };
 
-        // Initialize frames function - will be called after frames are created
-        const initializeFrames = () => {
-            const availableFrames = getAvailableFrames();
-            if (availableFrames.length > 0) {
-                // Set all available frames as hidden initially with hardware acceleration
-                gsap.set(availableFrames, { 
-                    autoAlpha: 0,
-                    force3D: true, // Enable hardware acceleration
-                    willChange: 'opacity, transform'
-                });
-                
-                // Show first frame if it exists
-                const firstFrame = document.querySelector('#frame-1');
-                if (firstFrame) {
-                    gsap.set('#frame-1', { 
-                        autoAlpha: 1, // Frame-1 should be visible
-                        force3D: true,
-                        willChange: 'opacity, transform'
-                    });
-                }
-            }
-        };
-
         // Function to check if device is mobile
         const isMobile = () => window.innerWidth <= 768;
         // Frame range config for section 4 text
@@ -609,8 +586,9 @@ export const useScrollAnimations = (activeSection, setActiveSection) => {
             ScrollTrigger.getAll().forEach(trigger => trigger.kill());
             
             // Clear GSAP transforms to free memory
-            if (videoRef.current) {
-                gsap.set(videoRef.current, { clearProps: "all" });
+            const currentVideoRef = videoRef.current;
+            if (currentVideoRef) {
+                gsap.set(currentVideoRef, { clearProps: "all" });
             }
             
             // Clear frame elements to free memory using frame pooling
